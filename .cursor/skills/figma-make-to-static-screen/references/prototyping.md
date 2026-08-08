@@ -7,7 +7,7 @@ Skill eksportu ekranów **nie** buduje tego prototypu domyślnie — tylko gdy u
 
 ## Rekomendacja: SPA w kodzie (bez backendu)
 
-Masz już **Vite + React + Storybook** w `design-system-kit`. Najsensowniejsza ścieżka:
+Masz już **Vite + React + Storybook** w repo **Canon**. Najsensowniejsza ścieżka:
 
 ### Opcja 1 — `apps/proto` (Vite SPA) ★ preferowana
 
