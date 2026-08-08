@@ -1,6 +1,6 @@
 {
   "name": "@pacurap/design-system",
-  "version": "0.13.3",
+  "version": "0.14.0",
   "description": "Canon — design system for Testonaut (React tokens + components mirrored from Figma).",
   "license": "MIT",
   "type": "module",

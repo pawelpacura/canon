@@ -98,6 +98,43 @@
   --color-link-inverted-pressed: var(--color-indigo-200);
   --color-link-inverted-active: var(--color-indigo-100);
 
+  /* Semantic — button inverted (dark brand surfaces, not dark mode) */
+
+  --color-button-primary-inverted-background-default: var(--color-neutral-50);
+  --color-button-primary-inverted-background-hover: var(--color-indigo-100);
+  --color-button-primary-inverted-background-pressed: var(--color-indigo-200);
+  --color-button-primary-inverted-foreground: var(--color-indigo-800);
+
+  --color-button-secondary-inverted-background-default: color-mix(
+    in srgb,
+    var(--color-neutral-50) 16%,
+    transparent
+  );
+  --color-button-secondary-inverted-background-hover: color-mix(
+    in srgb,
+    var(--color-neutral-50) 24%,
+    transparent
+  );
+  --color-button-secondary-inverted-background-pressed: color-mix(
+    in srgb,
+    var(--color-neutral-50) 32%,
+    transparent
+  );
+  --color-button-secondary-inverted-foreground: var(--color-neutral-50);
+
+  --color-button-tertiary-inverted-border: color-mix(
+    in srgb,
+    var(--color-neutral-50) 64%,
+    transparent
+  );
+  --color-button-tertiary-inverted-foreground-default: var(--color-neutral-50);
+  --color-button-tertiary-inverted-foreground-hover: var(--color-indigo-100);
+  --color-button-tertiary-inverted-foreground-pressed: var(--color-indigo-200);
+
+  --color-button-destructive-inverted-foreground-default: var(--color-red-200);
+  --color-button-destructive-inverted-foreground-hover: var(--color-red-100);
+  --color-button-destructive-inverted-foreground-pressed: var(--color-red-300);
+
   /* Semantic — tooltip (always dark bubble) */
 
   --color-tooltip-background: var(--color-neutral-900);
@@ -264,6 +301,51 @@
   --color-component-button-destructive-foreground-default: var(--color-interactive-error-default);
   --color-component-button-destructive-foreground-hover: var(--color-interactive-error-hover);
   --color-component-button-destructive-foreground-pressed: var(--color-interactive-error-pressed);
+  --color-component-button-primary-inverted-background-default: var(
+    --color-button-primary-inverted-background-default
+  );
+  --color-component-button-primary-inverted-background-hover: var(
+    --color-button-primary-inverted-background-hover
+  );
+  --color-component-button-primary-inverted-background-pressed: var(
+    --color-button-primary-inverted-background-pressed
+  );
+  --color-component-button-primary-inverted-foreground: var(
+    --color-button-primary-inverted-foreground
+  );
+  --color-component-button-secondary-inverted-background-default: var(
+    --color-button-secondary-inverted-background-default
+  );
+  --color-component-button-secondary-inverted-background-hover: var(
+    --color-button-secondary-inverted-background-hover
+  );
+  --color-component-button-secondary-inverted-background-pressed: var(
+    --color-button-secondary-inverted-background-pressed
+  );
+  --color-component-button-secondary-inverted-foreground: var(
+    --color-button-secondary-inverted-foreground
+  );
+  --color-component-button-tertiary-inverted-border: var(
+    --color-button-tertiary-inverted-border
+  );
+  --color-component-button-tertiary-inverted-foreground-default: var(
+    --color-button-tertiary-inverted-foreground-default
+  );
+  --color-component-button-tertiary-inverted-foreground-hover: var(
+    --color-button-tertiary-inverted-foreground-hover
+  );
+  --color-component-button-tertiary-inverted-foreground-pressed: var(
+    --color-button-tertiary-inverted-foreground-pressed
+  );
+  --color-component-button-destructive-inverted-foreground-default: var(
+    --color-button-destructive-inverted-foreground-default
+  );
+  --color-component-button-destructive-inverted-foreground-hover: var(
+    --color-button-destructive-inverted-foreground-hover
+  );
+  --color-component-button-destructive-inverted-foreground-pressed: var(
+    --color-button-destructive-inverted-foreground-pressed
+  );
   --color-component-tab-foreground: var(--color-foreground-secondary);
   --color-component-tab-foreground-hover: var(--color-interactive-primary-hover);
   --color-component-tab-foreground-pressed: var(--color-interactive-primary-pressed);

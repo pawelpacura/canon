@@ -1,6 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "./Button";
 
+const brandSurface = {
+  padding: "var(--spacing-l)",
+  background: "var(--color-background-brand)",
+  borderRadius: "var(--radius-m)",
+} as const;
+
 const meta = {
   title: "Components/Button",
   component: Button,
@@ -10,6 +16,11 @@ const meta = {
       control: "select",
       options: ["primary", "secondary", "tertiary", "destructive"],
       description: "Visual variant — mirrors the `variant` axis in Figma.",
+    },
+    inverted: {
+      control: "boolean",
+      description:
+        "Light styling for dark brand surfaces — mirrors Figma `Inverted` boolean.",
     },
     icon: {
       control: "boolean",
@@ -21,6 +32,7 @@ const meta = {
   args: {
     children: "Zapisz",
     variant: "primary",
+    inverted: false,
     icon: false,
     disabled: false,
   },
@@ -45,6 +57,43 @@ export const Destructive: Story = {
   args: { variant: "destructive", children: "Usuń" },
 };
 
+export const InvertedPrimary: Story = {
+  render: () => (
+    <div style={brandSurface}>
+      <Button variant="primary" inverted>
+        Zapisz
+      </Button>
+    </div>
+  ),
+};
+
+export const InvertedMatrix: Story = {
+  render: () => (
+    <div
+      style={{
+        ...brandSurface,
+        display: "flex",
+        gap: "var(--spacing-m)",
+        flexWrap: "wrap",
+        alignItems: "center",
+      }}
+    >
+      <Button variant="primary" inverted>
+        Primary
+      </Button>
+      <Button variant="secondary" inverted>
+        Secondary
+      </Button>
+      <Button variant="tertiary" inverted>
+        Tertiary
+      </Button>
+      <Button variant="destructive" inverted>
+        Destructive
+      </Button>
+    </div>
+  ),
+};
+
 export const Disabled: Story = {
   args: { variant: "primary", children: "Disabled", disabled: true },
 };
@@ -55,6 +104,16 @@ export const WithIcon: Story = {
     icon: true,
     children: "Utwórz test",
   },
+};
+
+export const InvertedWithIcon: Story = {
+  render: () => (
+    <div style={brandSurface}>
+      <Button variant="primary" inverted icon>
+        Utwórz test
+      </Button>
+    </div>
+  ),
 };
 
 export const AllVariants: Story = {
@@ -71,6 +130,29 @@ export const AllVariants: Story = {
       <Button variant="secondary">Anuluj</Button>
       <Button variant="tertiary">Więcej</Button>
       <Button variant="destructive">Usuń</Button>
+      <div style={brandSurface}>
+        <div
+          style={{
+            display: "flex",
+            gap: "var(--spacing-m)",
+            flexWrap: "wrap",
+            alignItems: "center",
+          }}
+        >
+          <Button variant="primary" inverted>
+            Primary
+          </Button>
+          <Button variant="secondary" inverted>
+            Secondary
+          </Button>
+          <Button variant="tertiary" inverted>
+            Tertiary
+          </Button>
+          <Button variant="destructive" inverted>
+            Destructive
+          </Button>
+        </div>
+      </div>
       <Button variant="primary" disabled>
         Disabled
       </Button>

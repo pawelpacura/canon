@@ -137,11 +137,13 @@ Icons © Google — [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) vi
 <Button variant="secondary">Anuluj</Button>
 <Button variant="tertiary">Więcej</Button>
 <Button variant="destructive">Usuń</Button>
+<Button variant="primary" inverted>Akcja na ciemnym tle</Button>
 <Button disabled>Disabled</Button>
 <Button variant="primary" icon>Utwórz test</Button>
 ```
 
 - `variant`: `"primary" | "secondary" | "tertiary" | "destructive"` (default `"primary"`)
+- `inverted`: boolean — light styling for dark brand surfaces (SideNav, hero); **not** dark mode. Combines with any `variant`.
 - `icon`: boolean — when `true`, shows leading `Add2Icon` (Figma: `Icon` axis)
 - Accepts all native `<button>` props.
 - Use `destructive` only for irreversible actions (delete, remove).
@@ -154,7 +156,7 @@ Icons © Google — [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) vi
 </IconButton>
 ```
 
-- Same variants as Button.
+- Same variants as Button; supports `inverted` boolean.
 - `aria-label` is **required** (no visible text).
 - Fixed square size (40px). Pass icon as children.
 
@@ -577,7 +579,7 @@ document.documentElement.dataset.theme = isDark ? "dark" : "light";
 - `--color-component-header-background`, `--color-component-sideNav-background`
 - `--color-component-input-background` (+ `-hover`, `-filled`, `-disabled`, `-error`, `-border`, `-foreground`)
 - `--color-component-button-primary-background-default` (+ `-hover`, `-pressed`), `--color-component-button-primary-foreground`
-- `--color-component-button-secondary-*`, `--color-component-button-tertiary-*`, `--color-component-button-destructive-*`
+- `--color-component-button-secondary-*`, `--color-component-button-tertiary-*`, `--color-component-button-destructive-*`, `--color-component-button-*-inverted-*`
 - `--color-component-dropdown-background`, `--color-component-badge-*-background`, `--color-component-badge-*-foreground`
 - `--color-component-checkbox-checked-background`, `--color-component-switcher-track-background`
 - Full list: see `src/tokens.css` section **Component — always alias semantic**

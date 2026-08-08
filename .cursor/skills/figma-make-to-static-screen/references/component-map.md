@@ -23,8 +23,8 @@ Klucze z instancji w złotym wzorcu [`138:9148`](https://www.figma.com/design/BG
 
 | Figma | componentKey | Typ | Domyślny wariant |
 |---|---|---|---|
-| `button` | `6e5cf99de1d3b991b4ff18b366e2d6751a447c89` | COMPONENT_SET | `variant=primary, state=default` |
-| `iconButton` | `29fbd6f127152b755bbcb5babc7384ddc795ce82` | COMPONENT_SET | `variant=secondary, state=default` |
+| `button` | `6e5cf99de1d3b991b4ff18b366e2d6751a447c89` | COMPONENT_SET | `variant=primary, Inverted=false, state=default` |
+| `iconButton` | `29fbd6f127152b755bbcb5babc7384ddc795ce82` | COMPONENT_SET | `variant=secondary, Inverted=false, state=default` |
 | `tabs` | `381dece53a713a5cc3a4f078310884fdeb14c366` | COMPONENT | `tabs` |
 | `_tab` | `06748c164ae6102a252affc27d35797b0249d570` | COMPONENT_SET | `state=active` / `state=default` |
 | `Exam Item` | `938ebf9ca5827f9be9f6eb4e9d1249b7f971aec7` | COMPONENT_SET | `state=default, variant=default` |
@@ -61,8 +61,8 @@ Klucze z instancji w złotym wzorcu [`138:9148`](https://www.figma.com/design/BG
 | `SideNavItem` | `SideNavItem` + odpowiedni `icon/*` |
 | `PageHeader` | `pageHeader` |
 | `ExamItem` | `Exam Item` |
-| `Button` | `button` — warianty: primary / secondary / tertiary |
-| `IconButton` | `iconButton` |
+| `Button` | `button` — `variant` + `inverted` boolean (dark brand surfaces) |
+| `IconButton` | `iconButton` — `variant` + `inverted` boolean |
 | `InputText` | `inputText` |
 | `table` | `42e416ec70fe5668a122b8ada02b2a37ea63dc66` (COMPONENT) — SLOT `rows#292:10` |
 | `table/header` | `aee4b6612c7160e9cca632a6ab1bbe95361f6c6f` (COMPONENT) — wewnątrz `table` |

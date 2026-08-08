@@ -89,6 +89,55 @@
   color: var(--color-component-button-destructive-foreground-pressed);
 }
 
+.ds-button--primary.ds-button--inverted {
+  background: var(--color-component-button-primary-inverted-background-default);
+  color: var(--color-component-button-primary-inverted-foreground);
+}
+.ds-button--primary.ds-button--inverted:hover:not(:disabled) {
+  background: var(--color-component-button-primary-inverted-background-hover);
+}
+.ds-button--primary.ds-button--inverted:active:not(:disabled) {
+  background: var(--color-component-button-primary-inverted-background-pressed);
+}
+
+.ds-button--secondary.ds-button--inverted {
+  background: var(--color-component-button-secondary-inverted-background-default);
+  color: var(--color-component-button-secondary-inverted-foreground);
+}
+.ds-button--secondary.ds-button--inverted:hover:not(:disabled) {
+  background: var(--color-component-button-secondary-inverted-background-hover);
+}
+.ds-button--secondary.ds-button--inverted:active:not(:disabled) {
+  background: var(--color-component-button-secondary-inverted-background-pressed);
+}
+
+.ds-button--tertiary.ds-button--inverted {
+  background: transparent;
+  border-color: var(--color-component-button-tertiary-inverted-border);
+  color: var(--color-component-button-tertiary-inverted-foreground-default);
+}
+.ds-button--tertiary.ds-button--inverted:hover:not(:disabled) {
+  color: var(--color-component-button-tertiary-inverted-foreground-hover);
+}
+.ds-button--tertiary.ds-button--inverted:active:not(:disabled) {
+  color: var(--color-component-button-tertiary-inverted-foreground-pressed);
+}
+
+.ds-button--destructive.ds-button--inverted {
+  background: transparent;
+  color: var(--color-component-button-destructive-inverted-foreground-default);
+}
+.ds-button--destructive.ds-button--inverted:hover:not(:disabled) {
+  color: var(--color-component-button-destructive-inverted-foreground-hover);
+}
+.ds-button--destructive.ds-button--inverted:active:not(:disabled) {
+  color: var(--color-component-button-destructive-inverted-foreground-pressed);
+}
+
+.ds-button.ds-button--inverted .ds-icon {
+  color: currentColor;
+}
+
 /* ------------------------------------------------------------------ */
 /* IconButton                                                           */
 /* ------------------------------------------------------------------ */
