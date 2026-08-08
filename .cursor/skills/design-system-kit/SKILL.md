@@ -1,25 +1,26 @@
 ---
 name: design-system-kit
 description: >-
-  Build or update @pacurap/design-system end-to-end in gated phases: Figma Design
-  System first (tokens + components), user approve, then mirror to the npm kit
-  (tokens.css, components.css, React, GUIDELINES), Storybook, semver bump, and
-  npm publish via publish:public. ALWAYS use this skill when the user says or
-  means any of these exact intents: "dodaj / zaktualizuj komponent w DS",
-  "sync / mirror Figma → kod", "bump / publish @pacurap/design-system",
-  "zaktualizuj design system / rozszerz bibliotekę DS" — including close variants
-  (design-system-kit, zaktualizuj DS, dodaj komponent do DS, mirror Figma do kodu,
-  sync Figma, publish the design-system package, add a Drawer/Modal/token to the
-  DS library). Use even if they do not say "skill". Near-miss: Make prototype to
-  static Designs screens belongs to figma-make-to-static-screen, NOT this skill —
-  except when the user pastes a [GAP] create-component prompt. Requires Figma MCP.
+  Build or update Canon (Testonaut design system, npm @pacurap/design-system)
+  end-to-end in gated phases: Figma Design System first (tokens + components),
+  user approve, then mirror to the npm kit (tokens.css, components.css, React,
+  GUIDELINES), Storybook, semver bump, and npm publish via publish:public. ALWAYS
+  use this skill when the user says or means any of these exact intents: "dodaj /
+  zaktualizuj komponent w DS", "sync / mirror Figma → kod", "bump / publish
+  @pacurap/design-system", "zaktualizuj design system / rozszerz bibliotekę DS"
+  — including close variants (Canon, design-system-kit, zaktualizuj DS, dodaj
+  komponent do DS, mirror Figma do kodu, sync Figma, publish the design-system
+  package, add a Drawer/Modal/token to the DS library). Use even if they do not
+  say "skill". Near-miss: Make prototype to static Designs screens belongs to
+  figma-make-to-static-screen, NOT this skill — except when the user pastes a
+  [GAP] create-component prompt. Requires Figma MCP.
 compatibility: >-
   Figma MCP (use_figma, get_design_context, get_screenshot, get_variable_defs,
   search_design_system). Load resource:figma-use before every use_figma.
-  Workspace: design-system-kit (@pacurap/design-system).
+  Workspace: canon (@pacurap/design-system).
 ---
 
-# Design System Kit — Figma → kod → npm
+# Canon — Figma → kod → npm
 
 Jedna zmiana DS = jedna transakcja przez bramkowane fazy. **Figma prowadzi**, żeby nie rozjechać tokenów między plikiem a repo — kod dopiero po approve. Generyczny `figma-generate-library` nie zastępuje tego skilla na Waszym pliku (przyrostowo + rules w repo). Make → Designs: `figma-make-to-static-screen`; wklejony `[GAP: …]` z tamtego skilla to brief **tu**.
 
@@ -27,6 +28,7 @@ Jedna zmiana DS = jedna transakcja przez bramkowane fazy. **Figma prowadzi**, ż
 
 | Co | Wartość |
 |---|---|
+| Nazwa | **Canon** (Testonaut) |
 | Paczka | `@pacurap/design-system` (lokalnie sprawdzaj `package.json`) |
 | Figma DS | `p522mlcVwW78HOdKKBupPE` — [Design System](https://www.figma.com/design/p522mlcVwW78HOdKKBupPE/Design-System) |
 | Przykład node | `259:20` |

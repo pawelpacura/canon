@@ -1,8 +1,8 @@
-# @pacurap/design-system
+# Canon
 
-React design system kit generated from the **Design System** Figma file.
-Tokens and components are a 1:1 mirror of the Figma variables (Generic +
-Semantic collections) and component sets.
+Design system for **Testonaut** — React kit mirrored from the Figma Design System file (tokens + components).
+
+npm package (publish name, unchanged for now): `@pacurap/design-system`
 
 ## Install
 
@@ -122,3 +122,9 @@ Build a static bundle (e.g. for deploy):
 ```bash
 npm run build-storybook
 ```
+
+## Drift / skills
+
+- `DRIFT.md` — Figma ↔ repo gap snapshot
+- `.cursor/skills/design-system-kit/` — gated sync skill (Figma → code → npm)
+- `.cursor/skills/figma-make-to-static-screen/` — Make → static Designs

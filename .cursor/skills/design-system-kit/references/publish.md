@@ -24,7 +24,7 @@ Skrypt: `scripts/publish-public.mjs` (chowa `.npmrc` na czas publishu).
 ## Sekwencja
 
 ```bash
-cd /Users/pawelpacura/Projects/design-system-kit   # lub root workspace
+cd /Users/pawelpacura/Projects/canon   # lub root workspace
 
 npm whoami --registry=https://registry.npmjs.org
 # oczekiwane: pacurap

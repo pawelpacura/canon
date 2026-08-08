@@ -1,6 +1,6 @@
 # HANDOFF — przepływ Ja → Cursor → Figma → npm
 
-Jestem właścicielem design systemu **@pacurap/design-system**. Pracuję w Cursorze nad projektem lokalnym, synchronizuję zmiany z Figmą przez MCP, a paczkę publikuję na npm. **Kontynuuj ten sam przepływ pracy** — nie wymyślaj od zera, nie omijaj Figma MCP, nie hardcoduj wartości poza tokenami.
+Jestem właścicielem **Canon** — design systemu produktu **Testonaut** (npm: **@pacurap/design-system**). Pracuję w Cursorze nad projektem lokalnym, synchronizuję zmiany z Figmą przez MCP, a paczkę publikuję na npm. **Kontynuuj ten sam przepływ pracy** — nie wymyślaj od zera, nie omijaj Figma MCP, nie hardcoduj wartości poza tokenami.
 
 ---
 
@@ -8,8 +8,10 @@ Jestem właścicielem design systemu **@pacurap/design-system**. Pracuję w Curs
 
 | Co | Wartość |
 |---|---|
-| Workspace | `/Users/pawelpacura/Projects/design-system-kit` |
-| Paczka npm | `@pacurap/design-system` |
+| Nazwa | **Canon** (repo / katalog) |
+| GitHub | https://github.com/pawelpacura/canon |
+| Workspace | `/Users/pawelpacura/Projects/canon` |
+| Paczka npm | `@pacurap/design-system` (nazwa publish — na razie bez rename) |
 | Wersja lokalna | sprawdzaj `package.json` (ostatnio **0.13.3**) |
 | Wersja na npmjs.org | `npm view @pacurap/design-system version` |
 | Maintainer npm | `pacurap` |
@@ -138,7 +140,7 @@ GUIDELINES.md   ← mapowanie Figma↔React dla devów
 **Publish (zawsze ta kolejność):**
 
 ```bash
-cd /Users/pawelpacura/Projects/design-system-kit
+cd /Users/pawelpacura/Projects/canon
 npm whoami --registry=https://registry.npmjs.org   # musi zwrócić: pacurap
 # jeśli nie:
 npm logout --registry=https://registry.npmjs.org

@@ -1,7 +1,7 @@
 {
   "name": "@pacurap/design-system",
   "version": "0.13.3",
-  "description": "React design system kit generated from the Figma Design System file (tokens + components).",
+  "description": "Canon — design system for Testonaut (React tokens + components mirrored from Figma).",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -55,6 +55,8 @@
     "vite": "^8.1.0"
   },
   "keywords": [
+    "canon",
+    "testonaut",
     "design-system",
     "react",
     "figma",

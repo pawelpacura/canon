@@ -1,6 +1,6 @@
-# Design System Guidelines
+# Canon — Design System Guidelines
 
-Package: `@pacurap/design-system` v0.10.1
+Package: `@pacurap/design-system` (Canon / Testonaut). Check `package.json` for version.
 
 Always use components and icons from this package for **ALL** UI.
 Never build custom buttons, inputs, selects, textareas, checkboxes, radios,

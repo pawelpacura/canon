@@ -1,6 +1,6 @@
-# Figma ↔ repo — rozjazd (snapshot 2026-08-08)
+# Figma ↔ Canon — rozjazd (snapshot 2026-08-08)
 
-Jednorazowy audyt Design System (`p522mlcVwW78HOdKKBupPE`) vs `@pacurap/design-system`.  
+Jednorazowy audyt Design System (`p522mlcVwW78HOdKKBupPE`) vs **Canon** (`@pacurap/design-system`).  
 Dalsza praca: skill `.cursor/skills/design-system-kit/` (Figma → approve → kod), bez stałego trybu audit.
 
 ## Theme
