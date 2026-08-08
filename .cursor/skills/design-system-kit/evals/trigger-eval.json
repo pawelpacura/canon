@@ -1,0 +1,82 @@
+[
+  {
+    "query": "dodaj / zaktualizuj komponent w DS — potrzebuję Drawera jak panel, z Show Footer",
+    "should_trigger": true
+  },
+  {
+    "query": "sync / mirror Figma → kod: accordion 359:599 ma wreszcie wylądować w React i tokens.css",
+    "should_trigger": true
+  },
+  {
+    "query": "bump / publish @pacurap/design-system do patcha na npmjs",
+    "should_trigger": true
+  },
+  {
+    "query": "zaktualizuj design system / rozszerz bibliotekę DS o token component/drawer/*",
+    "should_trigger": true
+  },
+  {
+    "query": "Hej, w Design System brakuje mi popovera — zrób go w Figmie jak modal (header/content/footer), potem jak OK to w paczce",
+    "should_trigger": true
+  },
+  {
+    "query": "dopisz React dla panelu, figma już jest (280:750), bez publishu",
+    "should_trigger": true
+  },
+  {
+    "query": "użyj design-system-kit: dodaj ikonę left_panel_close do manifestu i GUIDELINES po Figmie",
+    "should_trigger": true
+  },
+  {
+    "query": "mirror Figma do kodu dla nowych tokenów component/table/* które wczoraj zaakceptowaliśmy",
+    "should_trigger": true
+  },
+  {
+    "query": "opublikuj @pacurap/design-system przez publish:public, wersja już podbita",
+    "should_trigger": true
+  },
+  {
+    "query": "rozszerz bibliotekę DS — brakuje pagination w Figmie i w npm",
+    "should_trigger": true
+  },
+  {
+    "query": "Przenieś widok Bank pytań z Make do statycznej ramki w Designs wyłącznie z instancji DS",
+    "should_trigger": false
+  },
+  {
+    "query": "Make → static screen: sklonuj shell Tests 138:9148 i podmień content na listę raportów",
+    "should_trigger": false
+  },
+  {
+    "query": "Dodaj node na mapie produktu FigJam z linkiem do nowego frame w Designs",
+    "should_trigger": false
+  },
+  {
+    "query": "Zrób flowchart architektury auth w FigJam z Mermaid",
+    "should_trigger": false
+  },
+  {
+    "query": "Zaimplementuj ten ekran z Figmy Designs (BGEwLOj9…) jako React w aplikacji konsumującej paczkę",
+    "should_trigger": false
+  },
+  {
+    "query": "W Settings (33:698) podmień surowe pola na INSTANCE inputText/select z biblioteki — nie ruszaj pliku Design System",
+    "should_trigger": false
+  },
+  {
+    "query": "Odpal storybook lokalnie i pokaż mi Button primary",
+    "should_trigger": false
+  },
+  {
+    "query": "Napisz unit testy Vitest dla MultiSelect w design-system-kit",
+    "should_trigger": false
+  },
+  {
+    "query": "[GAP z eksportu Make] — tylko wypisz prompt, nie buduj jeszcze komponentu w tej sesji ekranu",
+    "should_trigger": false
+  },
+  {
+    "query": "Zmerguj PR i napraw czerwone CI na repo aplikacji (nie DS kit)",
+    "should_trigger": false
+  }
+]

@@ -1,0 +1,44 @@
+{
+  "skill_name": "figma-make-to-static-screen",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Z prototypu Figma Make „Testy” przenieś podstawowy widok listy testów (dashboard z listą ExamItem) do pliku Designs na stronę Designs. Użyj złotego wzorca shella https://www.figma.com/design/BGEwLOj9VeR8CDwzj0ClA3/Designs?node-id=138-9148 — header na górze, sideNav po lewej na całą wysokość pod headerem, main z paddingiem i gapem 16px. Nie musisz odtwarzać Figma GRID. Składaj UI tylko z komponentów Design System. Jeśli kanoniczna lista testów już istnieje — zaktualizuj ją zamiast robić drugi duplikat. Po zbudowaniu ramki dodaj lub zaktualizuj node na mapie https://www.figma.com/board/s5TEjN0KUj45gSLFW3Dotu/Workflow-diagram z markdown-linkiem do frame.",
+      "expected_output": "Ramka na Designs: shell jak 138:9148, wypełniona treść listy; brak zbędnego duplikatu „Lista testów”; FigJam z linkiem; odpowiedź w szablonie Eksport (Frame / Status / Mapa / Luki). Shell-only = FAIL.",
+      "files": [],
+      "assertions": [
+        "Output includes a Designs frame URL with node-id",
+        "Screen uses DS instances for controls (not hand-drawn buttons/inputs)",
+        "Main content area has filled list items / mock data, not empty shell only",
+        "FigJam product map node was added or updated with a link to the frame",
+        "Final reply follows Eksport template (Frame, Status, Mapa, Luki)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Z Make Testy buduję widok kreacji z uploadem pliku (ścieżka „z pliku” / krok Upload + AI). W Design System nie ma komponentu FileUploadDropzone — potraktuj to jako lukę (nie szukaj obejścia z luźnych shape). Złóż w Designs to, co się da z istniejących komponentów DS w shellu 138:9148, a brakujący FileUploadDropzone oznacz jako [GAP: FileUploadDropzone] i daj gotowy prompt w bloku kodu text do skopiowania do nowego okna Cursor ze skillem design-system-kit. W tej sesji nie twórz komponentu w pliku Design System i nie wołaj figma-generate-library.",
+      "expected_output": "Odpowiedź zawiera [GAP: FileUploadDropzone] oraz wypełniony prompt w fenced text block wspominający design-system-kit; zero nowych COMPONENT w Design System; brak ręcznie rysowanego dropzone z rectangle+text jako „komponentu”.",
+      "files": [],
+      "assertions": [
+        "Response contains [GAP: FileUploadDropzone]",
+        "Response includes a fenced code block with a copy-paste prompt for creating the component",
+        "Gap prompt mentions design-system-kit and Design System fileKey",
+        "No new COMPONENT created in Design System file in this session",
+        "No hand-drawn dropzone presented as a finished DS component"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Załóż, że podstawowy krok kreacji testu w Designs już zaakceptowałem. Teraz z Make dodaj kolejny stan tego flow jako osobną statyczną ramkę na stronie Designs (np. następny krok wizarda „Podstawy”). Potem na mapie FigJam Workflow-diagram dodaj lub zaktualizuj node z linkiem do tej ramki i połącz go connectorami z poprzednim / następnym krokiem tak, jak wynika z flow w Make. Nie buduj native Figma Prototype (hotspotów) — tylko statyczny ekran + mapa.",
+      "expected_output": "Osobna ramka w Designs z treścią kroku; FigJam node + connectory; brak Prototype reactions; odpowiedź w szablonie Eksport.",
+      "files": [],
+      "assertions": [
+        "A separate Designs frame was created or updated for the wizard step",
+        "FigJam node links to the new frame",
+        "Connectors relate the node to neighboring flow steps",
+        "No Figma Prototype reactions were required or presented as the deliverable",
+        "Final reply follows Eksport template"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+---
+description: Figma MCP — minimal components, purple set frame, booleans/slots over variants
+alwaysApply: true
+---
+
+# Figma — tworzenie komponentów (Design System)
+
+When creating or editing components via `use_figma` in the Design System file.
+
+## Less is more — warianty i stany
+
+**Default: one `COMPONENT` (not a variant grid).** Expand only when the user explicitly asks.
+
+```text
+✅ Prefer                          ❌ Avoid unless asked
+─────────────────────────────────────────────────────────
+Single component                   COMPONENT_SET size×type grids
+BOOLEAN: Show Footer               position=left|right variants
+SLOT: Content, Footer              state=hover|pressed on shells
+TEXT: Title                        type=default|destructive axes
+Default footer = button instances  Multiple sizes as variants
+INSTANCE_SWAP / icon instances
+```
+
+Do **not** proactively add sizes, positions, semantic types, interaction states.
+
+## Wzorce referencyjne (stan w pliku — user-approved)
+
+### `modal` — [`280:377`](https://www.figma.com/design/p522mlcVwW78HOdKKBupPE/Design-System?node-id=280-377)
+
+```
+modal (COMPONENT)
+├── Header — Title (TEXT) + close icon instance
+├── Conent (SLOT) — slot na treść; placeholder Description
+└── Footer (SLOT) — Cancel + Confirm (button instances); ukrywany przez boolean
+```
+
+| Property | Type | Default |
+|---|---|---|
+| `Title` | TEXT | Tytul modala |
+| `Show Footer` | BOOLEAN | true |
+| `Conent` | SLOT | — |
+| `Footer` | SLOT | — |
+
+Tokeny: `component/modal/background`, `component/modal/border`, `component/modal/title/foreground`, `component/modal/padding`, `component/modal/radius`, drop shadow via `component/*` → `semantic/shadow/*`.
+
+### `panel` — [`280:750`](https://www.figma.com/design/p522mlcVwW78HOdKKBupPE/Design-System?node-id=280-750)
+
+```
+panel (COMPONENT) — 320×640
+├── Header — Title + close icon
+├── Content (SLOT)
+└── Footer (SLOT) — 2× button; Show Footer boolean
+```
+
+| Property | Type |
+|---|---|
+| `Title` | TEXT |
+| `Show Footer` | BOOLEAN |
+| `Content` | SLOT |
+| `Footer` | SLOT |
+
+Tokeny: `component/panel/background`, `component/panel/border`, `component/panel/title/foreground`, …
+
+**Nowe overlaye** (dialog, drawer, popover…) — kopiuj ten schemat: Header + Content slot + Footer slot + `Show Footer`.
+
+## Ramka nadrzędna — zostaw fiolet Figma
+
+The **component set chrome** (purple dashed border) must stay visible. Do not clear strokes or fills on `COMPONENT_SET`.
+
+Default chrome (match existing sets like `button`):
+
+```javascript
+const COMPONENT_SET_CHROME = {
+  strokes: [{ type: 'SOLID', color: { r: 0.592, g: 0.278, b: 1 }, opacity: 1 }],
+  dashPattern: [10, 5],
+  strokeWeight: 1,
+  strokeAlign: 'INSIDE',
+};
+
+function ensureComponentSetChrome(componentSet) {
+  if (!componentSet.strokes || componentSet.strokes.length === 0) {
+    componentSet.strokes = COMPONENT_SET_CHROME.strokes;
+    componentSet.dashPattern = COMPONENT_SET_CHROME.dashPattern;
+    componentSet.strokeWeight = COMPONENT_SET_CHROME.strokeWeight;
+    componentSet.strokeAlign = COMPONENT_SET_CHROME.strokeAlign;
+  }
+}
+// After figma.combineAsVariants(...): ensureComponentSetChrome(componentSet);
+```
+
+```javascript
+// ❌ BAD — removes visible component-set frame
+componentSet.strokes = [];
+componentSet.fills = [];
+await bindFill(componentSet, tokenId);
+
+// ✅ GOOD — tokeny tylko na wewnętrznej powierzchni komponentu
+await bindFill(dialogSurface, 'VariableID:…');
+// component set: name, opis, layout, resize — nigdy strokes/fills na set
+```
+
+| Layer | Stroke / fill |
+|---|---|
+| **Component set** | Purple dashed border (`#9747FF`, dash 10/5) — **never clear** |
+| **Inner surface** (modal, panel, cell…) | `component/*` in **Theme** |
+
+## Theme collection — Generic → semantic/* → component/*
+
+Collection name: **Theme** (Light | Dark).
+
+```
+Generic  →  semantic/*  →  component/*
+```
+
+- **Never** bind Figma nodes to Generic or `semantic/*` directly.
+- **Always** bind to `component/*` (color, stroke, spacing, radius, typography, opacity, shadow).
+- Each `component/*` variable aliases exactly one `semantic/*` variable per mode.
+
+Groups: `semantic/color/foreground/primary`, `semantic/spacing/l`, … and `component/card/background`, `component/button/primary/background/default`, … One mode toggle for both groups.

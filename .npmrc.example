@@ -1,0 +1,7 @@
+# Figma private registry (for install from Figma Code Connect / Make).
+# Copy to .npmrc and replace the token.
+@pacurap:registry=https://registry.figma.com/npm/YOUR-FIGMA-REGISTRY-ID/registry/
+//registry.figma.com/npm/YOUR-FIGMA-REGISTRY-ID/registry/:_authToken=YOUR_FIGMA_TOKEN
+
+# Public npm publish uses scripts/publish-public.mjs (ignores this file during publish).
+# Log in once: npm login --registry=https://registry.npmjs.org

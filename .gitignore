@@ -1,0 +1,24 @@
+node_modules
+dist
+*.log
+.npmrc
+.npmrc.figma-backup
+
+# OS / env
+.DS_Store
+.env
+.env.*
+
+# Storybook build
+storybook-static
+
+# Nested / vendored
+agent-skills/
+
+# Skill eval workspaces (local runs)
+.cursor/skills/*-workspace/
+
+# Junk / local scratch
+npm
+tsup
+preview/

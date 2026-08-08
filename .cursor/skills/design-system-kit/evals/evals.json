@@ -1,0 +1,58 @@
+{
+  "skill_name": "design-system-kit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "dodaj / zaktualizuj komponent w DS: Drawer jak panel (header + content slot + footer + Show Footer). Najpierw tylko Figma, stop na approve.",
+      "expected_output": "Phase 0 + Phase 1 on Figma DS only; STOP for approve; no repo code yet.",
+      "files": [],
+      "expectations": [
+        "Mentions or follows Phase 0 discovery / gap analysis before mutating",
+        "Targets Figma fileKey p522mlcVwW78HOdKKBupPE (Design System)",
+        "Follows panel/modal overlay pattern (Header, Content slot, Footer, Show Footer)",
+        "Binds to component/* tokens (not raw semantic/* or Generic on nodes)",
+        "Stops after Phase 1 and explicitly asks for approve before code",
+        "Does not modify repo source (tokens.css / React) before approve",
+        "Includes Visual QA against sibling components (e.g. panel/modal), not a visual redesign"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "sync / mirror Figma → kod: Accordion jest już w Figmie (359:599). Dopisz React + tokens/CSS jeśli brakuje, GUIDELINES i Storybook. Nie publikuj.",
+      "expected_output": "Skip or minimal Figma; Phase 2 code mirror + Phase 3 Storybook; no publish.",
+      "files": [],
+      "expectations": [
+        "Confirms existing Figma accordion (359:599) in discovery",
+        "Does not rebuild accordion from scratch in Figma unless a gap requires it",
+        "Adds or updates React/CSS/tokens and GUIDELINES for accordion",
+        "Runs or reports typecheck and build",
+        "Adds or updates Storybook stories",
+        "Does not run npm publish or publish:public"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "bump / publish @pacurap/design-system do następnego patcha na npmjs.",
+      "expected_output": "Phase 4 patch bump with approve gate, then Phase 5 publish:public.",
+      "files": [],
+      "expectations": [
+        "Proposes a patch version bump from current package.json",
+        "Waits for approve before applying bump or documents the Phase 4 gate",
+        "Uses npm run publish:public rather than plain npm publish",
+        "Checks npm whoami against registry.npmjs.org (or documents the requirement)"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "zaktualizuj design system / rozszerz bibliotekę DS — dodaj brakujący token component/drawer/background (alias do semantic background) w Figmie; kod na razie nie.",
+      "expected_output": "Token-only Phase 1 in Figma Theme; STOP; no code mirror yet.",
+      "files": [],
+      "expectations": [
+        "Works in Design System file Theme collection",
+        "Creates or updates component/drawer/background as alias to semantic/*",
+        "Does not bind nodes to Generic directly",
+        "Stops before repo changes and asks for approve"
+      ]
+    }
+  ]
+}
