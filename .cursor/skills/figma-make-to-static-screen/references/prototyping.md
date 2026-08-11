@@ -3,7 +3,7 @@
 Cel: klikalny flow produktu **bez** Figma Prototype i **bez** Figma Make.  
 Źródła prawdy UI: **Design System (`@pacurap/design-system`)** + **statyczne ekrany w Designs** (review) + **mapa FigJam** (flow).
 
-Skill eksportu ekranów **nie** buduje tego prototypu domyślnie — tylko gdy user poprosi.
+Skill eksportu ekranów (`figma-make-to-static-screen`) **nie** buduje prototypu w kodzie — to sesja wyłącznie Figma (kopia Make → Designs + FigJam). Prototyp SPA wymaga **osobnego czatu** w repo Canon.
 
 ## Rekomendacja: SPA w kodzie (bez backendu)
 
@@ -54,7 +54,7 @@ Działa, ale **drugi stack** i drift od `@pacurap/design-system`. Nie rekomendow
 ```text
 FigJam (mapa) ──dokumentuje──► routes.ts (krawędzie flow)
 Designs (Figma) ──review──►   pages/* (implementacja w DS)
-Make ──tylko jako legacy input──► agent eksportuje do Designs, nie do proto
+Make ──legacy──► user trzyma kopie w Figma Design ──► agent eksportuje do Designs, nie do proto
 ```
 
 - Żadnego serwera aplikacji: static files + router w przeglądarce.
@@ -84,7 +84,7 @@ export const routes: ProtoRoute[] = [
 ];
 ```
 
-Agent po eksporcie widoku do Designs może **dopisać/zaktualizować** wpis w `routes.ts` + stub page — to spina skill Make→Designs z proto w kodzie.
+Spina Make→Designs z proto w kodzie: po eksporcie widoku do Designs, **osobna sesja** w repo Canon (gdy user poprosi o prototyp w kodzie) dopisuje/zaktualizuje wpis w `routes.ts` + stub page. Skill `figma-make-to-static-screen` **nie** modyfikuje plików TS — brak zapisu kodu w tej sesji.
 
 ## Czego unikać
 
@@ -103,4 +103,4 @@ Agent po eksporcie widoku do Designs może **dopisać/zaktualizować** wpis w `r
 4. Deploy static URL do klikania ze stakeholderami.
 5. FigJam zostaje mapą; w node można dodać drugi link: Designs (review) + Proto (klik).
 
-Gdy user powie „zbuduj prototyp w kodzie”, agent startuje od Opcji 1 — nie od Figmy.
+Gdy user powie „zbuduj prototyp w kodzie”, **nowy czat** w repo Canon startuje od Opcji 1 — nie od Figmy i nie w sesji `figma-make-to-static-screen`.

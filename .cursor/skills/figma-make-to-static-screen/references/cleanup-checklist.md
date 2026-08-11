@@ -18,6 +18,7 @@ Po każdym eksporcie sprawdź stronę **Designs** (nie piaskownicę `Test`) i us
 | `tabs` / `filters` w `pageHeader` gdy widok ich nie ma | ukryj (`visible` bez literału `false` w MCP — patrz `mcp-code-constraints.md`) |
 | Własne `qb-*` warstwy obok `exams` | przenieś treść do `exams` / usuń qb-* |
 | Shell bez treści | nie raportuj DONE — uzupełnij mock data |
+| FRAME/RECTANGLE z ręcznym SOLID (hex/RGB) | rule `figma-designs-tokens.mdc` — bind albo `[GAP: token …]` |
 
 ## Walidacja końcowa
 

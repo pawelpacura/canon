@@ -9,11 +9,12 @@ Wnioski z nieudanych eksportów (m.in. Bank pytań vs wzorzec tabeli). Czytaj pr
 
 Ekran jest gotowy dopiero gdy:
 
-1. **Treść** — mock data z Make, nie placeholdery „Cell content”
+1. **Treść** — mock data z ramki źródłowej (kopia Make), nie placeholdery „Cell content”
 2. **Architektura** — shell jak `138:9148`; dla tabel: `main` → `exams` → Filters + **`table`** + `pagination`
 3. **Jedna kanoniczna ramka** na widok na stronie **Designs** (+ osobne ramki stanów)
-4. **Mapa** zaktualizowana linkiem
-5. **Screenshot** porównany ze shelliem / wzorcem treści
+4. **Tokeny** — brak płaskich kolorów na nowych warstwach; luki tokenów = `[GAP: token …]`
+5. **Mapa** zaktualizowana linkiem
+6. **Screenshot** porównany ze shelliem / wzorcem treści
 
 Shell sam w sobie ≠ sukces.
 
@@ -29,6 +30,7 @@ Shell sam w sobie ≠ sukces.
 | 6 | Raport DONE przy samym shellu | Fałszywy sukces |
 | 7 | Tworzenie brakującego komponentu w tej sesji | Miało być `[GAP]` + prompt do nowego okna |
 | 8 | Odtwarzanie GRID za wszelką cenę | Zepsuty layout MCP |
+| 9 | Płaskie `{ r, g, b }` / hex z kopii Make na overlayach | `.cursor/rules/figma-designs-tokens.mdc` — `[GAP: token …]` |
 
 ## Kolejność (Bank pytań / tabela)
 

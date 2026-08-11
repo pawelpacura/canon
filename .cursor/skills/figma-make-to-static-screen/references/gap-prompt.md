@@ -1,6 +1,6 @@
 # Luki DS — raport + prompt do stworzenia komponentu
 
-Gdy Make (lub widok) wymaga UI, którego **nie ma** w Design System (albo nie da się uczciwie zmapować 1:1):
+Gdy **kopia Make** (ramka źródłowa) lub widok docelowy wymaga UI, którego **nie ma** w Design System (albo nie da się uczciwie zmapować 1:1):
 
 1. Oznacz lukę w odpowiedzi: **`[GAP: ComponentName]`**
 2. Wskaż najbliższy istniejący odpowiednik (jeśli jest) i dlaczego nie wystarcza
@@ -13,7 +13,7 @@ Gdy Make (lub widok) wymaga UI, którego **nie ma** w Design System (albo nie da
 ### [GAP: NazwaKomponentu]
 
 - **Potrzebne w widoku:** {ViewName} (`node-id` jeśli już jest)
-- **W Make / kodzie:** {plik + zachowanie}
+- **W kopii Make (źródło):** {URL ramki + opis warstwy / zachowania}
 - **Najbliższy DS:** {nazwa lub „brak”} — dlaczego za mało
 - **Priorytet:** blokuje ekran | da się obejść tymczasowo przez {X}
 
@@ -33,7 +33,7 @@ wg faz skilla. Theme: bind tylko component/* → semantic/*; less-is-more (jeden
 bez siatki size×state×type, chyba że poproszę o warianty).
 
 Kontekst produktowy:
-- Widok / flow: {skąd z Make / mapy}
+- Widok / flow: {URL kopii Make / mapa FigJam}
 - Zachowanie: {co robi, stany logiczne które MUSZĄ być properties}
 - Zawartość: {sloty, tekst, ikony, footer…}
 
@@ -44,7 +44,7 @@ Tokeny (alias component/* → semantic/*):
 - background, border, foreground, padding, radius, … (doprecyzuj)
 
 Referencje wizualne:
-- Make: {opis lub ścieżka pliku}
+- Kopia Make (źródło): {URL ramki + screenshot / opis}
 - Podobny komponent w DS: {modal / panel / select / …} — skopiuj schemat API jeśli pasuje
 
 Acceptance:
@@ -55,13 +55,54 @@ Acceptance:
 - Po approve Figmy: mirror w @pacurap/design-system (tokens/CSS/React/GUIDELINES/Storybook)
 ```
 
+## Luka tokenu — `[GAP: token component/…]`
+
+Gdy widok wymaga koloru (lub spacing/radius), a **nie ma** odpowiedniego `component/*` w kolekcji Theme:
+
+1. Oznacz **`[GAP: token component/{obszar}/{właściwość}]`**
+2. Podaj hex / opis z kopii Make i najbliższy istniejący token (dlaczego nie pasuje)
+3. **Nie** zostawiaj płaskiego `{ r, g, b }` / `#hex` jako finalnego stanu — ekran = **PARTIAL** do czasu tokenu w DS
+4. Prompt → **`design-system-kit`** (nowe okno). Reguła: `.cursor/rules/figma-designs-tokens.mdc`
+
+### Format raportu (token)
+
+```markdown
+### [GAP: token component/overlay/scrim/background]
+
+- **Potrzebne w widoku:** {ViewName} — warstwa {np. Overlay podglądu}
+- **Z kopii Make:** {#0A0F2E @ 95% — opis warstwy}
+- **Najbliższy DS:** {component/modal/background lub brak} — dlaczego za mało
+- **Propozycja:** component/… → semantic/… (Light + Dark)
+- **Priorytet:** blokuje DONE | PARTIAL z placeholderem do rebindu
+```
+
+### Szablon promptu (token)
+
+```text
+Użyj skilla design-system-kit. Dodaj w Design System (fileKey p522mlcVwW78HOdKKBupPE)
+token w kolekcji Theme: „{component/obszar/właściwość}” aliasujący „{semantic/…}”.
+Phase 1: tylko Figma (variables + ewentualnie nowy component/* jeśli trzeba), STOP na approve.
+
+Kontekst:
+- Widok Designs: {ViewName} ({node-id})
+- Warstwa: {overlay / highlight / border…}
+- Wartość referencyjna z kopii Make: {hex + opacity / opis warstwy}
+- Najbliższy istniejący token: {…} — dlaczego nie wystarcza
+
+Wymagania:
+- Light + Dark przez semantic/*
+- Bind wyłącznie przez component/* (nigdy semantic/* na node)
+- Po approve: mirror tokens.css + publish biblioteki; follow-up eksportu — rebind warstwy w Designs
+```
+
 ## Kiedy NIE zgłaszać GAP
 
 | Sytuacja | Zamiast GAP |
 |---|---|
 | FilterDropdown / podobny single-select | `select` (patrz `component-map.md`) |
 | Ikona Lucide | `icon/*` z DS |
-| Kolor hex z Tailwinda | token Theme / wariant `badge` |
+| Kolor już pokryty przez INSTANCE DS | nic nie rebindinguj |
+| Istniejący `component/*` pasuje wizualnie | użyj `setBoundVariableForPaint` na tym tokenie |
 | Modal / panel / dialog | istniejące overlaye DS (`modal`, `panel`, …) |
 
 ## Po skopiowaniu promptu przez usera

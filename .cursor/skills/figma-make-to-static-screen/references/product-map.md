@@ -26,8 +26,8 @@ Tekst widoku z designem: **markdown link**
 
 1. `get_figjam` na `0:1` — znajdź istniejący node o tej samej nazwie / roli.
 2. Jeśli jest — **zaktualizuj** tekst linku na nowy `node-id` (nie twórz duplikatu).
-3. Jeśli brak — dodaj `shape-with-text` w logicznym miejscu flow (obok sąsiadów z Make).
-4. Dodaj `connector` od/do poprzedniego i następnego kroku zgodnie z Make / istniejącą mapą.
+3. Jeśli brak — dodaj `shape-with-text` w logicznym miejscu flow (obok sąsiadów z kopii / mapy).
+4. Dodaj `connector` od/do poprzedniego i następnego kroku zgodnie z flow z ramki źródłowej / istniejącej mapy.
 5. Diamenty decyzyjne i toasty bez osobnego frame: zostaw bez linku lub linkuj do najbliższego ekranu bazowego (jak sticky „LINKI DO DESIGNS” na boardzie).
 
 ## use_figma na FigJam

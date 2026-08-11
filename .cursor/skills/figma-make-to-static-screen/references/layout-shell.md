@@ -93,12 +93,12 @@ Przed klonem: jeśli na Designs / mapie jest już kanoniczna ramka tej roli — 
 - [ ] Szerokość ekranu **1440**
 - [ ] `header` — pełna szerokość, na górze
 - [ ] `sideNav` — lewa strona, wysokość od dołu headera do dołu ramki; `Expanded=False` domyślnie
-- [ ] Aktywny `SideNavItem` zgodny z widokiem Make
+- [ ] Aktywny `SideNavItem` zgodny z widokiem z kopii Make
 - [ ] `main` — padding i gap **16** (`semantic/spacing/l` lub wizualnie 16)
 - [ ] `pageHeader` na górze `main` (gdy widok go ma)
 - [ ] Treść pod headerem strony, nie obok shella
 
-## sideNav — typowe stany Make
+## sideNav — typowe stany (z kopii Make)
 
 | Widok App | Aktywny SideNavItem |
 |---|---|

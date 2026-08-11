@@ -77,11 +77,11 @@ Klucze z instancji w złotym wzorcu [`138:9148`](https://www.figma.com/design/BG
 | `Avatar` | `Avatar` |
 | `*Icon` | `icon/*` według GUIDELINES.md |
 
-## Make — elementy bez gotowego komponentu Figma
+## Kopia Make — elementy bez gotowego komponentu Figma
 
-Te występują w kodzie Make, ale **nie ma** ich jako instancji we wzorcu `Tests`. Strategia:
+Te występują w ramkach kopii Make, ale **nie ma** ich jako instancji we wzorcu `Tests`. Strategia:
 
-| Element Make | Statyczny odpowiednik w Figma |
+| Element w kopii | Statyczny odpowiednik w Figma |
 |---|---|
 | `UserMenu` (dropdown) | Pomiń albo osobny ekran „Menu użytkownika otwarte”; ewentualnie `card` + wiersze + `link` |
 | `ResultsPanel`, `TestPreview` | Osobne ramki lub `panel` / `modal` z DS jeśli istnieją |

@@ -22,7 +22,7 @@ compatibility: >-
 
 # Canon — Figma → kod → npm
 
-Jedna zmiana DS = jedna transakcja przez bramkowane fazy. **Figma prowadzi**, żeby nie rozjechać tokenów między plikiem a repo — kod dopiero po approve. Generyczny `figma-generate-library` nie zastępuje tego skilla na Waszym pliku (przyrostowo + rules w repo). Make → Designs: `figma-make-to-static-screen`; wklejony `[GAP: …]` z tamtego skilla to brief **tu**.
+Jedna zmiana DS = jedna transakcja przez bramkowane fazy. **Figma prowadzi**, żeby nie rozjechać tokenów między plikiem a repo — kod dopiero po approve. Generyczny `figma-generate-library` nie zastępuje tego skilla na Waszym pliku (przyrostowo + rules w repo). Kopie Make (Figma Design) → Designs: `figma-make-to-static-screen`; wklejony `[GAP: …]` z tamtego skilla to brief **tu**.
 
 ## Stałe
 

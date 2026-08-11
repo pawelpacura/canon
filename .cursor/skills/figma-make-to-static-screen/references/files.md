@@ -6,7 +6,8 @@
 |---|---|
 | Design System (library source) | https://www.figma.com/design/p522mlcVwW78HOdKKBupPE/Design-System |
 | Designs (target screens) | https://www.figma.com/design/BGEwLOj9VeR8CDwzj0ClA3/Designs |
-| Make (source) | https://www.figma.com/make/1y05CnoIzJUMsB0hykv3No/Testy |
+| **Kopia Make (wejście usera)** | User podaje `figma.com/design/…?node-id=…` — patrz `source-input.md` |
+| Make (legacy, opcjonalnie) | https://www.figma.com/make/1y05CnoIzJUMsB0hykv3No/Testy |
 | Product map (FigJam) | https://www.figma.com/board/s5TEjN0KUj45gSLFW3Dotu/Workflow-diagram?node-id=0-1 |
 
 ## fileKey
@@ -15,7 +16,8 @@
 |---|---|
 | Design System | `p522mlcVwW78HOdKKBupPE` |
 | Designs | `BGEwLOj9VeR8CDwzj0ClA3` |
-| Make | `1y05CnoIzJUMsB0hykv3No` |
+| Kopia Make (wejście) | z URL usera |
+| Make (legacy) | `1y05CnoIzJUMsB0hykv3No` |
 | Workflow-diagram (FigJam) | `s5TEjN0KUj45gSLFW3Dotu` |
 
 ## Designs — strony
@@ -44,12 +46,19 @@ libraryKey: lk-75a3bbae2ee65bae84e464b92a99d2355155aefa359326dfc7bacc4e4176423db
 
 Przy `search_design_system` przekaż `fileKey: BGEwLOj9VeR8CDwzj0ClA3` i powyższy `includeLibraryKeys`. Jeśli search nic nie znajdzie — odśwież klucz przez `get_libraries`.
 
-## Make — odczyt źródła
+## Kopia Make — odczyt źródła (domyślny)
+
+User podaje link Figma Design do ramki. Szczegóły: **`source-input.md`**.
+
+- Przed `get_design_context`: `resource:figma-design-to-code`
+- `get_screenshot` + `get_metadata` + `get_design_context` na `fileKey` / `nodeId` z URL
+- **Nie edytuj** pliku źródłowego
+
+## Make (legacy) — tylko gdy user wskaże make URL
 
 - `get_metadata` **nie działa** na Make.
-- `get_design_context` → `fileKey: 1y05CnoIzJUMsB0hykv3No`, `nodeId: 0:1`.
-- Router: `src/app/App.tsx`.
-- Pakiet: `@pacurap/design-system`.
+- `get_design_context` → `fileKey: 1y05CnoIzJUMsB0hykv3No`, `nodeId: 0:1` → kod React, nie ramka wizualna.
+- Preferuj zawsze kopię w Figma Design, jeśli istnieje.
 
 ## Linki po utworzeniu
 
