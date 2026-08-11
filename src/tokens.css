@@ -91,54 +91,56 @@
   --color-foreground-information: var(--color-indigo-800);
   --color-foreground-warning: var(--color-yellow-800);
 
-  /* Semantic — link inverted (dark surfaces, not dark mode) */
+  /* Semantic — on-dark / on-light (brand & dark surfaces, not dark mode) */
 
-  --color-link-inverted-default: var(--color-neutral-50);
-  --color-link-inverted-hover: var(--color-indigo-100);
-  --color-link-inverted-pressed: var(--color-indigo-200);
-  --color-link-inverted-active: var(--color-indigo-100);
-
-  /* Semantic — button inverted (dark brand surfaces, not dark mode) */
-
-  --color-button-primary-inverted-background-default: var(--color-neutral-50);
-  --color-button-primary-inverted-background-hover: var(--color-indigo-100);
-  --color-button-primary-inverted-background-pressed: var(--color-indigo-200);
-  --color-button-primary-inverted-foreground: var(--color-indigo-800);
-
-  --color-button-secondary-inverted-background-default: color-mix(
+  --color-surface-on-dark-track: color-mix(
+    in srgb,
+    var(--color-neutral-50) 35%,
+    transparent
+  );
+  --color-surface-on-dark-subtle-default: color-mix(
     in srgb,
     var(--color-neutral-50) 16%,
     transparent
   );
-  --color-button-secondary-inverted-background-hover: color-mix(
+  --color-surface-on-dark-subtle-hover: color-mix(
     in srgb,
     var(--color-neutral-50) 24%,
     transparent
   );
-  --color-button-secondary-inverted-background-pressed: color-mix(
+  --color-surface-on-dark-subtle-pressed: color-mix(
     in srgb,
     var(--color-neutral-50) 32%,
     transparent
   );
-  --color-button-secondary-inverted-foreground: var(--color-neutral-50);
+  --color-surface-on-dark-elevated-default: var(--color-neutral-50);
+  --color-surface-on-dark-elevated-hover: var(--color-indigo-100);
+  --color-surface-on-dark-elevated-pressed: var(--color-indigo-200);
+  --color-surface-on-light-track: var(--color-background-primary);
 
-  --color-button-tertiary-inverted-border: color-mix(
+  --color-foreground-on-dark-default: var(--color-neutral-50);
+  --color-foreground-on-dark-hover: var(--color-indigo-100);
+  --color-foreground-on-dark-pressed: var(--color-indigo-200);
+  --color-foreground-on-dark-active: var(--color-indigo-100);
+  --color-foreground-on-dark-primary: var(--color-indigo-800);
+  --color-foreground-on-dark-destructive-default: var(--color-red-200);
+  --color-foreground-on-dark-destructive-hover: var(--color-red-100);
+  --color-foreground-on-dark-destructive-pressed: var(--color-red-300);
+
+  --color-stroke-on-dark-subtle: color-mix(
     in srgb,
     var(--color-neutral-50) 64%,
     transparent
   );
-  --color-button-tertiary-inverted-foreground-default: var(--color-neutral-50);
-  --color-button-tertiary-inverted-foreground-hover: var(--color-indigo-100);
-  --color-button-tertiary-inverted-foreground-pressed: var(--color-indigo-200);
-
-  --color-button-destructive-inverted-foreground-default: var(--color-red-200);
-  --color-button-destructive-inverted-foreground-hover: var(--color-red-100);
-  --color-button-destructive-inverted-foreground-pressed: var(--color-red-300);
 
   /* Semantic — tooltip (always dark bubble) */
 
   --color-tooltip-background: var(--color-neutral-900);
   --color-tooltip-foreground: var(--color-neutral-50);
+
+  /* Semantic — overlay (always dark scrim, same in Light/Dark) */
+
+  --color-overlay-scrim: #0a0f2ef2;
 
   /* Semantic — background */
 
@@ -170,6 +172,7 @@
   --color-component-modal-background: var(--color-background-primary);
   --color-component-modal-border: var(--color-stroke-subtle);
   --color-component-modal-title-foreground: var(--color-foreground-primary);
+  --color-component-modal-scrim: var(--color-overlay-scrim);
   --color-component-pageHeader-title-foreground: var(--color-foreground-primary);
   --color-component-pageHeader-subtitle-foreground: var(--color-foreground-secondary);
   --color-component-pageHeader-border: var(--color-stroke-default);
@@ -307,49 +310,47 @@
   --color-component-button-destructive-foreground-hover: var(--color-interactive-error-hover);
   --color-component-button-destructive-foreground-pressed: var(--color-interactive-error-pressed);
   --color-component-button-primary-inverted-background-default: var(
-    --color-button-primary-inverted-background-default
+    --color-surface-on-dark-elevated-default
   );
   --color-component-button-primary-inverted-background-hover: var(
-    --color-button-primary-inverted-background-hover
+    --color-surface-on-dark-elevated-hover
   );
   --color-component-button-primary-inverted-background-pressed: var(
-    --color-button-primary-inverted-background-pressed
+    --color-surface-on-dark-elevated-pressed
   );
   --color-component-button-primary-inverted-foreground: var(
-    --color-button-primary-inverted-foreground
+    --color-foreground-on-dark-primary
   );
   --color-component-button-secondary-inverted-background-default: var(
-    --color-button-secondary-inverted-background-default
+    --color-surface-on-dark-subtle-default
   );
   --color-component-button-secondary-inverted-background-hover: var(
-    --color-button-secondary-inverted-background-hover
+    --color-surface-on-dark-subtle-hover
   );
   --color-component-button-secondary-inverted-background-pressed: var(
-    --color-button-secondary-inverted-background-pressed
+    --color-surface-on-dark-subtle-pressed
   );
   --color-component-button-secondary-inverted-foreground: var(
-    --color-button-secondary-inverted-foreground
+    --color-foreground-on-dark-default
   );
-  --color-component-button-tertiary-inverted-border: var(
-    --color-button-tertiary-inverted-border
-  );
+  --color-component-button-tertiary-inverted-border: var(--color-stroke-on-dark-subtle);
   --color-component-button-tertiary-inverted-foreground-default: var(
-    --color-button-tertiary-inverted-foreground-default
+    --color-foreground-on-dark-default
   );
   --color-component-button-tertiary-inverted-foreground-hover: var(
-    --color-button-tertiary-inverted-foreground-hover
+    --color-foreground-on-dark-hover
   );
   --color-component-button-tertiary-inverted-foreground-pressed: var(
-    --color-button-tertiary-inverted-foreground-pressed
+    --color-foreground-on-dark-pressed
   );
   --color-component-button-destructive-inverted-foreground-default: var(
-    --color-button-destructive-inverted-foreground-default
+    --color-foreground-on-dark-destructive-default
   );
   --color-component-button-destructive-inverted-foreground-hover: var(
-    --color-button-destructive-inverted-foreground-hover
+    --color-foreground-on-dark-destructive-hover
   );
   --color-component-button-destructive-inverted-foreground-pressed: var(
-    --color-button-destructive-inverted-foreground-pressed
+    --color-foreground-on-dark-destructive-pressed
   );
   --color-component-tab-foreground: var(--color-foreground-secondary);
   --color-component-tab-foreground-hover: var(--color-interactive-primary-hover);
@@ -361,10 +362,26 @@
   --color-component-link-foreground-hover: var(--color-interactive-primary-hover);
   --color-component-link-foreground-pressed: var(--color-interactive-primary-pressed);
   --color-component-link-foreground-active: var(--color-interactive-primary-active);
-  --color-component-link-inverted-foreground-default: var(--color-link-inverted-default);
-  --color-component-link-inverted-foreground-hover: var(--color-link-inverted-hover);
-  --color-component-link-inverted-foreground-pressed: var(--color-link-inverted-pressed);
-  --color-component-link-inverted-foreground-active: var(--color-link-inverted-active);
+  --color-component-link-inverted-foreground-default: var(
+    --color-foreground-on-dark-default
+  );
+  --color-component-link-inverted-foreground-hover: var(--color-foreground-on-dark-hover);
+  --color-component-link-inverted-foreground-pressed: var(
+    --color-foreground-on-dark-pressed
+  );
+  --color-component-link-inverted-foreground-active: var(
+    --color-foreground-on-dark-active
+  );
+  --color-component-segmented-control-track-background-on-dark: var(
+    --color-surface-on-dark-track
+  );
+  --color-component-segmented-control-track-background-on-light: var(
+    --color-surface-on-light-track
+  );
+  --color-component-segmented-control-track-border-on-light: var(--color-stroke-subtle);
+  --component-segmented-control-track-padding: var(--spacing-xs);
+  --component-segmented-control-gap: var(--spacing-xs);
+  --component-segmented-control-radius: var(--radius-m);
   --component-link-gap: var(--spacing-s);
   --color-component-tooltip-background: var(--color-tooltip-background);
   --color-component-tooltip-foreground: var(--color-tooltip-foreground);
