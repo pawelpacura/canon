@@ -118,3 +118,5 @@ Generic  →  semantic/*  →  component/*
 - Each `component/*` variable aliases exactly one `semantic/*` variable per mode.
 
 Groups: `semantic/color/foreground/primary`, `semantic/spacing/l`, … and `component/card/background`, `component/button/primary/background/default`, … One mode toggle for both groups.
+
+**Ekrany w Designs** (scrim, overlay, własne frame): tokeny + zakaz hex — `.cursor/rules/figma-designs-tokens.mdc`.

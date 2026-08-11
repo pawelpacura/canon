@@ -1,0 +1,40 @@
+---
+description: Składanie ekranów w Designs (use_figma) — tokeny Theme component/*, zakaz płaskich kolorów, GAP token → design-system-kit
+alwaysApply: true
+---
+
+# Figma Designs — tokeny Theme (nie płaskie kolory)
+
+Przy **`use_figma`** w pliku **Designs** (ekran, overlay, treść pod shell) oraz w skillu `figma-make-to-static-screen`.
+
+Hierarchia (jak w Design System — patrz też `figma-component-frames.mdc`):
+
+```text
+Generic → semantic/* → component/*
+```
+
+## Reguła
+
+| ✅ Tak | ❌ Nie |
+|---|---|
+| INSTANCE biblioteki DS (tokeny wbudowane) | `{ type: 'SOLID', color: { r, g, b } }` / hex z Make |
+| `setBoundVariableForPaint` na **`component/*`** | Bind do `semantic/*` lub Generic |
+| Brak tokenu → **`[GAP: token component/…]`** + prompt `design-system-kit` | Płaski kolor „na razie” bez raportu |
+
+**Spacing / radius:** `component/*`. Wyjątek: shell `main` padding/gap 16 na `138:9148` (`semantic/spacing/l`) — user-approved w skillu layout-shell.
+
+## Kiedy bind ręczny
+
+- Własne FRAME/RECTANGLE (scrim, highlight, separator…).
+- Kopia z Make (surowe shape) → INSTANCE DS albo bind `component/*`.
+
+INSTANCE DS — nie rebindinguj bez potrzeby.
+
+## Brak tokenu
+
+1. Oznacz **`[GAP: token component/{obszar}/{właściwość}]`**
+2. Podaj: warstwa, hex/opis z Make, najbliższy token i dlaczego nie pasuje, propozycja `component/* → semantic/*`
+3. Ekran bez tokenu = **PARTIAL**, nie DONE
+4. Prompt: skill `figma-make-to-static-screen` → `references/gap-prompt.md` (sekcja Token)
+
+Discovery: `search_design_system`, `get_variable_defs`, kolekcja **Theme** w DS.
