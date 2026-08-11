@@ -44,6 +44,7 @@ import {
   // Form
   Button,
   IconButton,
+  Label,
   InputText,
   MultiSelect,
   Select,
@@ -159,6 +160,24 @@ Icons © Google — [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) vi
 - Same variants as Button; supports `inverted` boolean.
 - `aria-label` is **required** (no visible text).
 - Fixed square size (40px). Pass icon as children.
+
+### Label
+
+Niezależny atom — nie jest częścią `InputText` / `Select` / `TextArea`. Łącz
+z polem sam przez `htmlFor` / `id`, tak jak z natywnym `<label>`.
+
+```tsx
+<Label>Kategoria</Label>
+<Label required>Treść pytania</Label>
+
+<Label htmlFor="kategoria" required>Kategoria</Label>
+<InputText id="kategoria" placeholder="Wybierz kategorię" />
+```
+
+- `required?: boolean` — dokłada czerwoną `*` po tekście (dekoracyjna, `aria-hidden`).
+  Ustaw też `required` / `aria-required` na powiązanym polu — asterysk sam w
+  sobie nie jest ogłaszany czytnikom ekranu.
+- Renderuje natywny `<label>` — przyjmuje `htmlFor` i resztę atrybutów `<label>`.
 
 ### InputText
 
@@ -582,6 +601,7 @@ document.documentElement.dataset.theme = isDark ? "dark" : "light";
 - `--color-component-button-secondary-*`, `--color-component-button-tertiary-*`, `--color-component-button-destructive-*`, `--color-component-button-*-inverted-*`
 - `--color-component-dropdown-background`, `--color-component-badge-*-background`, `--color-component-badge-*-foreground`
 - `--color-component-checkbox-checked-background`, `--color-component-switcher-track-background`
+- `--color-component-label-foreground`, `--color-component-label-required-foreground`
 - Full list: see `src/tokens.css` section **Component — always alias semantic**
 
 **Legacy semantic backgrounds** (still in tokens, not used by package components):

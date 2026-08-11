@@ -178,6 +178,11 @@
   --component-pageHeader-subtitle-font-size: var(--font-size-s);
   --color-component-form-field-label-foreground: var(--color-foreground-secondary);
   --color-component-form-control-label-foreground: var(--color-foreground-primary);
+  /* Label — independent atom, not part of input/select/textArea's own tokens */
+  --color-component-label-foreground: var(--color-foreground-secondary);
+  --color-component-label-required-foreground: var(--color-foreground-error);
+  --component-label-font-size: var(--font-size-xs);
+  --component-label-gap: var(--spacing-xs);
   --color-component-panel-background: var(--color-background-secondary);
   --color-component-panel-border: var(--color-stroke-subtle);
   --color-component-panel-title-foreground: var(--color-foreground-primary);

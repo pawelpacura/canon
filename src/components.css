@@ -148,6 +148,24 @@
 }
 
 /* ------------------------------------------------------------------ */
+/* Label — standalone atom, independent of input/select/textArea       */
+/* ------------------------------------------------------------------ */
+
+.ds-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--component-label-gap);
+  font-family: var(--font-family-primary);
+  font-size: var(--component-label-font-size);
+  font-weight: 500;
+  color: var(--color-component-label-foreground);
+}
+
+.ds-label__required {
+  color: var(--color-component-label-required-foreground);
+}
+
+/* ------------------------------------------------------------------ */
 /* Field (input / select / textarea)                                    */
 /* ------------------------------------------------------------------ */
 
