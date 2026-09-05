@@ -34,6 +34,7 @@ export const AllStates: Story = {
       <Switcher label="Wyłączony" />
       <Switcher label="Włączony" defaultChecked />
       <Switcher label="Disabled" disabled />
+      <Switcher label="Włączony, disabled" defaultChecked disabled />
     </div>
   ),
 };

@@ -323,7 +323,7 @@ export const MultiSelect = forwardRef<MultiSelectHandle, MultiSelectProps>(
                 >
                   {multiple ? (
                     <span
-                      className={`ds-multiselect__option-indicator ds-multiselect__option-indicator--checkbox${selected ? " ds-multiselect__option-indicator--checked" : ""}`}
+                      className={`ds-multiselect__option-indicator ds-multiselect__option-indicator--checkbox${selected ? " ds-multiselect__option-indicator--checked" : ""}${option.disabled ? " ds-multiselect__option-indicator--disabled" : ""}`}
                       aria-hidden="true"
                     />
                   ) : null}

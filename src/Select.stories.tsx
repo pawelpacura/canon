@@ -1,6 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Select } from "./Select";
 
+const options = (
+  <>
+    <option value="">Wybierz opcję...</option>
+    <option value="a">Opcja A</option>
+    <option value="b">Opcja B</option>
+  </>
+);
+
 const meta = {
   title: "Components/Select",
   component: Select,
@@ -17,26 +25,32 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: (args) => (
-    <Select {...args}>
-      <option>Wybrana opcja</option>
-      <option>Opcja A</option>
-      <option>Opcja B</option>
+    <Select {...args} defaultValue="">
+      {options}
+    </Select>
+  ),
+};
+
+export const Filled: Story = {
+  render: (args) => (
+    <Select {...args} defaultValue="a">
+      {options}
     </Select>
   ),
 };
 
 export const Error: Story = {
   render: (args) => (
-    <Select {...args} error>
-      <option>Błąd wyboru</option>
+    <Select {...args} error defaultValue="a">
+      {options}
     </Select>
   ),
 };
 
 export const Disabled: Story = {
   render: (args) => (
-    <Select {...args} disabled>
-      <option>Disabled</option>
+    <Select {...args} disabled defaultValue="">
+      {options}
     </Select>
   ),
 };
@@ -44,15 +58,11 @@ export const Disabled: Story = {
 export const AllStates: Story = {
   render: () => (
     <div style={{ display: "grid", gap: "var(--spacing-m)", width: 280 }}>
-      <Select>
-        <option>Wybrana opcja</option>
-      </Select>
-      <Select error>
-        <option>Błąd wyboru</option>
-      </Select>
-      <Select disabled>
-        <option>Disabled</option>
-      </Select>
+      <Select defaultValue="">{options}</Select>
+      <Select defaultValue="a">{options}</Select>
+      <Select error defaultValue="a">{options}</Select>
+      <Select disabled defaultValue="">{options}</Select>
+      <Select disabled defaultValue="a">{options}</Select>
     </div>
   ),
 };

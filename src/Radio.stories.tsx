@@ -34,6 +34,7 @@ export const AllStates: Story = {
       <Radio name="radio-all" label="Opcja B" defaultChecked />
       <Radio name="radio-all-error" label="Error" error />
       <Radio name="radio-all-disabled" label="Disabled" disabled />
+      <Radio name="radio-all-checked-disabled" label="Zaznaczony, disabled" defaultChecked disabled />
     </div>
   ),
 };

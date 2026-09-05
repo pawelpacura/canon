@@ -27,3 +27,7 @@ export { DataTableIcon } from "./generated/DataTableIcon";
 export { SelectIcon } from "./generated/SelectIcon";
 export { LeftPanelCloseIcon } from "./generated/LeftPanelCloseIcon";
 export { DarkModeIcon } from "./generated/DarkModeIcon";
+export { CloseIcon } from "./generated/CloseIcon";
+export { ChevronBackIcon } from "./generated/ChevronBackIcon";
+export { CalendarMonthIcon } from "./generated/CalendarMonthIcon";
+export { ScheduleIcon } from "./generated/ScheduleIcon";

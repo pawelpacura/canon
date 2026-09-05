@@ -37,15 +37,34 @@ import {
   // Content
   Card,
   Badge,
+  Tag,
   ExamItem,
   Link,
   Tab,
   Tabs,
+  Accordion,
+  // Overlays
+  Modal,
+  Panel,
+  Tooltip,
+  // Data
+  Table,
+  TableRow,
+  TableCell,
+  Pagination,
+  PaginationPageButton,
+  PaginationEllipsis,
+  Stepper,
+  Step,
+  ProgressBar,
   // Form
   Button,
   IconButton,
   Label,
   InputText,
+  DateTimePicker,
+  TimePicker,
+  ChipInput,
   MultiSelect,
   Select,
   TextArea,
@@ -62,6 +81,8 @@ import {
   AddIcon,
   KeyboardArrowDownIcon,
   ChevronForwardIcon,
+  ChevronBackIcon,
+  CloseIcon,
   LibraryAddCheckIcon,
   NewsstandIcon,
   ClockLoader40Icon,
@@ -119,6 +140,8 @@ Color inherits via `currentColor` — place inside a colored parent or pass `sty
 | `icon / grid_on` | `GridOnIcon` | `grid_on` |
 | `icon / data_table` | `DataTableIcon` | `data_table` |
 | `icon/select` | `SelectIcon` | `select` |
+| `icon / calendar_month` | `CalendarMonthIcon` | `calendar_month` |
+| `icon / schedule` | `ScheduleIcon` | `schedule` |
 
 - Default size: 24×24. Override with `size` prop.
 - **Adding a new icon:** add component in Figma → add entry to `scripts/icons.manifest.json` → run `npm run generate:icons`.
@@ -193,9 +216,28 @@ z polem sam przez `htmlFor` / `id`, tak jak z natywnym `<label>`.
 ```
 
 - `error?: boolean` — red error styling, sets `aria-invalid`.
+- Empty/default (placeholder visible) uses `--color-component-input-placeholder`; filled value uses `--color-component-input-foreground`.
 - `leftIcon` / `rightIcon` — mirrors Figma `showLeftIcon` / `showRightIcon`.
 - `type`: text-like types only (`text`, `email`, `password`, `search`, `tel`, `url`, `number`).
 - Accepts all native `<input>` props.
+
+### DateTimePicker / TimePicker
+
+```tsx
+<DateTimePicker placeholder="Wybierz datę i godzinę" />
+<DateTimePicker error defaultValue="12.08.2026, 09:00" />
+<DateTimePicker disabled />
+
+<TimePicker placeholder="Wybierz godzinę" />
+<TimePicker error defaultValue="09:00" />
+```
+
+- Thin `InputText` wrappers (mirrors Figma `dateTimePicker` / `timePicker`) — identical
+  states/tokens (`default`/`hover`/`filled`/`error`/`disabled`), fixed leading icon
+  (`CalendarMonthIcon` / `ScheduleIcon`). Pass `leftIcon={null}` to hide it.
+- No native date/time picker UI or overlay yet — value is plain text. Wire an actual
+  calendar/time overlay via `onClick` / `onFocus` when that flow is built.
+- Accepts all `InputTextProps` except `type` and `rightIcon`.
 
 ### Select
 
@@ -459,6 +501,175 @@ Status / label pill. Source: [Figma Frame 3](https://www.figma.com/design/p522ml
 - Renders `<article class="ds-card ds-card--interactive ds-exam-item">` — do not replace with raw `Card` in production lists unless composing a new pattern.
 - Built-in icons: `ContentPasteSearchIcon`, `GroupIcon`, `VisibilityIcon`, `ClockLoader40Icon`.
 
+### Tag
+
+Standalone chip atom — used on its own or inside `ChipInput`'s chip list.
+
+```tsx
+<Tag>Tag</Tag>
+<Tag onRemove={() => {}}>anna.nowak@firma.pl</Tag>
+```
+
+- Tokens: `component/tag/*` (background, foreground, font, padding, radius) — independent of `ChipInput`/`Badge`.
+- `onRemove` renders a small `×` button; omit for a read-only chip.
+
+### ChipInput
+
+Text field that hosts `Tag` chips inline, for freeform multi-value entry (recipients, labels). Not a dropdown — see `MultiSelect` for that.
+
+```tsx
+<ChipInput inputProps={{ onKeyDown: handleKeyDown }}>
+  <Tag onRemove={() => removeChip(0)}>anna.nowak@firma.pl</Tag>
+  <Tag onRemove={() => removeChip(1)}>jan.kowalski@firma.pl</Tag>
+</ChipInput>
+```
+
+- Reuses `component/input/*` tokens (border, radius, placeholder, font) — no separate token layer.
+- Renders chips as children, then a trailing free-text `<input>`; wire up add/remove logic yourself via `inputProps`.
+
+### Modal
+
+Centered dialog surface — header (title + optional close) + content slot + footer slot.
+
+```tsx
+<Modal
+  title="Usunąć test?"
+  onClose={() => setOpen(false)}
+  footer={
+    <>
+      <Button variant="secondary" onClick={() => setOpen(false)}>Anuluj</Button>
+      <Button variant="primary" onClick={onConfirm}>Usuń</Button>
+    </>
+  }
+>
+  Tej operacji nie można odwrócić.
+</Modal>
+```
+
+- Tokens: `component/modal/*` (background, border, radius, padding, gap, title/foreground) + `shadow/drop/elevated`.
+- `showFooter={false}` hides the footer row; omit `footer` to get default Anuluj/Potwierdz buttons.
+- `onClose` omitted → no close button rendered. Component is only the surface — render it inside your own positioning/overlay wrapper (see `.ds-modal-scrim` for a scrim class using `component/modal/scrim`).
+
+### Panel
+
+Side-panel surface (320px wide) — same Header/Content/Footer shape as `Modal`, for docked/slide-in panels instead of centered dialogs.
+
+```tsx
+<Panel title="Szczegóły uczestnika" onClose={onClose}>
+  <ParticipantDetails id={id} />
+</Panel>
+```
+
+- Tokens: `component/panel/*` — independent of `Modal`'s tokens even though the shape matches.
+
+### Accordion
+
+Simple expandable section, typically for grouping form fields.
+
+```tsx
+<Accordion title="Podstawy">Nazwa, typ i opis testu.</Accordion>
+<Accordion title="Pytania" expanded={false} onToggle={setExpanded}>
+  Lista pytań i odpowiedzi.
+</Accordion>
+```
+
+- Uncontrolled by default (`expanded` unset → toggles internal state on header click); pass `expanded` + `onToggle` to control it yourself.
+- Tokens: `component/accordion/*` (title, icon, gap, padding, radius, border).
+
+### Stepper
+
+Horizontal step indicator for multi-step flows (e.g. test builder wizard).
+
+```tsx
+<Stepper>
+  <Step number="1" label="Typ" state="completed" />
+  <Step number="2" label="Podstawy" state="active" />
+  <Step number="3" label="Pytania" />
+  <Step number="4" label="Publikacja" showLine={false} />
+</Stepper>
+```
+
+- Set `showLine={false}` on the **last** `Step` — it has no connector to draw.
+- Tokens: `component/stepper/*`, states `default | active | completed`.
+
+### ProgressBar
+
+Determinate progress track + fill.
+
+```tsx
+<ProgressBar size="m" value={60} />
+```
+
+- `size`: `s | m | l` (track height). `value`: 0–100.
+- Tokens: `component/progressBar/*`.
+
+### Tooltip
+
+Small text bubble with a directional arrow. Presentational only — position it relative to its trigger yourself (e.g. with a wrapping `position: relative` + `position: absolute` on the tooltip).
+
+```tsx
+<Tooltip direction="top">Zapisz zmiany</Tooltip>
+```
+
+- `direction`: `top | bottom | left | right`.
+- Tokens: `component/tooltip/*`.
+
+### Pagination
+
+Standalone pagination shell — transparent background, top border, summary text + prev/next + page-number slot.
+
+```tsx
+<Pagination
+  summary={`Wyświetlanie ${from}–${to} z ${total} testów`}
+  onPrevious={page > 1 ? () => setPage(page - 1) : undefined}
+  onNext={page < lastPage ? () => setPage(page + 1) : undefined}
+>
+  <PaginationPageButton active={page === 1} onClick={() => setPage(1)}>1</PaginationPageButton>
+  <PaginationPageButton active={page === 2} onClick={() => setPage(2)}>2</PaginationPageButton>
+  <PaginationEllipsis />
+  <PaginationPageButton onClick={() => setPage(lastPage)}>{lastPage}</PaginationPageButton>
+</Pagination>
+```
+
+- `onPrevious`/`onNext` omitted → button auto-disables (matches Figma's disabled state at the edges).
+- Tokens: `component/pagination/*`; page-number buttons reuse `Button` (`secondary` when active, `tertiary` otherwise).
+
+### Table
+
+Data-table shell — header row + body rows + optional footer. No built-in pagination/sorting logic — compose it, like `Modal`/`Panel`'s slots.
+
+```tsx
+<Table
+  header={
+    <TableRow header>
+      <TableCell variant="header">Uczestnik</TableCell>
+      <TableCell variant="header">Wynik</TableCell>
+    </TableRow>
+  }
+  footer={
+    <>
+      <TableFooterSection>
+        Pokazuj <TablePageSize>10</TablePageSize> na stronie
+      </TableFooterSection>
+      <TablePagination>
+        <TablePaginationPage active>1</TablePaginationPage>
+        <TablePaginationPage>2</TablePaginationPage>
+      </TablePagination>
+    </>
+  }
+>
+  {rows.map((row) => (
+    <TableRow key={row.id} zebra={row.index % 2 === 1}>
+      <TableCell>{row.name}</TableCell>
+      <TableCell>{row.score}</TableCell>
+    </TableRow>
+  ))}
+</Table>
+```
+
+- `TableRow`'s `zebra`/`active` props style the row's body cells via CSS — hover styling on body cells is automatic.
+- Tokens: `component/table/cell/*`, `component/table/footer/*`, `component/table/page-size/*`, `component/table/pagination/*`.
+
 ---
 
 ## Page layout
@@ -517,7 +728,8 @@ Do **not** recreate the full-page Figma `view` shell. Compose pages from compone
 |---|---|
 | hover / pressed | CSS automatic |
 | focus | `:focus-visible` ring (2px indigo outline with gap) — never remove outlines |
-| disabled | `disabled` attribute |
+| disabled | `disabled` attribute — BOOLEAN in Figma; composes with default/filled or checked/selected only |
+| checked / selected | native `checked` or option `selected` styling |
 | error | `error` prop on form components |
 
 ---
@@ -602,6 +814,12 @@ document.documentElement.dataset.theme = isDark ? "dark" : "light";
 - `--color-component-dropdown-background`, `--color-component-badge-*-background`, `--color-component-badge-*-foreground`
 - `--color-component-checkbox-checked-background`, `--color-component-switcher-track-background`
 - `--color-component-label-foreground`, `--color-component-label-required-foreground`
+- `--color-component-tag-background`, `--color-component-tag-foreground`
+- `--color-component-table-cell-body-background` (+ `-hover`, `-zebra`, `-active`), `--color-component-table-cell-header-background`
+- `--color-component-stepper-ball-background-default|active|completed` (+ matching `-foreground-*`, `-line-background-*`)
+- `--color-component-progressBar-track-background`, `--color-component-progressBar-fill-background`
+- `--color-component-tooltip-background`, `--color-component-tooltip-foreground`
+- `--color-component-pagination-border`, `--color-component-pagination-summary-foreground`
 - Full list: see `src/tokens.css` section **Component — always alias semantic**
 
 **Legacy semantic backgrounds** (still in tokens, not used by package components):
@@ -614,7 +832,7 @@ document.documentElement.dataset.theme = isDark ? "dark" : "light";
 - `--color-stroke-error-strong`
 
 **Actions**
-- `--color-interactive-primary-default|hover|pressed|active`
+- `--color-interactive-primary-default|hover|pressed|active|disabled`
 - `--color-interactive-secondary-default|hover|pressed|active`
 - `--color-interactive-error-default|hover|pressed|active`
 - `--color-interactive-success-default|hover|pressed|active`

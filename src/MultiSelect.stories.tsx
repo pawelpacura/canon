@@ -93,3 +93,34 @@ export const Disabled: Story = {
     </div>
   ),
 };
+
+export const AllStates: Story = {
+  render: () => (
+    <div style={{ display: "grid", gap: "var(--spacing-m)", width: 280 }}>
+      <MultiSelect
+        options={options}
+        placeholder="Wybierz status"
+        aria-label="Status — pusty"
+      />
+      <MultiSelect
+        options={options}
+        defaultValue="active"
+        placeholder="Wybierz status"
+        aria-label="Status — wybrany"
+      />
+      <MultiSelect
+        options={options}
+        defaultValue="draft"
+        error
+        placeholder="Wybierz status"
+        aria-label="Status — error"
+      />
+      <MultiSelect
+        options={options}
+        disabled
+        placeholder="Disabled"
+        aria-label="Status — disabled"
+      />
+    </div>
+  ),
+};

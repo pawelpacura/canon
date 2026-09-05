@@ -37,6 +37,7 @@ export const AllStates: Story = {
       <Checkbox label="Zaznaczony" defaultChecked />
       <Checkbox label="Error" error />
       <Checkbox label="Disabled" disabled />
+      <Checkbox label="Zaznaczony, disabled" defaultChecked disabled />
     </div>
   ),
 };

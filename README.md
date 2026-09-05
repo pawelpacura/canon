@@ -78,8 +78,10 @@ Use them directly in app code:
 ## State model (mirrors Figma)
 
 - `state=hover` / `pressed` → CSS `:hover` / `:active`
-- `state=disabled` → `disabled` attribute + `--opacity-disabled`
+- `disabled` → **BOOLEAN** property in Figma; `disabled` attribute in React
+  - Composes only with `default`/`filled` (text fields) or `checked`/`off`/`on`/`selected` (toggles) — no full variant matrix
 - `state=error` → `error` prop (`aria-invalid` is set automatically)
+- `state=checked` / `selected` / `filled` → native value props or derived from content — not combined with hover/error/disabled in Figma
 - `showFocus` boolean prop in Figma → `:focus-visible` ring
   (2px `--color-interactive-primary-default` outline with 1px gap)
 

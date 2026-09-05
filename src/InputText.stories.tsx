@@ -23,6 +23,10 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
+export const Filled: Story = {
+  args: { defaultValue: "BHP — onboarding" },
+};
+
 export const Error: Story = {
   args: { error: true, defaultValue: "Błędna wartość" },
 };
@@ -43,8 +47,10 @@ export const AllStates: Story = {
   render: () => (
     <div style={{ display: "grid", gap: "var(--spacing-m)", width: 280 }}>
       <InputText placeholder="Szukaj testów..." />
+      <InputText defaultValue="BHP — onboarding" />
       <InputText error defaultValue="Błędna wartość" />
       <InputText disabled placeholder="Disabled" />
+      <InputText disabled defaultValue="Wypełniony, disabled" />
       <InputText
         placeholder="Szukaj"
         leftIcon={<SearchIcon />}

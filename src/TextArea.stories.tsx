@@ -23,6 +23,10 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
+export const Filled: Story = {
+  args: { defaultValue: "Opis testu onboardingowego dla nowych pracowników." },
+};
+
 export const Error: Story = {
   args: { error: true, defaultValue: "Błędna treść" },
 };
@@ -35,8 +39,10 @@ export const AllStates: Story = {
   render: () => (
     <div style={{ display: "grid", gap: "var(--spacing-m)", width: 320 }}>
       <TextArea placeholder="Opis..." rows={4} />
+      <TextArea defaultValue="Opis testu onboardingowego dla nowych pracowników." rows={4} />
       <TextArea error defaultValue="Błędna treść" rows={4} />
       <TextArea disabled placeholder="Disabled" rows={4} />
+      <TextArea disabled defaultValue="Wypełniony, disabled" rows={4} />
     </div>
   ),
 };

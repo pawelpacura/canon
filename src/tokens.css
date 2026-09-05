@@ -293,7 +293,11 @@
   --color-component-checkbox-border-error: var(--color-stroke-error-strong);
   --color-component-checkbox-checked-background: var(--color-interactive-primary-default);
   --color-component-checkbox-checked-border: var(--color-interactive-primary-default);
+  --color-component-checkbox-checked-background-disabled: var(--color-interactive-primary-disabled);
+  --color-component-checkbox-checked-border-disabled: var(--color-interactive-primary-disabled);
   --color-component-checkbox-checked-foreground: var(--color-foreground-inverse);
+  --color-component-switcher-checked-track-background-disabled: var(--color-interactive-primary-disabled);
+  --color-component-switcher-checked-track-border-disabled: var(--color-interactive-primary-disabled);
   --color-component-button-primary-background-default: var(--color-interactive-primary-default);
   --color-component-button-primary-background-hover: var(--color-interactive-primary-hover);
   --color-component-button-primary-background-pressed: var(--color-interactive-primary-pressed);
@@ -435,6 +439,84 @@
   --color-component-exam-percent-foreground: var(--color-foreground-success);
   --color-component-focus-ring: var(--color-interactive-primary-default);
 
+  /* Tag — standalone chip atom */
+  --color-component-tag-background: var(--color-background-tertiary);
+  --component-tag-font-family: var(--font-family-primary);
+  --component-tag-font-size: var(--font-size-xs);
+  --component-tag-padding-x: var(--spacing-s);
+  --component-tag-padding-y: var(--spacing-xs);
+  --component-tag-radius: var(--radius-full);
+
+  /* Modal */
+  --component-modal-padding: var(--spacing-xl);
+  --component-modal-gap: var(--spacing-l);
+  --component-modal-header-gap: var(--spacing-s);
+  --component-modal-radius: var(--radius-m);
+  --component-modal-title-font-size: var(--font-size-l);
+  --component-modal-body-font-size: var(--font-size-s);
+  --shadow-component-modal: var(--shadow-drop-elevated);
+
+  /* Panel */
+  --component-panel-padding: var(--spacing-xl);
+  --component-panel-gap: var(--spacing-l);
+  --component-panel-header-gap: var(--spacing-s);
+  --component-panel-title-font-size: var(--font-size-l);
+  --component-panel-body-font-size: var(--font-size-s);
+  --component-panel-width: 320px;
+  --shadow-component-panel: var(--shadow-drop-elevated);
+
+  /* Accordion */
+  --component-accordion-title-font-size: var(--font-size-m);
+  --component-accordion-gap: var(--spacing-m);
+  --component-accordion-padding: var(--spacing-l);
+  --component-accordion-radius: var(--radius-m);
+  --component-accordion-border-width: var(--border-width-s);
+
+  /* Stepper */
+  --component-stepper-gap: var(--spacing-s);
+  --component-stepper-ball-size: 32px;
+  --component-stepper-label-gap: var(--spacing-s);
+  --component-stepper-line-height: 2px;
+  --color-component-stepper-ball-background-default: var(--color-background-tertiary);
+  --color-component-stepper-ball-foreground-default: var(--color-foreground-secondary);
+  --color-component-stepper-ball-background-active: var(--color-interactive-primary-default);
+  --color-component-stepper-ball-foreground-active: var(--color-foreground-inverse);
+  --color-component-stepper-ball-background-completed: var(--color-interactive-primary-default);
+  --color-component-stepper-ball-foreground-completed: var(--color-foreground-inverse);
+  --color-component-stepper-label-foreground-default: var(--color-foreground-secondary);
+  --color-component-stepper-label-foreground-active: var(--color-foreground-primary);
+  --color-component-stepper-label-foreground-completed: var(--color-foreground-primary);
+  --color-component-stepper-line-background-default: var(--color-background-tertiary);
+  --color-component-stepper-line-background-completed: var(--color-interactive-primary-default);
+
+  /* ProgressBar — radius (track/fill/height already defined below) */
+  --component-progressBar-radius: var(--radius-full);
+
+  /* Tooltip */
+  --component-tooltip-padding-x: var(--spacing-s);
+  --component-tooltip-padding-y: var(--spacing-xs);
+  --component-tooltip-radius: var(--radius-s);
+  --component-tooltip-font-size: var(--font-size-xs);
+  --component-tooltip-font-family: var(--font-family-primary);
+
+  /* Table — cell */
+  --color-component-table-cell-border: var(--color-stroke-subtle);
+  --color-component-table-cell-header-background: var(--color-background-secondary);
+  --color-component-table-cell-header-foreground: var(--color-foreground-primary);
+  --color-component-table-cell-body-background: var(--color-background-primary);
+  --color-component-table-cell-body-foreground: var(--color-foreground-primary);
+  --color-component-table-cell-body-background-hover: var(--color-background-secondary);
+  --color-component-table-cell-body-background-zebra: var(--color-background-secondary);
+  --color-component-table-cell-body-background-active: var(--color-background-primary);
+  --color-component-table-cell-border-active: var(--color-stroke-strong);
+  --component-table-cell-padding-x: var(--spacing-m);
+  --component-table-cell-padding-y: var(--spacing-s);
+  --component-table-cell-border-width: var(--border-width-s);
+  --component-table-cell-min-height: var(--touch-target-m);
+  --component-table-cell-font-size: var(--font-size-s);
+  --component-table-cell-font-family: var(--font-family-primary);
+  --shadow-component-table-cell-active: inset 0 2px 2px 0 var(--color-stroke-default);
+
   /* Semantic — stroke */
 
   --color-stroke-subtle: var(--color-neutral-200);
@@ -462,6 +544,7 @@
   --color-interactive-primary-hover: var(--color-indigo-700);
   --color-interactive-primary-pressed: var(--color-indigo-900);
   --color-interactive-primary-active: var(--color-indigo-600);
+  --color-interactive-primary-disabled: var(--color-indigo-300);
 
   --color-interactive-secondary-default: var(--color-neutral-200);
   --color-interactive-secondary-hover: var(--color-indigo-100);
@@ -615,6 +698,7 @@
   --color-interactive-primary-hover: var(--color-indigo-300);
   --color-interactive-primary-pressed: var(--color-indigo-500);
   --color-interactive-primary-active: var(--color-indigo-400);
+  --color-interactive-primary-disabled: var(--color-indigo-700);
 
   --color-interactive-secondary-default: var(--color-neutral-700);
   --color-interactive-secondary-hover: var(--color-indigo-900);
@@ -712,6 +796,7 @@
     --color-interactive-primary-hover: var(--color-indigo-300);
     --color-interactive-primary-pressed: var(--color-indigo-500);
     --color-interactive-primary-active: var(--color-indigo-400);
+    --color-interactive-primary-disabled: var(--color-indigo-700);
 
     --color-interactive-secondary-default: var(--color-neutral-700);
     --color-interactive-secondary-hover: var(--color-indigo-900);

@@ -180,7 +180,14 @@
   font-family: var(--component-input-font-family);
   font-size: var(--component-input-font-size);
   color: var(--color-component-input-foreground);
-  transition: background-color 120ms ease, border-color 120ms ease;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
+}
+
+.ds-field:placeholder-shown:not(.ds-field--error):not(:disabled) {
+  color: var(--color-component-input-placeholder);
 }
 
 /* Label + helper/error wrapper produced by InputText when those props are set. */
@@ -250,7 +257,14 @@
   border-radius: var(--component-input-radius);
   box-shadow: var(--shadow-inner-default);
   color: var(--color-component-input-foreground);
-  transition: background-color 120ms ease, border-color 120ms ease;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
+}
+
+.ds-field-control:has(.ds-field:placeholder-shown:not(.ds-field--error):not(:disabled)) {
+  color: var(--color-component-input-placeholder);
 }
 
 .ds-field-control:hover:not(:has(.ds-field:disabled)):not(
@@ -260,10 +274,20 @@
   border-color: var(--color-component-input-border-hover);
 }
 
+/* Icon dims to placeholder grey while empty, matches typed-value foreground once filled. */
+.ds-field-control:has(.ds-field:placeholder-shown) .ds-field-control__icon {
+  color: var(--color-component-input-placeholder);
+}
+
 .ds-field-control--error {
   background: var(--color-component-input-background-error);
   border-color: var(--color-component-input-border-error);
   box-shadow: var(--shadow-inner-error);
+  color: var(--color-component-input-foreground-error);
+}
+
+/* Higher specificity than the placeholder-grey rule above: error wins even when empty. */
+.ds-field-control.ds-field-control--error .ds-field-control__icon {
   color: var(--color-component-input-foreground-error);
 }
 
@@ -330,6 +354,16 @@
   padding-right: calc(var(--spacing-m) + 24px);
 }
 
+.ds-select:has(option[value=""]:checked):not(.ds-field--error):not(:disabled) {
+  color: var(--color-component-input-placeholder);
+}
+
+.ds-select-wrap:has(
+    .ds-select:has(option[value=""]:checked):not(.ds-field--error):not(:disabled)
+  )::after {
+  color: var(--color-component-input-placeholder);
+}
+
 .ds-select-wrap::after {
   content: "";
   position: absolute;
@@ -374,6 +408,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--color-component-input-foreground);
 }
 
 .ds-multiselect__placeholder {
@@ -439,6 +474,16 @@
 }
 
 .ds-multiselect__option--disabled {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+}
+
+.ds-multiselect__option-indicator--checkbox.ds-multiselect__option-indicator--checked.ds-multiselect__option-indicator--disabled {
+  background: var(--color-component-checkbox-checked-background-disabled);
+  border-color: var(--color-component-checkbox-checked-border-disabled);
+}
+
+.ds-multiselect__option--selected.ds-multiselect__option--disabled {
   opacity: var(--opacity-disabled);
   cursor: not-allowed;
 }
@@ -532,9 +577,16 @@
   box-shadow: var(--shadow-inner-error);
 }
 
-.ds-control:disabled {
-  background: var(--color-component-input-background-disabled);
+.ds-control:disabled:not(:checked) {
+  background: var(--color-component-checkbox-background-disabled);
+  border-color: var(--color-component-checkbox-border);
   opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+}
+
+.ds-control:checked:disabled {
+  background: var(--color-component-checkbox-checked-background-disabled);
+  border-color: var(--color-component-checkbox-checked-border-disabled);
   cursor: not-allowed;
 }
 
@@ -725,8 +777,14 @@
   left: calc(100% - 24px);
 }
 
-.ds-switcher:disabled {
+.ds-switcher:disabled:not(:checked) {
   opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+}
+
+.ds-switcher:checked:disabled {
+  background: var(--color-component-switcher-checked-track-background-disabled);
+  border-color: var(--color-component-switcher-checked-track-border-disabled);
   cursor: not-allowed;
 }
 
@@ -740,9 +798,113 @@
 /* ------------------------------------------------------------------ */
 
 .ds-table {
+  display: flex;
+  flex-direction: column;
   border: var(--border-width-s) solid var(--color-component-table-border);
   border-radius: var(--component-table-radius);
   overflow: hidden;
+}
+
+.ds-table-header-row,
+.ds-table-row {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+.ds-table-cell {
+  display: flex;
+  align-items: center;
+  flex: 1 0 0;
+  min-width: 0;
+  box-sizing: border-box;
+  min-height: var(--component-table-cell-min-height);
+  padding: var(--component-table-cell-padding-y) var(--component-table-cell-padding-x);
+  border-bottom: var(--component-table-cell-border-width) solid
+    var(--color-component-table-cell-border);
+  font-family: var(--component-table-cell-font-family);
+  font-size: var(--component-table-cell-font-size);
+}
+
+.ds-table-cell--body {
+  background: var(--color-component-table-cell-body-background);
+  color: var(--color-component-table-cell-body-foreground);
+  font-weight: 400;
+}
+
+.ds-table-cell--header {
+  background: var(--color-component-table-cell-header-background);
+  color: var(--color-component-table-cell-header-foreground);
+  font-weight: 600;
+}
+
+.ds-table-row--zebra > .ds-table-cell--body {
+  background: var(--color-component-table-cell-body-background-zebra);
+}
+
+.ds-table-row .ds-table-cell--body:hover {
+  background: var(--color-component-table-cell-body-background-hover);
+}
+
+.ds-table-row--active > .ds-table-cell--body {
+  background: var(--color-component-table-cell-body-background-active);
+  border-color: var(--color-component-table-cell-border-active);
+  box-shadow: var(--shadow-component-table-cell-active);
+}
+
+.ds-table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--component-table-footer-gap);
+  background: var(--color-component-table-footer-background);
+  border-top: var(--component-table-footer-border-width) solid
+    var(--color-component-table-footer-border);
+  padding: var(--component-table-footer-padding-y) var(--component-table-footer-padding-x);
+  font-family: var(--component-table-footer-font-family);
+  font-size: var(--component-table-footer-font-size);
+  color: var(--color-component-table-footer-foreground);
+}
+
+.ds-table-footer__section {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--component-table-footer-section-gap);
+}
+
+.ds-table-page-size {
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-component-table-page-size-background);
+  border: var(--border-width-s) solid var(--color-component-table-page-size-border);
+  border-radius: var(--radius-s);
+  padding: var(--component-table-page-size-padding-y) var(--component-table-page-size-padding-x);
+  font-family: var(--component-table-page-size-font-family);
+  font-size: var(--component-table-page-size-font-size);
+  font-weight: 500;
+  color: var(--color-component-table-page-size-foreground);
+}
+
+.ds-table-pagination {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--component-table-pagination-gap);
+  font-family: var(--component-table-pagination-font-family);
+  font-size: var(--component-table-pagination-font-size);
+}
+
+.ds-table-pagination__page {
+  color: var(--color-component-table-pagination-foreground);
+  cursor: pointer;
+  background: none;
+  border: none;
+  font: inherit;
+  padding: 0;
+}
+
+.ds-table-pagination__page--active {
+  color: var(--color-component-table-pagination-foreground-active);
+  font-weight: 500;
 }
 
 /* ------------------------------------------------------------------ */
@@ -1191,4 +1353,448 @@
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-s);
+}
+
+/* ------------------------------------------------------------------ */
+/* Tag — standalone chip atom (also used inside chipInput)             */
+/* ------------------------------------------------------------------ */
+
+.ds-tag {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: var(--spacing-xs);
+  background: var(--color-component-tag-background);
+  color: var(--color-component-tag-foreground);
+  padding: var(--component-tag-padding-y) var(--component-tag-padding-x);
+  border-radius: var(--component-tag-radius);
+  font-family: var(--component-tag-font-family);
+  font-size: var(--component-tag-font-size);
+  font-weight: 500;
+  line-height: 1.25;
+  white-space: nowrap;
+  border: none;
+}
+
+.ds-tag__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.ds-tag__remove:hover {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------------ */
+/* ChipInput — text field that hosts tag chips                         */
+/* ------------------------------------------------------------------ */
+
+.ds-chip-input {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--component-input-gap);
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--color-component-input-background);
+  border: var(--component-input-stroke-weight) solid var(--color-component-input-border);
+  border-radius: var(--component-input-radius);
+  padding: var(--spacing-s) var(--component-input-padding-x);
+  cursor: text;
+}
+
+.ds-chip-input:focus-within {
+  border-color: var(--color-component-input-border-hover);
+}
+
+.ds-chip-input__field {
+  flex: 1 0 0;
+  min-width: 120px;
+  border: none;
+  outline: none;
+  background: none;
+  font-family: var(--component-input-font-family);
+  font-size: var(--component-input-font-size);
+  color: var(--color-component-input-foreground);
+}
+
+.ds-chip-input__field:placeholder-shown:not(:disabled) {
+  color: var(--color-component-input-placeholder);
+}
+
+.ds-chip-input__field::placeholder {
+  color: var(--color-component-input-placeholder);
+}
+
+/* ------------------------------------------------------------------ */
+/* Modal                                                                */
+/* ------------------------------------------------------------------ */
+
+.ds-modal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--component-modal-gap);
+  background: var(--color-component-modal-background);
+  border: var(--border-width-s) solid var(--color-component-modal-border);
+  border-radius: var(--component-modal-radius);
+  padding: var(--component-modal-padding);
+  box-shadow: var(--shadow-component-modal);
+  box-sizing: border-box;
+}
+
+.ds-modal__header {
+  display: flex;
+  align-items: center;
+  gap: var(--component-modal-header-gap);
+}
+
+.ds-modal__title {
+  flex: 1 0 0;
+  min-width: 0;
+  margin: 0;
+  font-family: var(--font-family-primary);
+  font-size: var(--component-modal-title-font-size);
+  font-weight: 500;
+  color: var(--color-component-modal-title-foreground);
+}
+
+.ds-modal__content {
+  font-family: var(--font-family-primary);
+  font-size: var(--component-modal-body-font-size);
+  color: var(--color-component-modal-title-foreground);
+}
+
+.ds-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-s);
+}
+
+.ds-modal-scrim {
+  position: fixed;
+  inset: 0;
+  background: var(--color-component-modal-scrim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ------------------------------------------------------------------ */
+/* Panel                                                                */
+/* ------------------------------------------------------------------ */
+
+.ds-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--component-panel-gap);
+  width: var(--component-panel-width);
+  background: var(--color-component-panel-background);
+  border: var(--border-width-s) solid var(--color-component-panel-border);
+  padding: var(--component-panel-padding);
+  box-shadow: var(--shadow-component-panel);
+  box-sizing: border-box;
+}
+
+.ds-panel__header {
+  display: flex;
+  align-items: center;
+  gap: var(--component-panel-header-gap);
+}
+
+.ds-panel__title {
+  flex: 1 0 0;
+  min-width: 0;
+  margin: 0;
+  font-family: var(--font-family-primary);
+  font-size: var(--component-panel-title-font-size);
+  font-weight: 500;
+  color: var(--color-component-panel-title-foreground);
+}
+
+.ds-panel__content {
+  flex: 1 0 0;
+  min-height: 0;
+  font-family: var(--font-family-primary);
+  font-size: var(--component-panel-body-font-size);
+  color: var(--color-component-panel-title-foreground);
+  overflow: auto;
+}
+
+.ds-panel__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-s);
+}
+
+/* ------------------------------------------------------------------ */
+/* Accordion                                                            */
+/* ------------------------------------------------------------------ */
+
+.ds-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--component-accordion-gap);
+  background: var(--color-component-accordion-background);
+  border: var(--component-accordion-border-width) solid var(--color-component-accordion-border);
+  border-radius: var(--component-accordion-radius);
+  padding: var(--spacing-l);
+  box-sizing: border-box;
+}
+
+.ds-accordion__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-s);
+  background: none;
+  border: none;
+  padding: 0;
+  width: 100%;
+  cursor: pointer;
+  font-family: var(--font-family-primary);
+  text-align: left;
+}
+
+.ds-accordion__title {
+  flex: 1 0 0;
+  min-width: 0;
+  margin: 0;
+  font-size: var(--component-accordion-title-font-size);
+  font-weight: 600;
+  color: var(--color-component-accordion-title-foreground);
+}
+
+.ds-accordion__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--color-component-accordion-icon-foreground);
+  transition: transform 160ms ease;
+}
+
+.ds-accordion--expanded .ds-accordion__icon {
+  transform: rotate(180deg);
+}
+
+.ds-accordion__content {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-s);
+  color: var(--color-component-panel-title-foreground);
+}
+
+/* ------------------------------------------------------------------ */
+/* Stepper                                                              */
+/* ------------------------------------------------------------------ */
+
+.ds-stepper {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.ds-step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--component-stepper-gap);
+  flex: 1 0 0;
+  min-width: 0;
+}
+
+.ds-step:last-child {
+  flex: none;
+}
+
+.ds-step__marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--component-stepper-label-gap);
+  flex-shrink: 0;
+}
+
+.ds-step__ball {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-stepper-ball-size);
+  height: var(--component-stepper-ball-size);
+  border-radius: var(--radius-full);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-s);
+  font-weight: 600;
+  flex-shrink: 0;
+  background: var(--color-component-stepper-ball-background-default);
+  color: var(--color-component-stepper-ball-foreground-default);
+}
+
+.ds-step__label {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--color-component-stepper-label-foreground-default);
+}
+
+.ds-step--active .ds-step__ball,
+.ds-step--completed .ds-step__ball {
+  background: var(--color-component-stepper-ball-background-active);
+  color: var(--color-component-stepper-ball-foreground-active);
+}
+
+.ds-step--active .ds-step__label,
+.ds-step--completed .ds-step__label {
+  color: var(--color-component-stepper-label-foreground-active);
+}
+
+.ds-step__line-rail {
+  display: flex;
+  align-items: center;
+  flex: 1 0 0;
+  min-width: 0;
+  height: var(--component-stepper-ball-size);
+}
+
+.ds-step__line {
+  flex: 1 0 0;
+  min-width: 0;
+  height: var(--component-stepper-line-height);
+  border-radius: var(--radius-full);
+  background: var(--color-component-stepper-line-background-default);
+}
+
+.ds-step--completed .ds-step__line {
+  background: var(--color-component-stepper-line-background-completed);
+}
+
+/* ------------------------------------------------------------------ */
+/* ProgressBar                                                         */
+/* ------------------------------------------------------------------ */
+
+.ds-progress-bar {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--component-progressBar-radius);
+  background: var(--color-component-progressBar-track-background);
+}
+
+.ds-progress-bar--s {
+  height: var(--color-component-progressBar-height-s);
+}
+
+.ds-progress-bar--m {
+  height: var(--color-component-progressBar-height-m);
+}
+
+.ds-progress-bar--l {
+  height: var(--color-component-progressBar-height-l);
+}
+
+.ds-progress-bar__fill {
+  height: 100%;
+  border-radius: var(--component-progressBar-radius);
+  background: var(--color-component-progressBar-fill-background);
+  transition: width 200ms ease;
+}
+
+/* ------------------------------------------------------------------ */
+/* Tooltip                                                              */
+/* ------------------------------------------------------------------ */
+
+.ds-tooltip {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.ds-tooltip--top,
+.ds-tooltip--bottom {
+  flex-direction: column;
+}
+
+.ds-tooltip__bubble {
+  display: inline-flex;
+  background: var(--color-component-tooltip-background);
+  color: var(--color-component-tooltip-foreground);
+  padding: var(--component-tooltip-padding-y) var(--component-tooltip-padding-x);
+  border-radius: var(--component-tooltip-radius);
+  font-family: var(--component-tooltip-font-family);
+  font-size: var(--component-tooltip-font-size);
+  white-space: nowrap;
+}
+
+.ds-tooltip__arrow {
+  flex-shrink: 0;
+  width: 0;
+  height: 0;
+}
+
+.ds-tooltip--top .ds-tooltip__arrow {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid var(--color-component-tooltip-background);
+}
+
+.ds-tooltip--bottom .ds-tooltip__arrow {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid var(--color-component-tooltip-background);
+}
+
+.ds-tooltip--left .ds-tooltip__arrow {
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 4px solid var(--color-component-tooltip-background);
+}
+
+.ds-tooltip--right .ds-tooltip__arrow {
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-right: 4px solid var(--color-component-tooltip-background);
+}
+
+/* ------------------------------------------------------------------ */
+/* Pagination                                                           */
+/* ------------------------------------------------------------------ */
+
+.ds-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-l);
+  width: 100%;
+  box-sizing: border-box;
+  border-top: var(--border-width-s) solid var(--color-component-pagination-border);
+  padding: var(--component-pagination-padding-y) var(--component-pagination-padding-x);
+}
+
+.ds-pagination__summary {
+  font-family: var(--font-family-primary);
+  font-size: var(--component-pagination-summary-font-size);
+  color: var(--color-component-pagination-summary-foreground);
+}
+
+.ds-pagination__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--component-pagination-controls-gap);
+}
+
+.ds-pagination__pages {
+  display: flex;
+  align-items: center;
+  gap: var(--component-pagination-pages-gap);
+}
+
+.ds-pagination__ellipsis {
+  font-family: var(--font-family-primary);
+  font-size: var(--component-pagination-ellipsis-font-size);
+  color: var(--color-component-pagination-ellipsis-foreground);
 }

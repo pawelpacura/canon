@@ -20,5 +20,9 @@
   "DataTableIcon": "data_table",
   "SelectIcon": "select",
   "LeftPanelCloseIcon": "left_panel_close",
-  "DarkModeIcon": "dark_mode"
+  "DarkModeIcon": "dark_mode",
+  "CloseIcon": "close",
+  "ChevronBackIcon": "chevron_left",
+  "CalendarMonthIcon": "calendar_month",
+  "ScheduleIcon": "schedule"
 }
