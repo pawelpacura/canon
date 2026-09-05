@@ -24,7 +24,8 @@ export function AppShell({
       style={{
         display: "flex",
         flexDirection: "column",
-        minHeight: "100dvh",
+        height: "100dvh",
+        overflow: "hidden",
         width: "100%",
         background: "var(--color-background-secondary)",
         fontFamily: "var(--font-family-primary)",

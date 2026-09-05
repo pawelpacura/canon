@@ -207,6 +207,11 @@
   --color-component-logo-accent-pink-light: #fec0ee;
   --color-component-logo-accent-sky: #02a0e6;
   --color-component-sideNav-background: var(--color-background-brand);
+  --color-component-sideNav-expandStrip-background: var(
+    --color-interactive-primary-hover
+  );
+  --component-sideNav-width: 60px;
+  --component-sideNav-expandStrip-width: var(--spacing-xl);
   --color-component-sideNav-icon: var(--color-foreground-inverse);
   --color-component-sideNav-item-active-background: var(--color-background-primary);
   --color-component-sideNav-item-active-border: var(--color-stroke-subtle);

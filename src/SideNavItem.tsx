@@ -5,12 +5,17 @@ export interface SideNavItemProps extends ButtonHTMLAttributes<HTMLButtonElement
   active?: boolean;
   /** Icon shown in the item (24×24). */
   icon: ReactNode;
-  /** Accessible label — required because the nav is icon-only. */
+  /** Accessible label — required because the collapsed nav is icon-only. */
   "aria-label": string;
+  /** Visible label when `SideNav` is expanded. Defaults to `aria-label`. */
+  label?: string;
 }
 
 export const SideNavItem = forwardRef<HTMLButtonElement, SideNavItemProps>(
-  function SideNavItem({ active = false, icon, className, type, ...rest }, ref) {
+  function SideNavItem(
+    { active = false, icon, label, className, type, "aria-label": ariaLabel, ...rest },
+    ref
+  ) {
     const classes = ["ds-side-nav-item", "ds-focusable"];
     if (active) classes.push("ds-side-nav-item--active");
     if (className) classes.push(className);
@@ -19,9 +24,11 @@ export const SideNavItem = forwardRef<HTMLButtonElement, SideNavItemProps>(
         ref={ref}
         type={type ?? "button"}
         className={classes.join(" ")}
+        aria-label={ariaLabel}
         {...rest}
       >
         <span className="ds-side-nav-item__icon">{icon}</span>
+        <span className="ds-side-nav-item__label">{label ?? ariaLabel}</span>
       </button>
     );
   }

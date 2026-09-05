@@ -1122,13 +1122,60 @@
 /* ------------------------------------------------------------------ */
 
 .ds-side-nav {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  box-sizing: border-box;
   gap: var(--spacing-l);
-  width: 60px;
+  width: var(--component-sideNav-width);
+  height: 100%;
   padding: var(--spacing-s);
+  overflow: visible;
   background: var(--color-component-sideNav-background);
+}
+
+.ds-side-nav--expanded {
+  width: var(--component-sideNav-width-expanded);
+  align-items: stretch;
+  padding-right: var(--component-sideNav-padding-right-expanded);
+}
+
+.ds-side-nav__expand-strip {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-sideNav-expandStrip-width);
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: var(--color-component-sideNav-expandStrip-background);
+  color: var(--color-component-sideNav-icon);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+.ds-side-nav:hover .ds-side-nav__expand-strip,
+.ds-side-nav:focus-within .ds-side-nav__expand-strip,
+.ds-side-nav--show-expand-strip .ds-side-nav__expand-strip,
+.ds-side-nav--expanded .ds-side-nav__expand-strip {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-side-nav__expand-strip {
+    transition: none;
+  }
 }
 
 .ds-side-nav-item {
@@ -1164,6 +1211,25 @@
   background: var(--color-component-sideNav-item-active-background);
   border: var(--border-width-s) solid var(--color-component-sideNav-item-active-border);
   color: var(--color-component-sideNav-item-active-icon);
+}
+
+.ds-side-nav-item__label {
+  display: none;
+  font-family: var(--component-sideNav-label-font-family);
+  font-size: var(--component-sideNav-label-font-size);
+  font-weight: 500;
+  color: var(--color-component-sideNav-label-foreground);
+  white-space: nowrap;
+}
+
+.ds-side-nav--expanded .ds-side-nav-item {
+  width: 100%;
+  justify-content: flex-start;
+  gap: var(--component-sideNav-item-label-gap);
+}
+
+.ds-side-nav--expanded .ds-side-nav-item__label {
+  display: inline;
 }
 
 /* ------------------------------------------------------------------ */

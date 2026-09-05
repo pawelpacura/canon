@@ -384,12 +384,13 @@ Toggle (on/off). Figma component: `switcher`.
   <SideNavItem aria-label="Testy" icon={<LibraryAddCheckIcon />} />
   <SideNavItem aria-label="Archiwum" icon={<NewsstandIcon />} />
   <SideNavItem aria-label="Postępy" icon={<ClockLoader40Icon />} />
-  <SideNavItem aria-label="Więcej" icon={<ChevronForwardIcon />} />
 </SideNav>
 ```
 
-- Collapsed icon-only nav (60px wide), brand background.
-- `SideNavItem`: `active` shows white pill behind icon. `aria-label` required.
+- Collapsed icon-only nav (60px). Hover or keyboard focus shows the expand strip; click opens the full menu.
+- `expanded` / `showExpandStrip` mirror Figma. Omit `expanded` for uncontrolled toggle.
+- Do not put a chevron `SideNavItem` inside the rail — the strip is the expand control.
+- `SideNavItem`: `active` shows white pill behind icon. `aria-label` required; visible `label` when expanded (defaults to `aria-label`).
 
 ### Header
 

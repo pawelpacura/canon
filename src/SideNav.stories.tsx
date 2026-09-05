@@ -2,12 +2,20 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { SideNav } from "./SideNav";
 import { SideNavItem } from "./SideNavItem";
 import {
-  ChevronForwardIcon,
   ClockLoader40Icon,
   HomeIcon,
   LibraryAddCheckIcon,
   NewsstandIcon,
 } from "./icons";
+
+const items = (
+  <>
+    <SideNavItem active aria-label="Strona główna" icon={<HomeIcon />} />
+    <SideNavItem aria-label="Testy" icon={<LibraryAddCheckIcon />} />
+    <SideNavItem aria-label="Archiwum" icon={<NewsstandIcon />} />
+    <SideNavItem aria-label="Postępy" icon={<ClockLoader40Icon />} />
+  </>
+);
 
 const meta = {
   title: "Components/SideNav",
@@ -16,26 +24,36 @@ const meta = {
   parameters: {
     layout: "fullscreen",
   },
+  argTypes: {
+    expanded: { control: "boolean" },
+    showExpandStrip: { control: "boolean" },
+  },
 } satisfies Meta<typeof SideNav>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => (
-    <SideNav>
-      <SideNavItem active aria-label="Strona główna" icon={<HomeIcon />} />
-      <SideNavItem aria-label="Testy" icon={<LibraryAddCheckIcon />} />
-      <SideNavItem aria-label="Archiwum" icon={<NewsstandIcon />} />
-      <SideNavItem aria-label="Postępy" icon={<ClockLoader40Icon />} />
-      <SideNavItem aria-label="Więcej" icon={<ChevronForwardIcon />} />
-    </SideNav>
-  ),
+  render: (args) => <SideNav {...args}>{items}</SideNav>,
+};
+
+export const ExpandStrip: Story = {
+  args: {
+    showExpandStrip: true,
+  },
+  render: (args) => <SideNav {...args}>{items}</SideNav>,
+};
+
+export const Expanded: Story = {
+  args: {
+    expanded: true,
+  },
+  render: (args) => <SideNav {...args}>{items}</SideNav>,
 };
 
 export const SingleItem: Story = {
-  render: () => (
-    <SideNav>
+  render: (args) => (
+    <SideNav {...args}>
       <SideNavItem active aria-label="Strona główna" icon={<HomeIcon />} />
     </SideNav>
   ),
