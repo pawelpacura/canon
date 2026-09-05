@@ -844,6 +844,15 @@ document.documentElement.dataset.theme = isDark ? "dark" : "light";
 - `--touch-target-s|m|l`
 - `--font-size-xs|s|m|l|xl`
 
+**Motion**
+- `--motion-duration-fast` (160ms) — hover, fade, color
+- `--motion-duration-default` (240ms) — expand, layout
+- `--motion-duration-slow` (400ms) — overlays
+- `--motion-easing-standard` — `cubic-bezier(0.22, 1, 0.36, 1)`
+- `--motion-easing-emphasized` — `cubic-bezier(0.16, 1, 0.3, 1)`
+- Shorthands: `--motion-transition-fade`, `--motion-transition-transform`, `--motion-transition-layout`
+- Respect `prefers-reduced-motion` (no transition).
+
 **Other**
 - `--font-family-primary` (Poppins)
 - `--shadow-inner-default`, `--shadow-inner-error`

@@ -611,6 +611,19 @@
 
   --opacity-disabled: 0.5;
 
+  /* Semantic — motion (soft ease-out; not springy) */
+  --motion-duration-fast: 160ms;
+  --motion-duration-default: 240ms;
+  --motion-duration-slow: 400ms;
+  --motion-easing-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-easing-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-transition-fade: opacity var(--motion-duration-fast)
+    var(--motion-easing-standard);
+  --motion-transition-transform: transform var(--motion-duration-default)
+    var(--motion-easing-emphasized);
+  --motion-transition-layout: width var(--motion-duration-default)
+    var(--motion-easing-emphasized);
+
   /* Semantic — shadows */
 
   --shadow-inner-color: var(--color-neutral-shadow-inner);
