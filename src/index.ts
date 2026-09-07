@@ -2,6 +2,10 @@ import "./tokens.css";
 import "./components.css";
 
 export { Button, type ButtonProps, type ButtonVariant } from "./Button";
+export {
+  SegmentedControl,
+  type SegmentedControlProps,
+} from "./SegmentedControl";
 export { IconButton, type IconButtonProps } from "./IconButton";
 export { Label, type LabelProps } from "./Label";
 export { InputText, type InputTextProps } from "./InputText";

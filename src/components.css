@@ -139,6 +139,27 @@
 }
 
 /* ------------------------------------------------------------------ */
+/* SegmentedControl — track for Button segments                        */
+/* ------------------------------------------------------------------ */
+
+.ds-segmented-control {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--component-segmented-control-gap);
+  padding: var(--component-segmented-control-track-padding);
+  border-radius: var(--component-segmented-control-radius);
+  background: var(--color-component-segmented-control-track-background-on-light);
+  border: var(--border-width-s) solid
+    var(--color-component-segmented-control-track-border-on-light);
+  box-sizing: border-box;
+}
+
+.ds-segmented-control--on-dark {
+  background: var(--color-component-segmented-control-track-background-on-dark);
+  border-color: transparent;
+}
+
+/* ------------------------------------------------------------------ */
 /* IconButton                                                           */
 /* ------------------------------------------------------------------ */
 

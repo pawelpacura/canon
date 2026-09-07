@@ -59,6 +59,7 @@ import {
   ProgressBar,
   // Form
   Button,
+  SegmentedControl,
   IconButton,
   Label,
   InputText,
@@ -183,6 +184,25 @@ Icons © Google — [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) vi
 - `icon`: boolean — when `true`, shows leading `Add2Icon` (Figma: `Icon` axis)
 - Accepts all native `<button>` props.
 - Use `destructive` only for irreversible actions (delete, remove).
+
+### SegmentedControl
+
+Track na wzajemnie wykluczające się tryby. W środku instancje `Button` — aktywny segment to `primary`, reszta `tertiary`. To nie jest piąty wariant przycisku.
+
+```tsx
+<SegmentedControl aria-label="Tryb">
+  <Button variant="primary" icon={<EditIcon />}>Edycja</Button>
+  <Button variant="tertiary" icon={<VisibilityIcon />}>Podgląd</Button>
+</SegmentedControl>
+
+<SegmentedControl onDark aria-label="Tryb">
+  <Button variant="primary" inverted icon={<EditIcon />}>Edycja</Button>
+  <Button variant="tertiary" inverted icon={<VisibilityIcon />}>Podgląd</Button>
+</SegmentedControl>
+```
+
+- `onDark` — Figma `onDark`; półprzezroczysty track na brand surface. Segmenty wtedy z `inverted`.
+- `children` = slot `Items`. Tokeny `component/segmented-control/*`.
 
 ### IconButton
 
