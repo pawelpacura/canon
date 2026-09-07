@@ -94,13 +94,27 @@ export const ExamItem = forwardRef<HTMLElement, ExamItemProps>(function ExamItem
           <IconButton
             variant="tertiary"
             aria-label="Podgląd"
-            onClick={onPreview}
+            onClick={(event) => {
+              event.stopPropagation();
+              event.preventDefault();
+              onPreview();
+            }}
+            onPointerDown={(event) => event.stopPropagation()}
           >
             <VisibilityIcon />
           </IconButton>
         ) : null}
         {onMore ? (
-          <IconButton variant="tertiary" aria-label="Więcej" onClick={onMore}>
+          <IconButton
+            variant="tertiary"
+            aria-label="Wyniki"
+            onClick={(event) => {
+              event.stopPropagation();
+              event.preventDefault();
+              onMore();
+            }}
+            onPointerDown={(event) => event.stopPropagation()}
+          >
             <ClockLoader40Icon />
           </IconButton>
         ) : null}

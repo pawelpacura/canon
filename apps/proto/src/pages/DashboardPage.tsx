@@ -1,14 +1,18 @@
 import {
   Badge,
   Banner,
+  Button,
   Card,
+  IconButton,
   Link,
   PageHeader,
   Select,
+  SettingsIcon,
   Table,
   TableCell,
   TableRow,
 } from "@pacurap/design-system";
+import { interactiveRow } from "../tableRow";
 
 const RECENT_TESTS = [
   { title: "Szkolenie BHP — grudzień 2026", type: "Egzamin" },
@@ -73,18 +77,34 @@ export function DashboardPage({
   onCreate,
   onOpenTests,
   onOpenBank,
+  onOpenQuestion,
+  onSettings,
 }: {
   onCreate: () => void;
   onOpenTests: () => void;
   onOpenBank: () => void;
+  onOpenQuestion: () => void;
+  onSettings: () => void;
 }) {
   return (
     <>
       <PageHeader
         title="Pulpit"
         subtitle="Przegląd aktywności, statystyk i ostatnich testów"
-        actionLabel="Utwórz test"
-        onAction={onCreate}
+        actions={
+          <div className="proto-edit__actions">
+            <Button variant="primary" icon onClick={onCreate}>
+              Utwórz test
+            </Button>
+            <IconButton
+              variant="tertiary"
+              aria-label="Ustawienia"
+              onClick={onSettings}
+            >
+              <SettingsIcon />
+            </IconButton>
+          </div>
+        }
       />
       <div className="proto-dash">
         <Banner variant="information">
@@ -149,16 +169,11 @@ export function DashboardPage({
               }
             >
               {RECENT_TESTS.map((row, index) => (
-                <TableRow key={`${row.title}-${index}`}>
-                  <TableCell>
-                    <button
-                      type="button"
-                      className="proto-linkish"
-                      onClick={onOpenTests}
-                    >
-                      {row.title}
-                    </button>
-                  </TableCell>
+                <TableRow
+                  key={`${row.title}-${index}`}
+                  {...interactiveRow(onOpenTests)}
+                >
+                  <TableCell>{row.title}</TableCell>
                   <TableCell className="proto-dash__cell-type">
                     <Badge variant="neutral">{row.type}</Badge>
                   </TableCell>
@@ -186,7 +201,7 @@ export function DashboardPage({
               }
             >
               {BANK_QUESTIONS.map((row) => (
-                <TableRow key={row.text}>
+                <TableRow key={row.text} {...interactiveRow(onOpenQuestion)}>
                   <TableCell>{row.text}</TableCell>
                   <TableCell className="proto-dash__cell-cat">
                     <Badge variant="neutral">{row.category}</Badge>

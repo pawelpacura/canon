@@ -6,8 +6,11 @@ export type Route =
   | "dashboard"
   | "bank"
   | "reports"
+  | "report"
   | "create"
-  | "edit";
+  | "edit"
+  | "profile"
+  | "settings";
 
 export type EditTab = "settings" | "questions" | "send";
 export type ResultsTab = "status" | "scores";
@@ -30,4 +33,5 @@ export type Overlay =
   | { kind: "more"; testId: string }
   | { kind: "archive"; testId: string }
   | { kind: "results"; testId: string }
+  | { kind: "question"; mode: "preview" | "edit"; index: number }
   | null;

@@ -12,8 +12,10 @@ import {
   Table,
   TableCell,
   TableRow,
+  EditIcon,
   VisibilityIcon,
 } from "@pacurap/design-system";
+import { interactiveRow, stopRowClick } from "../tableRow";
 
 const TEST_REPORTS = [
   { name: "BHP — onboarding", type: "Egzamin", n: "124", pass: "94%" },
@@ -63,7 +65,11 @@ const CUSTOM_REPORTS = [
   },
 ] as const;
 
-export function ReportsPage() {
+export function ReportsPage({
+  onOpenDetail,
+}: {
+  onOpenDetail: () => void;
+}) {
   const [tab, setTab] = useState("tests");
   const [query, setQuery] = useState("");
 
@@ -137,7 +143,12 @@ export function ReportsPage() {
               }
             >
               {testRows.map((row) => (
-                <TableRow key={row.name}>
+                <TableRow
+                  key={row.name}
+                  {...(row.name === "BHP — onboarding"
+                    ? interactiveRow(onOpenDetail)
+                    : {})}
+                >
                   <TableCell>{row.name}</TableCell>
                   <TableCell className="proto-table__type">
                     <Badge variant="neutral">{row.type}</Badge>
@@ -145,7 +156,26 @@ export function ReportsPage() {
                   <TableCell className="proto-table__n">{row.n}</TableCell>
                   <TableCell className="proto-table__pass">{row.pass}</TableCell>
                   <TableCell className="proto-table__actions">
-                    <IconButton variant="tertiary" aria-label="Otwórz raport">
+                    <IconButton
+                      variant="tertiary"
+                      aria-label="Edytuj raport"
+                      onClick={
+                        row.name === "BHP — onboarding"
+                          ? stopRowClick(onOpenDetail)
+                          : undefined
+                      }
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      variant="tertiary"
+                      aria-label="Otwórz raport"
+                      onClick={
+                        row.name === "BHP — onboarding"
+                          ? stopRowClick(onOpenDetail)
+                          : undefined
+                      }
+                    >
                       <VisibilityIcon />
                     </IconButton>
                   </TableCell>
@@ -205,6 +235,9 @@ export function ReportsPage() {
                   <TableCell className="proto-table__n">{row.period}</TableCell>
                   <TableCell className="proto-table__pass">{row.format}</TableCell>
                   <TableCell className="proto-table__actions">
+                    <IconButton variant="tertiary" aria-label="Edytuj raport">
+                      <EditIcon />
+                    </IconButton>
                     <IconButton variant="tertiary" aria-label="Otwórz raport">
                       <VisibilityIcon />
                     </IconButton>

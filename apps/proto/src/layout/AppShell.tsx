@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import {
   ClockLoader40Icon,
   ContentPasteSearchIcon,
@@ -9,6 +9,7 @@ import {
   SideNav,
   SideNavItem,
 } from "@pacurap/design-system";
+import { UserMenu } from "../overlays/UserMenu";
 import type { Route } from "../types";
 
 export function AppShell({
@@ -28,10 +29,24 @@ export function AppShell({
   onToggleTheme: () => void;
   children: ReactNode;
 }) {
-  const nav: Route = route === "create" || route === "edit" ? "tests" : route;
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+
+  function go(next: Route) {
+    setUserMenuOpen(false);
+    onNavigate(next);
+  }
+  const nav: Route | null =
+    route === "create" || route === "edit"
+      ? "tests"
+      : route === "report"
+        ? "reports"
+        : route === "profile" || route === "settings"
+          ? null
+          : route;
 
   return (
     <div
+      className="proto-shell"
       style={{
         display: "flex",
         flexDirection: "column",
@@ -44,7 +59,16 @@ export function AppShell({
         searchValue={search}
         onSearchChange={onSearch}
         userName="Jan Kowalski"
+        onUserClick={() => setUserMenuOpen((open) => !open)}
       />
+      {userMenuOpen ? (
+        <UserMenu
+          onProfile={() => go("profile")}
+          onSettings={() => go("settings")}
+          onLogout={() => setUserMenuOpen(false)}
+          onClose={() => setUserMenuOpen(false)}
+        />
+      ) : null}
       <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
         <SideNav>
           <SideNavItem
@@ -81,14 +105,11 @@ export function AppShell({
           />
         </SideNav>
         <main
-          style={{
-            flex: 1,
-            overflow: "auto",
-            display: "flex",
-            flexDirection: "column",
-            gap: "var(--spacing-l)",
-            padding: "var(--spacing-l)",
-          }}
+          className={
+            route === "create" || route === "tests"
+              ? "proto-main proto-main--fill"
+              : "proto-main"
+          }
         >
           {children}
         </main>

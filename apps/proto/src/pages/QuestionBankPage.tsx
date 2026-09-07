@@ -12,10 +12,12 @@ import {
   Table,
   TableCell,
   TableRow,
+  EditIcon,
   VisibilityIcon,
 } from "@pacurap/design-system";
+import { interactiveRow, stopRowClick } from "../tableRow";
 
-const QUESTIONS = [
+export const QUESTIONS = [
   {
     text: "Jakie kanały marketingowe są priorytetowe w 2026?",
     category: "Marketing",
@@ -90,7 +92,13 @@ const QUESTIONS = [
   },
 ] as const;
 
-export function QuestionBankPage() {
+export function QuestionBankPage({
+  onPreview,
+  onEdit,
+}: {
+  onPreview: (index: number) => void;
+  onEdit: (index: number) => void;
+}) {
   const [query, setQuery] = useState("");
   const [type, setType] = useState("Typ");
   const [category, setCategory] = useState("Kategoria");
@@ -175,8 +183,10 @@ export function QuestionBankPage() {
             </TableRow>
           }
         >
-          {rows.map((row) => (
-            <TableRow key={row.text}>
+          {rows.map((row) => {
+            const index = QUESTIONS.findIndex((item) => item.text === row.text);
+            return (
+            <TableRow key={row.text} {...interactiveRow(() => onPreview(index))}>
               <TableCell>{row.text}</TableCell>
               <TableCell className="proto-table__cat">
                 <Badge variant="neutral">{row.category}</Badge>
@@ -184,12 +194,24 @@ export function QuestionBankPage() {
               <TableCell className="proto-table__type">{row.type}</TableCell>
               <TableCell className="proto-table__usage">{row.usage}</TableCell>
               <TableCell className="proto-table__actions">
-                <IconButton variant="tertiary" aria-label="Podgląd pytania">
+                <IconButton
+                  variant="tertiary"
+                  aria-label="Edytuj pytanie"
+                  onClick={stopRowClick(() => onEdit(index))}
+                >
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  variant="tertiary"
+                  aria-label="Podgląd pytania"
+                  onClick={stopRowClick(() => onPreview(index))}
+                >
                   <VisibilityIcon />
                 </IconButton>
               </TableCell>
             </TableRow>
-          ))}
+            );
+          })}
         </Table>
       </Card>
       <Pagination summary="Wyświetlanie 1–9 z 25 testów">

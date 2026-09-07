@@ -51,17 +51,11 @@ export function ResultsPanel({
   const [tab, setTab] = useState<ResultsTab>("status");
 
   return (
-    <div
-      className="ds-modal-scrim proto-results-scrim"
-      style={{ zIndex: 20 }}
-      onClick={onClose}
-    >
       <Panel
         title="Wyniki testu"
         onClose={onClose}
         showFooter={false}
-        className="proto-results"
-        onClick={(event) => event.stopPropagation()}
+        className="proto-dock__surface proto-results"
       >
         <p className="proto-results__subtitle">{test.title}</p>
         <Tabs>
@@ -129,6 +123,5 @@ export function ResultsPanel({
           ))}
         </div>
       </Panel>
-    </div>
   );
 }

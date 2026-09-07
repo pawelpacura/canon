@@ -716,7 +716,9 @@
 /* ------------------------------------------------------------------ */
 
 .ds-banner {
+  box-sizing: border-box;
   width: 100%;
+  min-width: 0;
   padding: var(--component-banner-padding-y) var(--component-banner-padding-x);
   border: none;
   border-radius: var(--component-banner-radius);

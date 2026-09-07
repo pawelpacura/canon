@@ -19,6 +19,7 @@ import {
 } from "@pacurap/design-system";
 import type { TestItem, TestStatus, TestsView } from "../types";
 import { countByStatus } from "../mocks/tests";
+import { interactiveRow, stopRowClick } from "../tableRow";
 
 const PAGE_SIZE: Record<TestsView, number> = {
   detailed: 5,
@@ -244,16 +245,12 @@ export function TestsPage({
             }
           >
             {slice.map((test, index) => (
-              <TableRow key={test.id} zebra={index % 2 === 1}>
-                <TableCell>
-                  <button
-                    type="button"
-                    className="proto-linkish"
-                    onClick={() => onOpen(test.id)}
-                  >
-                    {test.title}
-                  </button>
-                </TableCell>
+              <TableRow
+                key={test.id}
+                zebra={index % 2 === 1}
+                {...interactiveRow(() => onOpen(test.id))}
+              >
+                <TableCell>{test.title}</TableCell>
                 <TableCell>{test.type}</TableCell>
                 <TableCell>
                   <Badge variant={BADGE[test.status]}>{test.statusLabel}</Badge>
@@ -265,14 +262,14 @@ export function TestsPage({
                     <IconButton
                       variant="tertiary"
                       aria-label="Podgląd"
-                      onClick={() => onPreview(test.id)}
+                      onClick={stopRowClick(() => onPreview(test.id))}
                     >
                       <VisibilityIcon />
                     </IconButton>
                     <IconButton
                       variant="tertiary"
                       aria-label="Wyniki"
-                      onClick={() => onResults(test.id)}
+                      onClick={stopRowClick(() => onResults(test.id))}
                     >
                       <ClockLoader40Icon />
                     </IconButton>
