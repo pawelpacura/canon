@@ -391,6 +391,9 @@
   --component-segmented-control-track-padding: var(--spacing-xs);
   --component-segmented-control-gap: var(--spacing-xs);
   --component-segmented-control-radius: var(--radius-m);
+  --component-segmented-control-segment-unselected-stroke-weight: var(
+    --border-width-none
+  );
   --component-link-gap: var(--spacing-s);
   --color-component-tooltip-background: var(--color-tooltip-background);
   --color-component-tooltip-foreground: var(--color-tooltip-foreground);
@@ -490,7 +493,7 @@
   --color-component-stepper-ball-foreground-completed: var(--color-foreground-inverse);
   --color-component-stepper-label-foreground-default: var(--color-foreground-secondary);
   --color-component-stepper-label-foreground-active: var(--color-foreground-primary);
-  --color-component-stepper-label-foreground-completed: var(--color-foreground-primary);
+  --color-component-stepper-label-foreground-completed: var(--color-foreground-secondary);
   --color-component-stepper-line-background-default: var(--color-background-tertiary);
   --color-component-stepper-line-background-completed: var(--color-interactive-primary-default);
 

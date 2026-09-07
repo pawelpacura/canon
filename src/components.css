@@ -159,6 +159,12 @@
   border-color: transparent;
 }
 
+.ds-segmented-control > .ds-button--tertiary {
+  border-width: var(
+    --component-segmented-control-segment-unselected-stroke-weight
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /* IconButton                                                           */
 /* ------------------------------------------------------------------ */
@@ -379,24 +385,28 @@
   color: var(--color-component-input-placeholder);
 }
 
-.ds-select-wrap:has(
-    .ds-select:has(option[value=""]:checked):not(.ds-field--error):not(:disabled)
-  )::after {
-  color: var(--color-component-input-placeholder);
-}
-
-.ds-select-wrap::after {
-  content: "";
+.ds-select__chevron {
   position: absolute;
   right: var(--spacing-s);
   top: 50%;
-  width: 10px;
-  height: 6px;
   transform: translateY(-50%);
   pointer-events: none;
-  background: currentColor;
   color: var(--color-component-input-foreground);
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.ds-select-wrap:has(
+    .ds-select:has(option[value=""]:checked):not(.ds-field--error):not(:disabled)
+  )
+  .ds-select__chevron {
+  color: var(--color-component-input-placeholder);
+}
+
+.ds-select-wrap:has(.ds-select.ds-field--error) .ds-select__chevron {
+  color: var(--color-component-input-foreground-error);
+}
+
+.ds-select-wrap:has(.ds-select:disabled) .ds-select__chevron {
+  opacity: var(--opacity-disabled);
 }
 
 /* MultiSelect — custom dropdown (single or multiple) */
@@ -1800,14 +1810,22 @@
   color: var(--color-component-stepper-label-foreground-default);
 }
 
-.ds-step--active .ds-step__ball,
-.ds-step--completed .ds-step__ball {
+.ds-step--filled .ds-step__ball,
+.ds-step--selected .ds-step__ball {
+  background: var(--color-component-stepper-ball-background-completed);
+  color: var(--color-component-stepper-ball-foreground-completed);
+}
+
+.ds-step--selected .ds-step__ball {
   background: var(--color-component-stepper-ball-background-active);
   color: var(--color-component-stepper-ball-foreground-active);
 }
 
-.ds-step--active .ds-step__label,
-.ds-step--completed .ds-step__label {
+.ds-step--filled .ds-step__label {
+  color: var(--color-component-stepper-label-foreground-completed);
+}
+
+.ds-step--selected .ds-step__label {
   color: var(--color-component-stepper-label-foreground-active);
 }
 
@@ -1827,7 +1845,7 @@
   background: var(--color-component-stepper-line-background-default);
 }
 
-.ds-step--completed .ds-step__line {
+.ds-step--filled .ds-step__line {
   background: var(--color-component-stepper-line-background-completed);
 }
 

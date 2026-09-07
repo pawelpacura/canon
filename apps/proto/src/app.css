@@ -35,6 +35,10 @@ body,
   padding: var(--spacing-l);
 }
 
+.proto-main > * {
+  flex-shrink: 0;
+}
+
 .proto-main--fill {
   padding: 0;
   gap: 0;
@@ -710,7 +714,6 @@ body {
 
 .proto-table-card {
   padding: var(--spacing-l);
-  overflow: hidden;
 }
 
 .proto-table-card .ds-table {
@@ -1309,6 +1312,20 @@ body {
 .proto-qoverlay__modal {
   width: min(800px, calc(100% - 48px));
   max-height: calc(100dvh - 120px);
+  overflow: auto;
+}
+
+.proto-qoverlay__modal--edit {
+  flex-shrink: 0;
+  width: min(800px, calc(100% - 48px));
+  height: min(680px, calc(100dvh - 72px));
+  max-height: none;
+  overflow: hidden;
+}
+
+.proto-qoverlay__modal--edit .ds-modal__content {
+  flex: 1;
+  min-height: 0;
   overflow: auto;
 }
 

@@ -93,19 +93,15 @@ function typeLabel(type: CreateType | null): TestType {
   return "Egzamin";
 }
 
-function stepState(index: number, current: number) {
-  if (index < current) return "completed" as const;
-    if (index === current) return "active" as const;
-  return "default" as const;
-}
-
 function WizardStepper({
   labels,
   current,
+  filledThrough,
   onSelect,
 }: {
   labels: readonly string[];
   current: number;
+  filledThrough: number;
   onSelect: (step: number) => void;
 }) {
   return (
@@ -118,7 +114,8 @@ function WizardStepper({
             key={label}
             number={String(number)}
             label={label}
-            state={stepState(number, current)}
+            filled={number <= filledThrough}
+            selected={isCurrent}
             showLine={index < labels.length - 1}
             className={
               isCurrent
@@ -185,6 +182,7 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
   const [bankResizing, setBankResizing] = useState(false);
   const [bankPicked, setBankPicked] = useState<string[]>([]);
   const [fileAdded, setFileAdded] = useState(false);
+  const [filledThrough, setFilledThrough] = useState(0);
 
   function closeBank() {
     setBankOpen(false);
@@ -209,6 +207,15 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
               : fromFile
                 ? 5
                 : 4;
+
+  function markCurrentFilled() {
+    setFilledThrough((value) => Math.max(value, stepperCurrent));
+  }
+
+  function advance(next: Phase) {
+    markCurrentFilled();
+    setPhase(next);
+  }
 
   function goToStep(step: number) {
     if (step === stepperCurrent) return;
@@ -303,6 +310,7 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
             <WizardStepper
               labels={stepperLabels}
               current={stepperCurrent}
+              filledThrough={filledThrough}
               onSelect={goToStep}
             />
             <div className="proto-wizard__body">
@@ -350,8 +358,8 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
               onCancel={onCancel}
               primaryLabel="Dalej"
               onPrimary={() => {
-                if (selected === "file") setPhase("file");
-                else if (selected) setPhase("basics");
+                if (selected === "file") advance("file");
+                else if (selected) advance("basics");
               }}
             />
           </>
@@ -359,7 +367,12 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
 
         {phase === "file" || phase === "file-more" ? (
           <>
-            <WizardStepper labels={FILE_STEPS} current={2} onSelect={goToStep} />
+            <WizardStepper
+              labels={FILE_STEPS}
+              current={2}
+              filledThrough={filledThrough}
+              onSelect={goToStep}
+            />
             <div className="proto-wizard__body">
               <div className="proto-wizard__intro">
                 <h1 className="proto-wizard__title">
@@ -431,7 +444,7 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
               onPrimary={() => {
                 if (phase === "file-more") {
                   setName(FILE_AI_NAME);
-                  setPhase("file-basics");
+                  advance("file-basics");
                 }
               }}
               extra={
@@ -449,7 +462,12 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
 
         {phase === "file-basics" ? (
           <>
-            <WizardStepper labels={FILE_STEPS} current={3} onSelect={goToStep} />
+            <WizardStepper
+              labels={FILE_STEPS}
+              current={3}
+              filledThrough={filledThrough}
+              onSelect={goToStep}
+            />
             <div className="proto-wizard__body">
               <p className="proto-wizard__title">
                 Podstawowe informacje o teście – wypełnione automatycznie przez AI
@@ -500,7 +518,7 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
             <WizardFooter
               onCancel={onCancel}
               primaryLabel="Dalej"
-              onPrimary={() => setPhase("questions")}
+              onPrimary={() => advance("questions")}
               extra={actions}
             />
           </>
@@ -511,6 +529,7 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
             <WizardStepper
               labels={stepperLabels}
               current={stepperCurrent}
+              filledThrough={filledThrough}
               onSelect={goToStep}
             />
             <div className="proto-wizard__body">
@@ -558,7 +577,7 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
             <WizardFooter
               onCancel={onCancel}
               primaryLabel="Dalej"
-              onPrimary={() => setPhase("questions")}
+              onPrimary={() => advance("questions")}
               extra={actions}
             />
           </>
@@ -569,6 +588,7 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
             <WizardStepper
               labels={stepperLabels}
               current={stepperCurrent}
+              filledThrough={filledThrough}
               onSelect={goToStep}
             />
             <div className="proto-wizard__body">
@@ -605,7 +625,7 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
               primaryLabel="Dalej"
               onPrimary={() => {
                 closeBank();
-                setPhase("publish");
+                advance("publish");
               }}
               extra={actions}
             />
@@ -617,6 +637,7 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
             <WizardStepper
               labels={stepperLabels}
               current={stepperCurrent}
+              filledThrough={filledThrough}
               onSelect={goToStep}
             />
             <div className="proto-wizard__body">

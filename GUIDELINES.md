@@ -203,6 +203,7 @@ Track na wzajemnie wykluczające się tryby. W środku instancje `Button` — ak
 
 - `onDark` — Figma `onDark`; półprzezroczysty track na brand surface. Segmenty wtedy z `inverted`.
 - `children` = slot `Items`. Tokeny `component/segmented-control/*`.
+- Niezaznaczony segment (`tertiary`) nie ma ramki — `component/segmented-control/segment/unselected/stroke-weight` → `semantic/border-width/none`. Nie zdejmuj bordera z `Button` tertiary poza tym trackiem.
 
 ### IconButton
 
@@ -281,7 +282,7 @@ Native `<select>` — use only when a system control is acceptable:
 </Select>
 ```
 
-- Chevron is built-in — do not add your own arrow.
+- Chevron is built-in `KeyboardArrowDownIcon` — do not add your own arrow.
 
 ### MultiSelect
 
@@ -622,15 +623,24 @@ Horizontal step indicator for multi-step flows (e.g. test builder wizard).
 
 ```tsx
 <Stepper>
-  <Step number="1" label="Typ" state="completed" />
-  <Step number="2" label="Podstawy" state="active" />
+  <Step number="1" label="Typ" filled />
+  <Step number="2" label="Podstawy" selected />
   <Step number="3" label="Pytania" />
   <Step number="4" label="Publikacja" showLine={false} />
 </Stepper>
 ```
 
+Cofnięcie do wcześniejszego kroku nie odwypełnia już ukończonych:
+
+```tsx
+<Step number="1" label="Typ" filled selected />
+<Step number="2" label="Podstawy" filled />
+```
+
+- `filled` i `selected` są niezależne. Wypełnienie jest lepkie — trzymaj je w stanie kreatora (`maxCompleted`), nie wyliczaj tylko z `current`.
+- `state`: `default | active | completed | completed-selected` zostaje jako alias Figmy (`active` = selected, `completed` = filled, `completed-selected` = oba).
 - Set `showLine={false}` on the **last** `Step` — it has no connector to draw.
-- Tokens: `component/stepper/*`, states `default | active | completed`.
+- Tokens: `component/stepper/*`. Label completed = secondary; selected = primary.
 
 ### ProgressBar
 

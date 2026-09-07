@@ -6,7 +6,6 @@ import {
   InputText,
   PageHeader,
   Pagination,
-  PaginationEllipsis,
   PaginationPageButton,
   Select,
   Table,
@@ -92,6 +91,8 @@ export const QUESTIONS = [
   },
 ] as const;
 
+const PAGE_SIZE = 9;
+
 export function QuestionBankPage({
   onPreview,
   onEdit,
@@ -102,6 +103,7 @@ export function QuestionBankPage({
   const [query, setQuery] = useState("");
   const [type, setType] = useState("Typ");
   const [category, setCategory] = useState("Kategoria");
+  const [page, setPage] = useState(1);
 
   const rows = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -112,6 +114,13 @@ export function QuestionBankPage({
       return true;
     });
   }, [query, type, category]);
+
+  const pageCount = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+  const safePage = Math.min(page, pageCount);
+  const start = (safePage - 1) * PAGE_SIZE;
+  const slice = rows.slice(start, start + PAGE_SIZE);
+  const from = rows.length === 0 ? 0 : start + 1;
+  const to = start + slice.length;
 
   return (
     <>
@@ -126,12 +135,18 @@ export function QuestionBankPage({
             className="proto-filters__search proto-filters__search--bank"
             placeholder="Szukaj pytań..."
             value={query}
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setPage(1);
+            }}
           />
           <Select
             className="proto-filters__select"
             value={type}
-            onChange={(event) => setType(event.target.value)}
+            onChange={(event) => {
+              setType(event.target.value);
+              setPage(1);
+            }}
             aria-label="Typ"
           >
             <option>Typ</option>
@@ -140,7 +155,10 @@ export function QuestionBankPage({
           <Select
             className="proto-filters__select"
             value={category}
-            onChange={(event) => setCategory(event.target.value)}
+            onChange={(event) => {
+              setCategory(event.target.value);
+              setPage(1);
+            }}
             aria-label="Kategoria"
           >
             <option>Kategoria</option>
@@ -183,7 +201,7 @@ export function QuestionBankPage({
             </TableRow>
           }
         >
-          {rows.map((row) => {
+          {slice.map((row) => {
             const index = QUESTIONS.findIndex((item) => item.text === row.text);
             return (
             <TableRow key={row.text} {...interactiveRow(() => onPreview(index))}>
@@ -214,12 +232,20 @@ export function QuestionBankPage({
           })}
         </Table>
       </Card>
-      <Pagination summary="Wyświetlanie 1–9 z 25 testów">
-        <PaginationPageButton active>1</PaginationPageButton>
-        <PaginationPageButton>2</PaginationPageButton>
-        <PaginationPageButton>3</PaginationPageButton>
-        <PaginationEllipsis />
-        <PaginationPageButton>12</PaginationPageButton>
+      <Pagination
+        summary={`Wyświetlanie ${from}–${to} z ${rows.length} pytań`}
+        onPrevious={safePage > 1 ? () => setPage(safePage - 1) : undefined}
+        onNext={safePage < pageCount ? () => setPage(safePage + 1) : undefined}
+      >
+        {Array.from({ length: pageCount }, (_, i) => i + 1).map((item) => (
+          <PaginationPageButton
+            key={item}
+            active={item === safePage}
+            onClick={() => setPage(item)}
+          >
+            {item}
+          </PaginationPageButton>
+        ))}
       </Pagination>
     </>
   );

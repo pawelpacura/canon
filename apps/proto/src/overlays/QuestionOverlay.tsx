@@ -84,7 +84,7 @@ export function QuestionOverlay({
       ) : (
         <Modal
           showFooter
-          className="proto-qoverlay__modal"
+          className="proto-qoverlay__modal proto-qoverlay__modal--edit"
           footer={
             <>
               <Button variant="secondary" onClick={onClose}>

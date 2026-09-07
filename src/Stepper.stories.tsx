@@ -14,9 +14,22 @@ export const Default: Story = {
   render: () => (
     <div style={{ width: 560 }}>
       <Stepper>
-        <Step number="1" label="Typ" state="completed" />
-        <Step number="2" label="Podstawy" state="active" />
+        <Step number="1" label="Typ" filled />
+        <Step number="2" label="Podstawy" selected />
         <Step number="3" label="Pytania" />
+        <Step number="4" label="Publikacja" showLine={false} />
+      </Stepper>
+    </div>
+  ),
+};
+
+export const WentBack: Story = {
+  render: () => (
+    <div style={{ width: 560 }}>
+      <Stepper>
+        <Step number="1" label="Typ" filled selected />
+        <Step number="2" label="Podstawy" filled />
+        <Step number="3" label="Pytania" filled />
         <Step number="4" label="Publikacja" showLine={false} />
       </Stepper>
     </div>
@@ -25,10 +38,18 @@ export const Default: Story = {
 
 export const AllStates: Story = {
   render: () => (
-    <div style={{ width: 480, display: "flex", flexDirection: "column", gap: "var(--spacing-l)" }}>
+    <div
+      style={{
+        width: 480,
+        display: "flex",
+        flexDirection: "column",
+        gap: "var(--spacing-l)",
+      }}
+    >
       <Step number="1" label="Default" showLine={false} />
-      <Step number="1" label="Active" state="active" showLine={false} />
-      <Step number="1" label="Completed" state="completed" showLine={false} />
+      <Step number="1" label="Selected" selected showLine={false} />
+      <Step number="1" label="Filled" filled showLine={false} />
+      <Step number="1" label="Filled + selected" filled selected showLine={false} />
     </div>
   ),
 };

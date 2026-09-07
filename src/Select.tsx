@@ -1,4 +1,5 @@
 import { forwardRef, type SelectHTMLAttributes } from "react";
+import { KeyboardArrowDownIcon } from "./icons";
 
 export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   /** Error state, mirrors `state=error` in Figma. */
@@ -20,6 +21,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         >
           {children}
         </select>
+        <KeyboardArrowDownIcon className="ds-select__chevron" />
       </span>
     );
   }
