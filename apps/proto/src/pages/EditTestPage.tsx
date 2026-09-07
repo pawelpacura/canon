@@ -6,7 +6,7 @@ import {
   Button,
   Card,
   Checkbox,
-  ChipInput,
+  InputChip,
   DateTimePicker,
   GroupIcon,
   InputText,
@@ -197,10 +197,10 @@ export function EditTestPage({
               <GroupIcon size={20} />
               Odbiorcy
             </p>
-            <ChipInput>
+            <InputChip>
               <Tag>anna.nowak@firma.pl</Tag>
               <Tag>jan.kowalski@firma.pl</Tag>
-            </ChipInput>
+            </InputChip>
             <Button variant="secondary" icon={<SelectIcon />}>
               Wybierz z listy użytkowników
             </Button>

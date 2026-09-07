@@ -24,5 +24,10 @@
   "CloseIcon": "close",
   "ChevronBackIcon": "chevron_left",
   "CalendarMonthIcon": "calendar_month",
-  "ScheduleIcon": "schedule"
+  "ScheduleIcon": "schedule",
+  "ArticleIcon": "article",
+  "ListIcon": "list",
+  "ElectricBoltIcon": "electric_bolt",
+  "SettingsIcon": "settings",
+  "EditIcon": "edit"
 }

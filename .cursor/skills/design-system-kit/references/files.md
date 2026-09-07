@@ -62,7 +62,7 @@ Jednorazowy przegląd; skill **nie** ma stałego trybu audit. Przy nowym kompone
 | `stepper` / `step` | tak | brak | brak |
 | `tag` | tak | brak | brak |
 | `tooltip` set | tak | brak | brak |
-| `chipInput` `414:537` | brak osobnej grupy (pewnie `input/*`) | brak | brak |
+| `inputChip` set `538:646` (wariant `414:537`) | reużywa `input/*` | `InputChip` | `.ds-input-chip` |
 
 Ikony: Figma Icons ≈ 33 unikalne; `icons.manifest.json` ≈ 22 — brak m.in. alarm, article, check, close_small, drag_indicator, edit, help, settings, list, splitscreen, electric_bolt.
 

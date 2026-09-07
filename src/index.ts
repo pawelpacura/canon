@@ -6,6 +6,12 @@ export { IconButton, type IconButtonProps } from "./IconButton";
 export { Label, type LabelProps } from "./Label";
 export { InputText, type InputTextProps } from "./InputText";
 export {
+  InputChip,
+  InputChip as ChipInput,
+  type InputChipProps,
+  type InputChipProps as ChipInputProps,
+} from "./InputChip";
+export {
   DateTimePicker,
   type DateTimePickerProps,
 } from "./DateTimePicker";
@@ -41,7 +47,6 @@ export {
 export { ExamItem, type ExamItemProps } from "./ExamItem";
 export { Card, type CardProps } from "./Card";
 export { Tag, type TagProps } from "./Tag";
-export { ChipInput, type ChipInputProps } from "./ChipInput";
 export { Modal, type ModalProps } from "./Modal";
 export { Panel, type PanelProps } from "./Panel";
 export { Accordion, type AccordionProps } from "./Accordion";
@@ -115,4 +120,9 @@ export {
   ChevronBackIcon,
   CalendarMonthIcon,
   ScheduleIcon,
+  ArticleIcon,
+  ListIcon,
+  ElectricBoltIcon,
+  SettingsIcon,
+  EditIcon,
 } from "./icons";

@@ -62,9 +62,9 @@ import {
   IconButton,
   Label,
   InputText,
+  InputChip,
   DateTimePicker,
   TimePicker,
-  ChipInput,
   MultiSelect,
   Select,
   TextArea,
@@ -96,6 +96,11 @@ import {
   GridOnIcon,
   DataTableIcon,
   SelectIcon,
+  ArticleIcon,
+  ListIcon,
+  ElectricBoltIcon,
+  SettingsIcon,
+  EditIcon,
 } from "@pacurap/design-system";
 ```
 
@@ -116,6 +121,8 @@ Color inherits via `currentColor` — place inside a colored parent or pass `sty
 ```tsx
 <SideNavItem active aria-label="Strona główna" icon={<HomeIcon />} />
 <IconButton variant="tertiary" aria-label="Podgląd"><VisibilityIcon /></IconButton>
+<IconButton variant="tertiary" aria-label="Edytuj"><EditIcon /></IconButton>
+<IconButton variant="tertiary" aria-label="Ustawienia"><SettingsIcon /></IconButton>
 ```
 
 | Figma component | Export | Material Symbol |
@@ -142,6 +149,11 @@ Color inherits via `currentColor` — place inside a colored parent or pass `sty
 | `icon/select` | `SelectIcon` | `select` |
 | `icon / calendar_month` | `CalendarMonthIcon` | `calendar_month` |
 | `icon / schedule` | `ScheduleIcon` | `schedule` |
+| `icon / article` | `ArticleIcon` | `article` |
+| `icon/list` | `ListIcon` | `list` |
+| `icon / electric_bolt` | `ElectricBoltIcon` | `electric_bolt` |
+| `icon / settings` | `SettingsIcon` | `settings` |
+| `icon / edit` | `EditIcon` | `edit` |
 
 - Default size: 24×24. Override with `size` prop.
 - **Adding a new icon:** add component in Figma → add entry to `scripts/icons.manifest.json` → run `npm run generate:icons`.
@@ -504,29 +516,36 @@ Status / label pill. Source: [Figma Frame 3](https://www.figma.com/design/p522ml
 
 ### Tag
 
-Standalone chip atom — used on its own or inside `ChipInput`'s chip list.
+Standalone chip atom — used on its own or inside `InputChip`'s chip list.
 
 ```tsx
 <Tag>Tag</Tag>
 <Tag onRemove={() => {}}>anna.nowak@firma.pl</Tag>
 ```
 
-- Tokens: `component/tag/*` (background, foreground, font, padding, radius) — independent of `ChipInput`/`Badge`.
+- Tokens: `component/tag/*` (background, foreground, font, padding, radius) — independent of `InputChip`/`Badge`.
 - `onRemove` renders a small `×` button; omit for a read-only chip.
 
-### ChipInput
+### InputChip
 
-Text field that hosts `Tag` chips inline, for freeform multi-value entry (recipients, labels). Not a dropdown — see `MultiSelect` for that.
+Pole tekstowe jak `InputText`, z chipami wstawionymi do środka. Do odbiorców, etykiet, wielowartościowego wpisywania. Nie dropdown — do tego `MultiSelect`.
 
 ```tsx
-<ChipInput inputProps={{ onKeyDown: handleKeyDown }}>
+<InputChip
+  label="Odbiorcy"
+  placeholder="Dodaj kolejny email..."
+  onKeyDown={handleKeyDown}
+>
   <Tag onRemove={() => removeChip(0)}>anna.nowak@firma.pl</Tag>
   <Tag onRemove={() => removeChip(1)}>jan.kowalski@firma.pl</Tag>
-</ChipInput>
+</InputChip>
 ```
 
-- Reuses `component/input/*` tokens (border, radius, placeholder, font) — no separate token layer.
-- Renders chips as children, then a trailing free-text `<input>`; wire up add/remove logic yourself via `inputProps`.
+- `children` = slot `Chips` (instancje `Tag`); `placeholder` = właściwość tekstowa z Figmy.
+- Stany jak `InputText`: default, hover (`:hover`), filled (chipy albo wpisany tekst), `error` / `errorMessage`, `disabled`.
+- `label` i `helperText` — jak w `InputText`.
+- Tokeny `component/input/*` — bez osobnej warstwy `inputChip`.
+- Klik w pole fokusuje input. Dodawanie i usuwanie chipów zostaje u Ciebie (`onKeyDown` / `onRemove`).
 
 ### Modal
 

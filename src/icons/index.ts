@@ -31,3 +31,8 @@ export { CloseIcon } from "./generated/CloseIcon";
 export { ChevronBackIcon } from "./generated/ChevronBackIcon";
 export { CalendarMonthIcon } from "./generated/CalendarMonthIcon";
 export { ScheduleIcon } from "./generated/ScheduleIcon";
+export { ArticleIcon } from "./generated/ArticleIcon";
+export { ListIcon } from "./generated/ListIcon";
+export { ElectricBoltIcon } from "./generated/ElectricBoltIcon";
+export { SettingsIcon } from "./generated/SettingsIcon";
+export { EditIcon } from "./generated/EditIcon";

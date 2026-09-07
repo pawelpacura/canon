@@ -2,13 +2,13 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
 
 export interface TagProps extends HTMLAttributes<HTMLSpanElement> {
   children?: ReactNode;
-  /** Renders a small remove (×) button — mirrors chips inside `ChipInput`. */
+  /** Renders a small remove (×) button — mirrors chips inside `InputChip`. */
   onRemove?: () => void;
   /** Accessible label for the remove button. Defaults to "Remove {children}". */
   removeLabel?: string;
 }
 
-/** Standalone chip atom. Used on its own or inside `ChipInput`'s `Chips` slot. */
+/** Standalone chip atom. Used on its own or inside `InputChip`'s `Chips` slot. */
 export const Tag = forwardRef<HTMLSpanElement, TagProps>(function Tag(
   { children, onRemove, removeLabel, className, ...rest },
   ref

@@ -1439,7 +1439,7 @@
 }
 
 /* ------------------------------------------------------------------ */
-/* Tag — standalone chip atom (also used inside chipInput)             */
+/* Tag — standalone chip atom (also used inside inputChip)             */
 /* ------------------------------------------------------------------ */
 
 .ds-tag {
@@ -1476,44 +1476,95 @@
 }
 
 /* ------------------------------------------------------------------ */
-/* ChipInput — text field that hosts tag chips                         */
+/* InputChip — inputText chrome with chips inside the field            */
 /* ------------------------------------------------------------------ */
 
-.ds-chip-input {
+.ds-input-chip {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--component-input-gap);
   width: 100%;
   box-sizing: border-box;
+  min-height: var(--component-input-height);
   background: var(--color-component-input-background);
-  border: var(--component-input-stroke-weight) solid var(--color-component-input-border);
+  border: var(--component-input-border-width) solid
+    var(--color-component-input-border);
   border-radius: var(--component-input-radius);
-  padding: var(--spacing-s) var(--component-input-padding-x);
+  box-shadow: var(--shadow-inner-default);
+  padding: 7px var(--component-input-padding-x);
   cursor: text;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    box-shadow 120ms ease;
 }
 
-.ds-chip-input:focus-within {
+.ds-input-chip:has(.ds-tag):not(.ds-input-chip--error):not(
+    .ds-input-chip--disabled
+  ),
+.ds-input-chip:has(.ds-input-chip__field:not(:placeholder-shown)):not(
+    .ds-input-chip--error
+  ):not(.ds-input-chip--disabled) {
+  background: var(--color-component-input-background-filled);
+}
+
+.ds-input-chip:hover:not(.ds-input-chip--disabled):not(.ds-input-chip--error) {
+  background: var(--color-component-input-background-hover);
   border-color: var(--color-component-input-border-hover);
 }
 
-.ds-chip-input__field {
-  flex: 1 0 0;
-  min-width: 120px;
+.ds-input-chip:focus-within {
+  outline: var(--border-width-m) solid var(--color-component-focus-ring);
+  outline-offset: 1px;
+}
+
+.ds-input-chip--error {
+  background: var(--color-component-input-background-error);
+  border-color: var(--color-component-input-border-error);
+  box-shadow: var(--shadow-inner-error);
+}
+
+.ds-input-chip--disabled {
+  background: var(--color-component-input-background-disabled);
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+}
+
+.ds-input-chip__field {
+  flex: 1 1 8ch;
+  min-width: 8ch;
   border: none;
   outline: none;
   background: none;
+  box-shadow: none;
+  padding: 0;
   font-family: var(--component-input-font-family);
   font-size: var(--component-input-font-size);
   color: var(--color-component-input-foreground);
 }
 
-.ds-chip-input__field:placeholder-shown:not(:disabled) {
+.ds-input-chip__field:disabled {
+  cursor: not-allowed;
+}
+
+.ds-input-chip__field:placeholder-shown:not(:disabled) {
   color: var(--color-component-input-placeholder);
 }
 
-.ds-chip-input__field::placeholder {
+.ds-input-chip__field::placeholder {
   color: var(--color-component-input-placeholder);
+}
+
+.ds-input-chip--error .ds-input-chip__field,
+.ds-input-chip--error .ds-input-chip__field::placeholder {
+  color: var(--color-component-input-foreground-error);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-input-chip {
+    transition: none;
+  }
 }
 
 /* ------------------------------------------------------------------ */
