@@ -129,4 +129,7 @@ export {
   ElectricBoltIcon,
   SettingsIcon,
   EditIcon,
+  CheckIcon,
+  DragIndicatorIcon,
+  DeleteIcon,
 } from "./icons";

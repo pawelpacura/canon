@@ -206,6 +206,7 @@ function PassRateChart() {
     <svg
       className="proto-dash__chart"
       viewBox="0 0 1316 200"
+      preserveAspectRatio="none"
       role="img"
       aria-label="Zdawalność w tym i zeszłym roku"
     >

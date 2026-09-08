@@ -96,9 +96,11 @@ const PAGE_SIZE = 9;
 export function QuestionBankPage({
   onPreview,
   onEdit,
+  onAdd,
 }: {
   onPreview: (index: number) => void;
   onEdit: (index: number) => void;
+  onAdd: () => void;
 }) {
   const [query, setQuery] = useState("");
   const [type, setType] = useState("Typ");
@@ -128,6 +130,7 @@ export function QuestionBankPage({
         title="Bank pytań"
         subtitle="Zarządzaj biblioteką pytań używanych w testach"
         actionLabel="Dodaj pytanie"
+        onAction={onAdd}
       />
       <div className="proto-filters">
         <div className="proto-filters__left">

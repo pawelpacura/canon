@@ -82,10 +82,10 @@
   /* ------------------------------------------------------------------ */
 
   --color-foreground-primary: var(--color-neutral-900);
-  --color-foreground-secondary: var(--color-neutral-600);
+  --color-foreground-secondary: var(--color-neutral-700);
   --color-foreground-tertiary: var(--color-neutral-500);
   --color-foreground-inverse: var(--color-neutral-50);
-  --color-foreground-placeholder: var(--color-neutral-500);
+  --color-foreground-placeholder: var(--color-neutral-700);
   --color-foreground-error: var(--color-red-800);
   --color-foreground-success: var(--color-green-800);
   --color-foreground-information: var(--color-indigo-800);
@@ -244,6 +244,7 @@
   --component-input-font-family: var(--font-family-primary);
   --component-input-stroke-weight: var(--border-width-s);
   --component-input-stroke-weight-strong: var(--border-width-m);
+  --component-input-max-width: var(--width-readable);
   --color-component-dropdown-background: var(--color-background-primary);
   --color-component-dropdown-border: var(--color-stroke-default);
   --color-component-dropdown-option-background-hover: var(--color-background-secondary);
@@ -457,6 +458,7 @@
 
   /* Modal */
   --component-modal-padding: var(--spacing-xl);
+  --component-modal-max-width: var(--width-modal);
   --component-modal-gap: var(--spacing-l);
   --component-modal-header-gap: var(--spacing-s);
   --component-modal-radius: var(--radius-m);
@@ -610,6 +612,12 @@
   --spacing-2xl: 32px;
   --spacing-3xl: 48px;
 
+  /* Readable measure — Generic size/* → semantic/width/* → component/* */
+  --size-readable: 560px;
+  --size-modal: 608px;
+  --width-readable: var(--size-readable);
+  --width-modal: var(--size-modal);
+
   --font-family-primary: "Poppins", system-ui, sans-serif;
 
   --opacity-disabled: 0.5;
@@ -664,7 +672,7 @@
   --color-foreground-secondary: var(--color-neutral-400);
   --color-foreground-tertiary: var(--color-neutral-500);
   --color-foreground-inverse: var(--color-neutral-900);
-  --color-foreground-placeholder: var(--color-neutral-500);
+  --color-foreground-placeholder: var(--color-neutral-400);
   --color-foreground-error: var(--color-red-400);
   --color-foreground-success: var(--color-green-400);
   --color-foreground-information: var(--color-indigo-100);
@@ -762,7 +770,7 @@
     --color-foreground-secondary: var(--color-neutral-400);
     --color-foreground-tertiary: var(--color-neutral-500);
     --color-foreground-inverse: var(--color-neutral-900);
-    --color-foreground-placeholder: var(--color-neutral-500);
+    --color-foreground-placeholder: var(--color-neutral-400);
     --color-foreground-error: var(--color-red-400);
     --color-foreground-success: var(--color-green-400);
     --color-foreground-information: var(--color-indigo-100);

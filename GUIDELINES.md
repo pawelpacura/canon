@@ -136,6 +136,9 @@ Color inherits via `currentColor` — place inside a colored parent or pass `sty
 | `icon/keyboard_arrow_down` | `KeyboardArrowDownIcon` | `keyboard_arrow_down` |
 | `icon / chevron_forward` | `ChevronForwardIcon` | `chevron_forward` |
 | `icon/library_add_check` | `LibraryAddCheckIcon` | `library_add_check` |
+| `icon / check` | `CheckIcon` | `check` |
+| `icon / delete` | `DeleteIcon` | `delete` |
+| `icon / drag_indicator` | `DragIndicatorIcon` | `drag_indicator` |
 | `icon/newsstand` | `NewsstandIcon` | `newsstand` |
 | `icon/clock_loader_40` | `ClockLoader40Icon` | `clock_loader_40` |
 | `icon / visibility` | `VisibilityIcon` | `visibility` |
@@ -235,6 +238,36 @@ z polem sam przez `htmlFor` / `id`, tak jak z natywnym `<label>`.
   sobie nie jest ogłaszany czytnikom ekranu.
 - Renderuje natywny `<label>` — przyjmuje `htmlFor` i resztę atrybutów `<label>`.
 
+### Szerokość pól (measure)
+
+Jedna czapka dla wszystkich pól tekstowych — `InputText`, `TextArea`, `Select`,
+`MultiSelect`, `InputChip`, `DateTimePicker`, `TimePicker`. Textarea nie jest
+szersza niż input pod nią.
+
+| Token | Wartość | Rola |
+|---|---|---|
+| `--size-readable` / `--width-readable` | `560px` | Generic → semantic |
+| `--component-input-max-width` | alias `readable` | czapka pola |
+| `--size-modal` / `--width-modal` | `608px` | `560 + 2×24` (padding modala) |
+| `--component-modal-max-width` | alias `modal` | czapka chrome modala |
+
+**Dlaczego 560.** Poppins 14px (`--component-input-font-size`), padding `12+12`
+i border `1+1` → ~534 px treści ≈ **63 ch** / **~73** typowych znaków PL.
+To środek zakresu NN/g (50–75) i pod limitem WCAG AAA (80 znaków na linię).
+
+**Modal bez wyjątku.** Content modala = `max-width` pola: `608 − 2×24 = 560`.
+Pole na `width: 100%` wypełnia modal — nie wyłączaj `max-width` w `.ds-modal`.
+Domyślny modal DS zostaje hug (~305); duże instancje (podgląd, formularz)
+rosną najwyżej do `--component-modal-max-width`.
+
+**Wyjątki systemowe (inne tokeny, nie twarde px):**
+- Szukaj w headerze — `--component-header-search-max-width` (500).
+- Wąski kontener (panel 320, komórka tabeli) — pole i tak jest `width: 100%`,
+  czapka 560 się nie zaznacza.
+
+W produkcie / proto nie ustawiaj własnych `500px` / `800px` na polach ani
+modalach. Kolumna formularza: `max-width: var(--component-input-max-width)`.
+
 ### InputText
 
 ```tsx
@@ -250,6 +283,7 @@ z polem sam przez `htmlFor` / `id`, tak jak z natywnym `<label>`.
 
 - `error?: boolean` — red error styling, sets `aria-invalid`.
 - Empty/default (placeholder visible) uses `--color-component-input-placeholder`; filled value uses `--color-component-input-foreground`.
+- Placeholders and field labels meet WCAG AA (4.5:1): Light `neutral/700`, Dark placeholder `neutral/400`.
 - `leftIcon` / `rightIcon` — mirrors Figma `showLeftIcon` / `showRightIcon`.
 - `type`: text-like types only (`text`, `email`, `password`, `search`, `tel`, `url`, `number`).
 - Accepts all native `<input>` props.
@@ -436,7 +470,8 @@ Toggle (on/off). Figma component: `switcher`.
 ```
 
 - App top bar: Logo + search `InputText` (left search + right chevron) + user menu trigger (Avatar + name + chevron).
-- Search field max-width 500px; layout `space-between`.
+- Search field `--component-header-search-max-width` (500) — osobny token, nie `--component-input-max-width`.
+- Layout `space-between`.
 
 ### PageHeader
 
@@ -587,7 +622,8 @@ Centered dialog surface — header (title + optional close) + content slot + foo
 </Modal>
 ```
 
-- Tokens: `component/modal/*` (background, border, radius, padding, gap, title/foreground) + `shadow/drop/elevated`.
+- Tokens: `component/modal/*` (background, border, radius, padding, `max-width`, gap, title/foreground) + `shadow/drop/elevated`.
+- `--component-modal-max-width` (608) = `--component-input-max-width` + 2× padding. Pola w modalu są full content — bez wyjątku CSS. Domyślny modal zostaje hug.
 - `showFooter={false}` hides the footer row; omit `footer` to get default Anuluj/Potwierdz buttons.
 - `onClose` omitted → no close button rendered. Component is only the surface — render it inside your own positioning/overlay wrapper (see `.ds-modal-scrim` for a scrim class using `component/modal/scrim`).
 
@@ -892,6 +928,8 @@ document.documentElement.dataset.theme = isDark ? "dark" : "light";
 - `--spacing-xs|s|m|l|xl|2xl|3xl`
 - `--touch-target-s|m|l`
 - `--font-size-xs|s|m|l|xl`
+- `--width-readable` / `--component-input-max-width` (560) — czapka pól
+- `--width-modal` / `--component-modal-max-width` (608) — czapka modala
 
 **Motion**
 - `--motion-duration-fast` (160ms) — hover, fade, color
@@ -929,7 +967,7 @@ Or with tokens only:
 
 ## Hard rules
 
-1. No hard-coded colors, radii, spacing or font sizes — tokens only.
+1. No hard-coded colors, radii, spacing, font sizes or form/modal widths — tokens only (`--component-input-max-width`, `--component-modal-max-width`).
 2. No custom form controls — always use package components (`MultiSelect` for custom dropdowns).
 3. No external icon libraries — always import icons from `@pacurap/design-system`.
 4. Do not override component internals (classes start with `ds-`).

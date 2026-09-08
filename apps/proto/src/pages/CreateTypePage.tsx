@@ -27,6 +27,7 @@ import {
   VisibilityIcon,
 } from "@pacurap/design-system";
 import { PreviewModal } from "../overlays/PreviewModal";
+import { UserPickerPanel } from "../overlays/UserPickerPanel";
 import {
   QuestionBankPanel,
   QuestionBuilder,
@@ -177,16 +178,36 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [questions, setQuestions] = useState<DraftQuestion[]>([]);
-  const [bankOpen, setBankOpen] = useState(false);
+  const [sidePanel, setSidePanel] = useState<"bank" | "users" | null>(null);
   const [bankWidth, setBankWidth] = useState(320);
   const [bankResizing, setBankResizing] = useState(false);
   const [bankPicked, setBankPicked] = useState<string[]>([]);
+  const [recipients, setRecipients] = useState([
+    "anna.nowak@firma.pl",
+    "jan.kowalski@firma.pl",
+  ]);
+  const [userPicked, setUserPicked] = useState<string[]>([]);
   const [fileAdded, setFileAdded] = useState(false);
   const [filledThrough, setFilledThrough] = useState(0);
 
-  function closeBank() {
-    setBankOpen(false);
+  function closeDock() {
+    setSidePanel(null);
     setBankResizing(false);
+  }
+
+  function openUsers() {
+    if (sidePanel === "users") {
+      closeDock();
+      return;
+    }
+    setUserPicked(recipients);
+    setSidePanel("users");
+  }
+
+  function addRecipient(email: string) {
+    setRecipients((current) =>
+      current.includes(email) ? current : [...current, email]
+    );
   }
 
   const fromFile = selected === "file";
@@ -219,7 +240,7 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
 
   function goToStep(step: number) {
     if (step === stepperCurrent) return;
-    closeBank();
+    closeDock();
     const useFile = selected === "file";
     if (!selected && step > 1) setSelected("exam");
     if (useFile) {
@@ -237,7 +258,7 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
   }
 
   function goBack() {
-    closeBank();
+    closeDock();
     if (phase === "file" || phase === "basics") setPhase("type");
     else if (phase === "file-more") setPhase("file");
     else if (phase === "file-basics") setPhase("file-more");
@@ -280,7 +301,7 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
 
   return (
     <DockedPage
-      open={bankOpen}
+      open={sidePanel !== null}
       resizing={bankResizing}
       width={bankWidth}
       panel={
@@ -289,18 +310,35 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
             width={bankWidth}
             onWidth={setBankWidth}
             onResizing={setBankResizing}
-            label="Szerokość banku pytań"
+            label={
+              sidePanel === "users"
+                ? "Szerokość listy użytkowników"
+                : "Szerokość banku pytań"
+            }
           />
-          <QuestionBankPanel
-            picked={bankPicked}
-            onPicked={setBankPicked}
-            onClose={closeBank}
-            onImport={(items) => {
-              setQuestions((current) => [...current, ...items.map(fromBank)]);
-              setBankPicked([]);
-              closeBank();
-            }}
-          />
+          {sidePanel === "bank" ? (
+            <QuestionBankPanel
+              picked={bankPicked}
+              onPicked={setBankPicked}
+              onClose={closeDock}
+              onImport={(items) => {
+                setQuestions((current) => [...current, ...items.map(fromBank)]);
+                setBankPicked([]);
+                closeDock();
+              }}
+            />
+          ) : null}
+          {sidePanel === "users" ? (
+            <UserPickerPanel
+              picked={userPicked}
+              onPicked={setUserPicked}
+              onClose={closeDock}
+              onConfirm={(emails) => {
+                setRecipients(emails);
+                closeDock();
+              }}
+            />
+          ) : null}
         </>
       }
     >
@@ -613,10 +651,10 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
               <QuestionBuilder
                 questions={questions}
                 onChange={setQuestions}
-                bankOpen={bankOpen}
+                bankOpen={sidePanel === "bank"}
                 onBankOpen={() => {
-                  if (bankOpen) closeBank();
-                  else setBankOpen(true);
+                  if (sidePanel === "bank") closeDock();
+                  else setSidePanel("bank");
                 }}
               />
             </div>
@@ -624,7 +662,7 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
               onCancel={onCancel}
               primaryLabel="Dalej"
               onPrimary={() => {
-                closeBank();
+                closeDock();
                 advance("publish");
               }}
               extra={actions}
@@ -659,19 +697,55 @@ export function CreateTypePage({ onCancel }: { onCancel: () => void }) {
               <p className="proto-send__heading">
                 Wybierz odbiorców i opublikuj test
               </p>
-              <div className="proto-send__block">
+              <div
+                className="proto-send__block"
+                onDragOver={(event) => {
+                  if (
+                    event.dataTransfer.types.includes(
+                      "application/x-directory-user"
+                    )
+                  ) {
+                    event.preventDefault();
+                  }
+                }}
+                onDrop={(event) => {
+                  const email = event.dataTransfer.getData(
+                    "application/x-directory-user"
+                  );
+                  if (!email) return;
+                  event.preventDefault();
+                  addRecipient(email);
+                }}
+              >
                 <p className="proto-edit__section">
                   <GroupIcon size={20} />
                   Odbiorcy
                 </p>
                 <InputChip>
-                  <Tag>anna.nowak@firma.pl</Tag>
-                  <Tag>jan.kowalski@firma.pl</Tag>
+                  {recipients.map((email) => (
+                    <Tag
+                      key={email}
+                      onRemove={() =>
+                        setRecipients((current) =>
+                          current.filter((item) => item !== email)
+                        )
+                      }
+                    >
+                      {email}
+                    </Tag>
+                  ))}
                 </InputChip>
-                <Button variant="secondary" icon={<SelectIcon />}>
+                <Button
+                  variant={sidePanel === "users" ? "primary" : "secondary"}
+                  icon={<SelectIcon />}
+                  onClick={openUsers}
+                >
                   Wybierz z listy użytkowników
                 </Button>
-                <Banner>Test zostanie wysłany do 2 osób</Banner>
+                <Banner>
+                  Test zostanie wysłany do {recipients.length}{" "}
+                  {recipients.length === 1 ? "osoby" : "osób"}
+                </Banner>
               </div>
               <div className="proto-send__block">
                 <p className="proto-edit__section">

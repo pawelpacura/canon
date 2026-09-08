@@ -1,20 +1,20 @@
-import { useState, type DragEvent } from "react";
+import { useEffect, useRef, useState, type DragEvent } from "react";
 import {
   Badge,
   Button,
   Card,
   Checkbox,
+  DeleteIcon,
+  DragIndicatorIcon,
   InputChip,
-  CloseIcon,
-  EditIcon,
   IconButton,
   InputText,
   Label,
-  LibraryAddCheckIcon,
   NewsstandIcon,
   Panel,
   Radio,
   Select,
+  Tag,
   TextArea,
 } from "@pacurap/design-system";
 
@@ -32,6 +32,7 @@ export type DraftQuestion = {
   text: string;
   answers: DraftAnswer[];
   expected: string;
+  tags: string[];
   editing: boolean;
 };
 
@@ -101,8 +102,9 @@ function emptyQuestion(): DraftQuestion {
     id: uid("q"),
     kind: "single",
     text: "",
-    answers: [emptyAnswer()],
+    answers: [emptyAnswer(), emptyAnswer()],
     expected: "",
+    tags: [],
     editing: true,
   };
 }
@@ -117,8 +119,11 @@ export function fromBank(item: BankItem): DraftQuestion {
     id: uid("q"),
     kind: item.kind,
     text: item.text,
-    answers: item.kind === "open" ? [] : [...answers, emptyAnswer()],
+    answers: item.kind === "open" ? [] : ensureChoiceAnswers(answers),
     expected: item.expected ?? "",
+    tags: item.meta.includes("•")
+      ? [item.meta.split("•").pop()?.trim() ?? ""].filter(Boolean)
+      : [],
     editing: false,
   };
 }
@@ -133,9 +138,12 @@ function moveItem<T>(list: T[], from: number, to: number) {
   return next;
 }
 
-function withTrailingEmpty(answers: DraftAnswer[]) {
+function ensureChoiceAnswers(answers: DraftAnswer[]) {
   const filled = answers.filter((answer) => answer.text.trim());
-  return [...filled, emptyAnswer()];
+  const next = [...filled];
+  while (next.length < 2) next.push(emptyAnswer());
+  if (filled.length >= 2) next.push(emptyAnswer());
+  return next;
 }
 
 function letter(index: number) {
@@ -145,21 +153,26 @@ function letter(index: number) {
 function DragHandle({
   label,
   onDragStart,
+  onDragEnd,
 }: {
   label: string;
   onDragStart?: (event: DragEvent<HTMLSpanElement>) => void;
+  onDragEnd?: () => void;
 }) {
+  const draggable = Boolean(onDragStart);
   return (
     <span
       className="proto-drag"
-      role="button"
-      tabIndex={0}
-      aria-label={label}
-      title={label}
-      draggable={Boolean(onDragStart)}
+      role={draggable ? "button" : undefined}
+      tabIndex={draggable ? 0 : undefined}
+      aria-label={draggable ? label : undefined}
+      aria-hidden={draggable ? undefined : true}
+      title={draggable ? label : undefined}
+      draggable={draggable}
       onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
     >
-      <span className="proto-drag__dots" aria-hidden />
+      <DragIndicatorIcon aria-hidden />
     </span>
   );
 }
@@ -176,7 +189,8 @@ export function QuestionBuilder({
   onBankOpen: () => void;
 }) {
   const [dropIndex, setDropIndex] = useState<number | null>(null);
-  const [answerDrop, setAnswerDrop] = useState<string | null>(null);
+  const [draggingAnswerId, setDraggingAnswerId] = useState<string | null>(null);
+  const [answerDropId, setAnswerDropId] = useState<string | null>(null);
 
   function update(id: string, patch: Partial<DraftQuestion>) {
     onChange(
@@ -187,7 +201,7 @@ export function QuestionBuilder({
   }
 
   function setAnswers(id: string, answers: DraftAnswer[]) {
-    update(id, { answers: withTrailingEmpty(answers) });
+    update(id, { answers: ensureChoiceAnswers(answers) });
   }
 
   function importBank(items: BankItem[]) {
@@ -277,7 +291,8 @@ export function QuestionBuilder({
               <EditorCard
                 question={question}
                 index={index}
-                answerDrop={answerDrop}
+                draggingAnswerId={draggingAnswerId}
+                answerDropId={answerDropId}
                 onQuestionDragStart={(event) => {
                   event.dataTransfer.setData(
                     "application/x-question",
@@ -290,7 +305,7 @@ export function QuestionBuilder({
                     update(question.id, { kind, answers: [] });
                     return;
                   }
-                  let answers = withTrailingEmpty(question.answers);
+                  let answers = ensureChoiceAnswers(question.answers);
                   if (kind === "single") {
                     const first = answers.find((answer) => answer.correct);
                     answers = answers.map((answer) => ({
@@ -302,6 +317,7 @@ export function QuestionBuilder({
                 }}
                 onText={(text) => update(question.id, { text })}
                 onExpected={(expected) => update(question.id, { expected })}
+                onTags={(tags) => update(question.id, { tags })}
                 onAnswerText={(answerId, text) => {
                   setAnswers(
                     question.id,
@@ -323,22 +339,34 @@ export function QuestionBuilder({
                   );
                 }}
                 onAnswerDragStart={(answerId) => {
-                  setAnswerDrop(question.id);
+                  setDraggingAnswerId(answerId);
                   return answerId;
                 }}
+                onAnswerDragOver={(answerId) => setAnswerDropId(answerId)}
+                onAnswerDragEnd={() => {
+                  setDraggingAnswerId(null);
+                  setAnswerDropId(null);
+                }}
                 onAnswerDrop={(targetId, sourceId) => {
-                  const from = question.answers.findIndex(
-                    (answer) => answer.id === sourceId
-                  );
-                  const to = question.answers.findIndex(
-                    (answer) => answer.id === targetId
-                  );
                   const filled = question.answers.filter((answer) =>
                     answer.text.trim()
                   );
-                  const moved = moveItem(filled, from, to);
-                  setAnswers(question.id, moved);
-                  setAnswerDrop(null);
+                  const from = filled.findIndex(
+                    (answer) => answer.id === sourceId
+                  );
+                  const to = filled.findIndex(
+                    (answer) => answer.id === targetId
+                  );
+                  const dest =
+                    to >= 0
+                      ? to
+                      : targetId ===
+                          question.answers[question.answers.length - 1]?.id
+                        ? filled.length
+                        : from;
+                  setAnswers(question.id, moveItem(filled, from, dest));
+                  setDraggingAnswerId(null);
+                  setAnswerDropId(null);
                 }}
                 onSave={() => update(question.id, { editing: false })}
                 onCancel={() => {
@@ -401,6 +429,8 @@ export function QuestionBankPanel({
   onClose: () => void;
   onImport: (items: BankItem[]) => void;
 }) {
+  const [draggingId, setDraggingId] = useState<string | null>(null);
+
   return (
     <Panel
       className="proto-dock__surface proto-wizard__bank"
@@ -435,17 +465,30 @@ export function QuestionBankPanel({
           </p>
         </div>
         {BANK_ITEMS.map((item) => (
-          <div key={item.text} className="proto-wizard__bank-row">
-            <DragHandle
-              label="Przeciągnij pytanie do testu"
-              onDragStart={(event) => {
-                event.dataTransfer.setData(
-                  "application/x-bank-question",
-                  item.text
-                );
-                event.dataTransfer.effectAllowed = "copy";
-              }}
-            />
+          <div
+            key={item.text}
+            className={
+              draggingId === item.text
+                ? "proto-wizard__bank-row proto-wizard__bank-row--dragging"
+                : "proto-wizard__bank-row"
+            }
+            draggable
+            onDragStart={(event) => {
+              if ((event.target as HTMLElement).closest("input")) {
+                event.preventDefault();
+                return;
+              }
+              event.dataTransfer.setData(
+                "application/x-bank-question",
+                item.text
+              );
+              event.dataTransfer.effectAllowed = "copy";
+              event.dataTransfer.setDragImage(event.currentTarget, 24, 24);
+              setDraggingId(item.text);
+            }}
+            onDragEnd={() => setDraggingId(null)}
+          >
+            <DragHandle label="Przeciągnij pytanie do testu" />
             <Checkbox
               checked={picked.includes(item.text)}
               onChange={(event) => {
@@ -473,34 +516,59 @@ export function QuestionBankPanel({
 function EditorCard({
   question,
   index,
-  answerDrop,
+  draggingAnswerId,
+  answerDropId,
   onQuestionDragStart,
   onKind,
   onText,
   onExpected,
+  onTags,
   onAnswerText,
   onAnswerCorrect,
   onAnswerDragStart,
+  onAnswerDragOver,
+  onAnswerDragEnd,
   onAnswerDrop,
   onSave,
   onCancel,
 }: {
   question: DraftQuestion;
   index: number;
-  answerDrop: string | null;
+  draggingAnswerId: string | null;
+  answerDropId: string | null;
   onQuestionDragStart: (event: DragEvent<HTMLSpanElement>) => void;
   onKind: (kind: QuestionKind) => void;
   onText: (text: string) => void;
   onExpected: (text: string) => void;
+  onTags: (tags: string[]) => void;
   onAnswerText: (id: string, text: string) => void;
   onAnswerCorrect: (id: string) => void;
   onAnswerDragStart: (id: string) => string;
+  onAnswerDragOver: (id: string) => void;
+  onAnswerDragEnd: () => void;
   onAnswerDrop: (targetId: string, sourceId: string) => void;
   onSave: () => void;
   onCancel: () => void;
 }) {
+  const editorRef = useRef<HTMLDivElement>(null);
+  const finishRef = useRef(() => {});
+  finishRef.current = () => {
+    if (question.text.trim()) onSave();
+    else onCancel();
+  };
+
+  useEffect(() => {
+    function onPointerDown(event: PointerEvent) {
+      const target = event.target as Node | null;
+      if (!target || editorRef.current?.contains(target)) return;
+      finishRef.current();
+    }
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, []);
+
   return (
-    <Card className="proto-wizard__editor">
+    <Card ref={editorRef} className="proto-wizard__editor">
       <DragHandle
         label="Przenieś pytanie"
         onDragStart={onQuestionDragStart}
@@ -551,50 +619,47 @@ function EditorCard({
                 : "(zaznacz poprawną)"}
             </p>
             {question.answers.map((answer, answerIndex) => {
-              const filled = Boolean(answer.text.trim());
+              const classes = ["proto-builder__answer"];
+              if (draggingAnswerId === answer.id) {
+                classes.push("proto-builder__answer--dragging");
+              }
+              if (answerDropId === answer.id && draggingAnswerId !== answer.id) {
+                classes.push("proto-builder__answer--over");
+              }
               return (
                 <div
                   key={answer.id}
-                  className={
-                    answerDrop === question.id
-                      ? "proto-qoverlay__option proto-builder__answer"
-                      : "proto-qoverlay__option proto-builder__answer"
-                  }
-                  onDragStart={(event) => {
-                    event.stopPropagation();
-                  }}
+                  className={classes.join(" ")}
                   onDragOver={(event) => {
                     if (!event.dataTransfer.types.includes("application/x-answer")) {
                       return;
                     }
                     event.preventDefault();
                     event.stopPropagation();
+                    onAnswerDragOver(answer.id);
                   }}
                   onDrop={(event) => {
                     const sourceId = event.dataTransfer.getData(
                       "application/x-answer"
                     );
-                    if (!sourceId || !filled) return;
+                    if (!sourceId) return;
                     event.preventDefault();
                     event.stopPropagation();
                     onAnswerDrop(answer.id, sourceId);
                   }}
                 >
-                  {filled ? (
-                    <DragHandle
-                      label="Przenieś odpowiedź"
-                      onDragStart={(event) => {
-                        event.stopPropagation();
-                        event.dataTransfer.setData(
-                          "application/x-answer",
-                          onAnswerDragStart(answer.id)
-                        );
-                        event.dataTransfer.effectAllowed = "move";
-                      }}
-                    />
-                  ) : (
-                    <span className="proto-drag proto-drag--ghost" aria-hidden />
-                  )}
+                  <DragHandle
+                    label="Przenieś odpowiedź"
+                    onDragStart={(event) => {
+                      event.stopPropagation();
+                      event.dataTransfer.setData(
+                        "application/x-answer",
+                        onAnswerDragStart(answer.id)
+                      );
+                      event.dataTransfer.effectAllowed = "move";
+                    }}
+                    onDragEnd={onAnswerDragEnd}
+                  />
                   {question.kind === "single" ? (
                     <Radio
                       name={`${question.id}-correct`}
@@ -607,8 +672,10 @@ function EditorCard({
                       onChange={() => onAnswerCorrect(answer.id)}
                     />
                   )}
-                  <strong>{letter(answerIndex)}</strong>
-                  <InputText
+                  <strong>{letter(answerIndex)}.</strong>
+                  <TextArea
+                    className="proto-builder__answer-text"
+                    rows={1}
                     placeholder="Wpisz treść odpowiedzi..."
                     value={answer.text}
                     onChange={(event) =>
@@ -620,28 +687,49 @@ function EditorCard({
             })}
           </>
         )}
-        <div className="proto-edit__field">
-          <Label>Tagi</Label>
-          <InputChip placeholder="Dodaj kolejny tag..." />
-        </div>
-        <div className="proto-wizard__editor-tools">
-          <IconButton
-            variant="primary"
-            aria-label="Zapisz pytanie"
-            onClick={onSave}
-          >
-            <LibraryAddCheckIcon />
-          </IconButton>
-          <IconButton
-            variant="tertiary"
-            aria-label="Anuluj pytanie"
-            onClick={onCancel}
-          >
-            <CloseIcon />
-          </IconButton>
-        </div>
+        <TagsField tags={question.tags ?? []} onChange={onTags} />
       </div>
     </Card>
+  );
+}
+
+function TagsField({
+  tags,
+  onChange,
+}: {
+  tags: string[];
+  onChange: (tags: string[]) => void;
+}) {
+  const [draft, setDraft] = useState("");
+
+  function addDraft() {
+    const next = draft.trim();
+    if (!next || tags.includes(next)) return;
+    onChange([...tags, next]);
+    setDraft("");
+  }
+
+  return (
+    <InputChip
+      label="Tagi"
+      placeholder="Dodaj kolejny tag..."
+      value={draft}
+      onChange={(event) => setDraft(event.target.value)}
+      onKeyDown={(event) => {
+        if (event.key !== "Enter") return;
+        event.preventDefault();
+        addDraft();
+      }}
+    >
+      {tags.map((tag) => (
+        <Tag
+          key={tag}
+          onRemove={() => onChange(tags.filter((item) => item !== tag))}
+        >
+          {tag}
+        </Tag>
+      ))}
+    </InputChip>
   );
 }
 
@@ -660,7 +748,15 @@ function SavedCard({
 }) {
   const filled = question.answers.filter((answer) => answer.text.trim());
   return (
-    <Card className="proto-edit__question">
+    <Card
+      className="proto-edit__question proto-edit__question--saved"
+      interactive
+      onClick={(event) => {
+        const target = event.target as HTMLElement;
+        if (target.closest("button, .proto-drag")) return;
+        onEdit();
+      }}
+    >
       <div className="proto-edit__question-head">
         <DragHandle
           label="Przenieś pytanie"
@@ -675,17 +771,13 @@ function SavedCard({
             <div className="proto-edit__actions">
               <IconButton
                 variant="tertiary"
-                aria-label="Edytuj pytanie"
-                onClick={onEdit}
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                variant="tertiary"
                 aria-label="Usuń pytanie"
-                onClick={onRemove}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onRemove();
+                }}
               >
-                <CloseIcon />
+                <DeleteIcon />
               </IconButton>
             </div>
           </div>

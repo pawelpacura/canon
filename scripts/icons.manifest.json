@@ -7,6 +7,8 @@
   "KeyboardArrowDownIcon": "keyboard_arrow_down",
   "ChevronForwardIcon": "chevron_forward",
   "LibraryAddCheckIcon": "library_add_check",
+  "CheckIcon": "check",
+  "DragIndicatorIcon": "drag_indicator",
   "NewsstandIcon": "newsstand",
   "ClockLoader40Icon": "clock_loader_40",
   "VisibilityIcon": "visibility",
@@ -29,5 +31,6 @@
   "ListIcon": "list",
   "ElectricBoltIcon": "electric_bolt",
   "SettingsIcon": "settings",
-  "EditIcon": "edit"
+  "EditIcon": "edit",
+  "DeleteIcon": "delete"
 }

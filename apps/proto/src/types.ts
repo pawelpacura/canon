@@ -1,6 +1,25 @@
 export type TestStatus = "active" | "drafts" | "done" | "archive";
 export type TestType = "Egzamin" | "Ankieta" | "Szybki sprawdzian";
 export type TestsView = "detailed" | "grid" | "list";
+export type AuthRoute =
+  | "login"
+  | "register"
+  | "reset"
+  | "reset-sent"
+  | "verify";
+
+export const AUTH_ROUTES: readonly AuthRoute[] = [
+  "login",
+  "register",
+  "reset",
+  "reset-sent",
+  "verify",
+];
+
+export function isAuthRoute(route: Route): route is AuthRoute {
+  return (AUTH_ROUTES as readonly string[]).includes(route);
+}
+
 export type Route =
   | "tests"
   | "dashboard"
@@ -10,7 +29,8 @@ export type Route =
   | "create"
   | "edit"
   | "profile"
-  | "settings";
+  | "settings"
+  | AuthRoute;
 
 export type EditTab = "settings" | "questions" | "send";
 export type ResultsTab = "status" | "scores";

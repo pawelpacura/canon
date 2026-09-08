@@ -7,6 +7,7 @@ import { MorePanel } from "./overlays/MorePanel";
 import { PreviewModal } from "./overlays/PreviewModal";
 import { ResultsPanel } from "./overlays/ResultsPanel";
 import { QuestionOverlay } from "./overlays/QuestionOverlay";
+import { AuthPage } from "./pages/AuthPage";
 import { CreateTypePage } from "./pages/CreateTypePage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { EditTestPage } from "./pages/EditTestPage";
@@ -16,6 +17,7 @@ import { ReportsPage } from "./pages/ReportsPage";
 import { SettingsPage } from "./pages/SettingsPage";
 import { TestsPage } from "./pages/TestsPage";
 import type { Overlay, Route, TestItem, TestStatus, TestsView } from "./types";
+import { isAuthRoute } from "./types";
 
 export function App() {
   const [route, setRoute] = useState<Route>("tests");
@@ -85,6 +87,22 @@ export function App() {
     setOverlay(null);
   }
 
+  function logout() {
+    setOverlay(null);
+    setEditId(null);
+    setRoute("login");
+  }
+
+  if (isAuthRoute(route)) {
+    return (
+      <AuthPage
+        screen={route}
+        onScreen={navigate}
+        onEnter={() => navigate("tests")}
+      />
+    );
+  }
+
   return (
     <AppShell
       route={route}
@@ -98,14 +116,16 @@ export function App() {
       }}
       onNavigate={navigate}
       onToggleTheme={toggleTheme}
+      onLogout={logout}
     >
       {route === "dashboard" ? (
         <DashboardPage
           onCreate={() => navigate("create")}
           onOpenTests={() => navigate("tests")}
           onOpenBank={() => navigate("bank")}
-          onOpenQuestion={() => setOverlay({ kind: "question", mode: "preview" })}
-          onSettings={() => navigate("settings")}
+          onOpenQuestion={() =>
+            setOverlay({ kind: "question", mode: "preview", index: 0 })
+          }
         />
       ) : null}
       {route === "tests" ? (
@@ -151,8 +171,13 @@ export function App() {
       ) : null}
       {route === "bank" ? (
         <QuestionBankPage
-          onPreview={() => setOverlay({ kind: "question", mode: "preview" })}
-          onEdit={() => setOverlay({ kind: "question", mode: "edit" })}
+          onPreview={(index) =>
+            setOverlay({ kind: "question", mode: "preview", index })
+          }
+          onEdit={(index) =>
+            setOverlay({ kind: "question", mode: "edit", index })
+          }
+          onAdd={() => setOverlay({ kind: "question", mode: "edit", index: -1 })}
         />
       ) : null}
       {route === "reports" ? (
@@ -196,7 +221,10 @@ export function App() {
       {overlay?.kind === "question" ? (
         <QuestionOverlay
           mode={overlay.mode}
-          onMode={(mode) => setOverlay({ kind: "question", mode })}
+          index={overlay.index}
+          onMode={(mode) =>
+            setOverlay({ kind: "question", mode, index: overlay.index })
+          }
           onClose={() => setOverlay(null)}
         />
       ) : null}

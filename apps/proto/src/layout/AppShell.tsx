@@ -19,6 +19,7 @@ export function AppShell({
   onSearch,
   onNavigate,
   onToggleTheme,
+  onLogout,
   children,
 }: {
   route: Route;
@@ -27,6 +28,7 @@ export function AppShell({
   onSearch: (value: string) => void;
   onNavigate: (route: Route) => void;
   onToggleTheme: () => void;
+  onLogout: () => void;
   children: ReactNode;
 }) {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -65,7 +67,7 @@ export function AppShell({
         <UserMenu
           onProfile={() => go("profile")}
           onSettings={() => go("settings")}
-          onLogout={() => setUserMenuOpen(false)}
+          onLogout={onLogout}
           onClose={() => setUserMenuOpen(false)}
         />
       ) : null}

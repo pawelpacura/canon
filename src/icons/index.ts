@@ -36,3 +36,6 @@ export { ListIcon } from "./generated/ListIcon";
 export { ElectricBoltIcon } from "./generated/ElectricBoltIcon";
 export { SettingsIcon } from "./generated/SettingsIcon";
 export { EditIcon } from "./generated/EditIcon";
+export { CheckIcon } from "./generated/CheckIcon";
+export { DragIndicatorIcon } from "./generated/DragIndicatorIcon";
+export { DeleteIcon } from "./generated/DeleteIcon";

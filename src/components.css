@@ -196,6 +196,26 @@
 /* Field (input / select / textarea)                                    */
 /* ------------------------------------------------------------------ */
 
+/*
+ * One readable cap for every text-entry control.
+ * Token: component/input/max-width → semantic/width/readable → size/readable (560).
+ * ~73 average Poppins 14px characters after padding/border (NN/g 50–75, WCAG AAA 80).
+ * Modal chrome is component/modal/max-width (608 = 560 + 2×24 padding), so
+ * fields at width 100% fill the modal — no max-width exception inside .ds-modal.
+ * Header search keeps component/header/search/max-width.
+ */
+.ds-field:not(.ds-field--with-icons),
+.ds-field-control,
+.ds-select-wrap,
+.ds-multiselect,
+.ds-input-chip,
+.ds-field-group {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: var(--component-input-max-width);
+}
+
 .ds-field {
   height: var(--component-input-height);
   padding: 0 var(--component-input-padding-x);
@@ -1308,9 +1328,11 @@
   min-width: 0;
 }
 
+.ds-header__search .ds-field,
 .ds-header__search .ds-field-control,
 .ds-header__search .ds-field-group {
   width: 100%;
+  max-width: none;
 }
 
 .ds-header__user {
@@ -1614,6 +1636,7 @@
   padding: var(--component-modal-padding);
   box-shadow: var(--shadow-component-modal);
   box-sizing: border-box;
+  max-width: var(--component-modal-max-width);
 }
 
 .ds-modal__header {

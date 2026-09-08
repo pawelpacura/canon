@@ -22,6 +22,8 @@ import {
   TextArea,
   TimePicker,
 } from "@pacurap/design-system";
+import { DockedPage, DockResizeHandle } from "../layout/DockedPage";
+import { UserPickerPanel } from "../overlays/UserPickerPanel";
 import { EDIT_QUESTIONS } from "../mocks/questions";
 import type { EditTab, TestItem } from "../types";
 
@@ -40,11 +42,62 @@ export function EditTestPage({
 }) {
   const [tab, setTab] = useState<EditTab>("questions");
   const [advancedOpen, setAdvancedOpen] = useState(false);
+  const [usersOpen, setUsersOpen] = useState(false);
+  const [usersWidth, setUsersWidth] = useState(320);
+  const [usersResizing, setUsersResizing] = useState(false);
+  const [recipients, setRecipients] = useState([
+    "anna.nowak@firma.pl",
+    "jan.kowalski@firma.pl",
+  ]);
+  const [userPicked, setUserPicked] = useState<string[]>([]);
   const locked = test.status === "active";
   const questionCount = EDIT_QUESTIONS.length;
 
+  function closeUsers() {
+    setUsersOpen(false);
+    setUsersResizing(false);
+  }
+
+  function openUsers() {
+    if (usersOpen) {
+      closeUsers();
+      return;
+    }
+    setUserPicked(recipients);
+    setUsersOpen(true);
+  }
+
+  function addRecipient(email: string) {
+    setRecipients((current) =>
+      current.includes(email) ? current : [...current, email]
+    );
+  }
+
   return (
-    <>
+    <DockedPage
+      open={usersOpen}
+      resizing={usersResizing}
+      width={usersWidth}
+      panel={
+        <>
+          <DockResizeHandle
+            width={usersWidth}
+            onWidth={setUsersWidth}
+            onResizing={setUsersResizing}
+            label="Szerokość listy użytkowników"
+          />
+          <UserPickerPanel
+            picked={userPicked}
+            onPicked={setUserPicked}
+            onClose={closeUsers}
+            onConfirm={(emails) => {
+              setRecipients(emails);
+              closeUsers();
+            }}
+          />
+        </>
+      }
+    >
       <PageHeader
         title={test.title}
         subtitle={
@@ -66,7 +119,10 @@ export function EditTestPage({
           { id: "send", label: "Wysyłka" },
         ]}
         activeTabId={tab}
-        onTabChange={(id) => setTab(id as EditTab)}
+        onTabChange={(id) => {
+          setTab(id as EditTab);
+          if (id !== "send") closeUsers();
+        }}
       />
 
       {tab === "settings" ? (
@@ -192,19 +248,53 @@ export function EditTestPage({
             Wybierz odbiorców i opublikuj test
           </p>
 
-          <div className="proto-send__block">
+          <div
+            className="proto-send__block"
+            onDragOver={(event) => {
+              if (
+                event.dataTransfer.types.includes("application/x-directory-user")
+              ) {
+                event.preventDefault();
+              }
+            }}
+            onDrop={(event) => {
+              const email = event.dataTransfer.getData(
+                "application/x-directory-user"
+              );
+              if (!email) return;
+              event.preventDefault();
+              addRecipient(email);
+            }}
+          >
             <p className="proto-edit__section">
               <GroupIcon size={20} />
               Odbiorcy
             </p>
             <InputChip>
-              <Tag>anna.nowak@firma.pl</Tag>
-              <Tag>jan.kowalski@firma.pl</Tag>
+              {recipients.map((email) => (
+                <Tag
+                  key={email}
+                  onRemove={() =>
+                    setRecipients((current) =>
+                      current.filter((item) => item !== email)
+                    )
+                  }
+                >
+                  {email}
+                </Tag>
+              ))}
             </InputChip>
-            <Button variant="secondary" icon={<SelectIcon />}>
+            <Button
+              variant={usersOpen ? "primary" : "secondary"}
+              icon={<SelectIcon />}
+              onClick={openUsers}
+            >
               Wybierz z listy użytkowników
             </Button>
-            <Banner>Test zostanie wysłany do 2 osób</Banner>
+            <Banner>
+              Test zostanie wysłany do {recipients.length}{" "}
+              {recipients.length === 1 ? "osoby" : "osób"}
+            </Banner>
           </div>
 
           <div className="proto-send__block">
@@ -220,6 +310,6 @@ export function EditTestPage({
           </div>
         </Card>
       ) : null}
-    </>
+    </DockedPage>
   );
 }
