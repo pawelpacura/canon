@@ -1455,6 +1455,7 @@ body {
 }
 
 .proto-builder__answer {
+  position: relative;
   display: flex;
   align-items: flex-start;
   gap: var(--spacing-s);
@@ -1503,10 +1504,18 @@ body {
   transform: scale(0.98);
 }
 
-.proto-builder__answer--over {
-  background: var(--color-component-input-background);
-  box-shadow: inset 0 2px 0 0
-    var(--color-component-button-primary-background-default);
+.proto-builder__answer--over::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: var(--radius-s);
+  background: color-mix(
+    in srgb,
+    var(--color-component-button-primary-background-default) 16%,
+    transparent
+  );
+  pointer-events: none;
 }
 
 .proto-drag {
@@ -1723,6 +1732,19 @@ body {
   box-sizing: border-box;
 }
 
+.proto-report {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-l);
+  width: 100%;
+  min-width: 0;
+}
+
+.proto-report > * {
+  width: 100%;
+  min-width: 0;
+}
+
 .proto-report__hard {
   display: flex;
   flex-direction: column;
@@ -1743,6 +1765,56 @@ body {
 .proto-report__hard-row span {
   flex-shrink: 0;
   color: var(--color-component-link-foreground-default);
+  font-weight: 500;
+}
+
+.proto-report-wizard__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+}
+
+.proto-report-wizard__lead {
+  margin: 0;
+  font-size: var(--font-size-s);
+  font-weight: 400;
+  color: var(--color-component-button-tertiary-foreground-default);
+}
+
+.proto-report-wizard__pair {
+  display: flex;
+  gap: var(--spacing-m);
+  width: 100%;
+}
+
+.proto-report-wizard__pair .ds-select-wrap {
+  flex: 1 1 0;
+  width: auto;
+  max-width: none;
+}
+
+.proto-report-wizard__checks {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-s);
+}
+
+.proto-report-wizard__summary {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-m);
+}
+
+.proto-report-wizard__summary-key {
+  flex: 0 0 100px;
+  font-size: var(--font-size-s);
+  font-weight: 400;
+  color: var(--color-component-button-tertiary-foreground-default);
+}
+
+.proto-report-wizard__summary-value {
+  font-size: var(--font-size-s);
   font-weight: 500;
 }
 

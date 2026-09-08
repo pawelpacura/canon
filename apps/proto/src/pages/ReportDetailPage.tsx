@@ -84,7 +84,7 @@ export function ReportDetailPage({ onBack }: { onBack: () => void }) {
           </div>
         }
       />
-      <div className="proto-dash">
+      <div className="proto-report">
         <div className="proto-dash__stats">
           <Stat label="Uczestnicy" value="124" />
           <Stat label="Zdawalność" value="94%" />

@@ -631,12 +631,13 @@ function EditorCard({
                   key={answer.id}
                   className={classes.join(" ")}
                   onDragOver={(event) => {
-                    if (!event.dataTransfer.types.includes("application/x-answer")) {
-                      return;
-                    }
+                    if (!draggingAnswerId) return;
                     event.preventDefault();
                     event.stopPropagation();
-                    onAnswerDragOver(answer.id);
+                    event.dataTransfer.dropEffect = "move";
+                    if (answer.id !== draggingAnswerId) {
+                      onAnswerDragOver(answer.id);
+                    }
                   }}
                   onDrop={(event) => {
                     const sourceId = event.dataTransfer.getData(

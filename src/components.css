@@ -1188,6 +1188,7 @@
   padding: var(--spacing-s);
   overflow: visible;
   background: var(--color-component-sideNav-background);
+  border-right: var(--border-width-s) solid var(--color-component-sideNav-border);
   transition:
     width var(--motion-duration-default) var(--motion-easing-emphasized),
     padding-right var(--motion-duration-default) var(--motion-easing-emphasized);

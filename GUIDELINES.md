@@ -458,6 +458,7 @@ Toggle (on/off). Figma component: `switcher`.
 - `expanded` / `showExpandStrip` mirror Figma. Omit `expanded` for uncontrolled toggle.
 - Do not put a chevron `SideNavItem` inside the rail — the strip is the expand control.
 - `SideNavItem`: `active` shows white pill behind icon. `aria-label` required; visible `label` when expanded (defaults to `aria-label`).
+- Dark: rail and header drop brand fill (`background/secondary`) and split from the canvas with `border` (`stroke/default`).
 
 ### Header
 
@@ -472,6 +473,7 @@ Toggle (on/off). Figma component: `switcher`.
 - App top bar: Logo + search `InputText` (left search + right chevron) + user menu trigger (Avatar + name + chevron).
 - Search field `--component-header-search-max-width` (500) — osobny token, nie `--component-input-max-width`.
 - Layout `space-between`.
+- Dark: same canvas gray as SideNav (`background/secondary`) plus a thin bottom `border` (`stroke/default`).
 
 ### PageHeader
 

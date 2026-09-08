@@ -251,12 +251,11 @@ function QuestionEditForm({
               key={answer.id}
               className={classes.join(" ")}
               onDragOver={(event) => {
-                if (!event.dataTransfer.types.includes("application/x-answer")) {
-                  return;
-                }
+                if (!draggingId) return;
                 event.preventDefault();
                 event.stopPropagation();
-                setDropId(answer.id);
+                event.dataTransfer.dropEffect = "move";
+                if (answer.id !== draggingId) setDropId(answer.id);
               }}
               onDrop={(event) => {
                 const sourceId = event.dataTransfer.getData(

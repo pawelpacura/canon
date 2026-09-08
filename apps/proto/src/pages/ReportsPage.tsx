@@ -15,6 +15,10 @@ import {
   EditIcon,
   VisibilityIcon,
 } from "@pacurap/design-system";
+import {
+  ReportWizardModal,
+  type CustomReportDraft,
+} from "../overlays/ReportWizardModal";
 import { interactiveRow, stopRowClick } from "../tableRow";
 
 const TEST_REPORTS = [
@@ -72,6 +76,8 @@ export function ReportsPage({
 }) {
   const [tab, setTab] = useState("tests");
   const [query, setQuery] = useState("");
+  const [wizardOpen, setWizardOpen] = useState(false);
+  const [customItems, setCustomItems] = useState(() => [...CUSTOM_REPORTS]);
 
   const testRows = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -81,9 +87,22 @@ export function ReportsPage({
 
   const customRows = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return CUSTOM_REPORTS;
-    return CUSTOM_REPORTS.filter((row) => row.name.toLowerCase().includes(q));
-  }, [query]);
+    if (!q) return customItems;
+    return customItems.filter((row) => row.name.toLowerCase().includes(q));
+  }, [customItems, query]);
+
+  function addCustomReport(draft: CustomReportDraft) {
+    setCustomItems((current) => [
+      {
+        name: draft.name,
+        scope: draft.scope,
+        period: draft.period,
+        format: draft.format,
+      },
+      ...current.filter((row) => row.name !== draft.name),
+    ]);
+    setWizardOpen(false);
+  }
 
   return (
     <>
@@ -99,6 +118,8 @@ export function ReportsPage({
           setTab(id);
           setQuery("");
         }}
+        actionLabel={tab === "custom" ? "Generuj raport" : undefined}
+        onAction={tab === "custom" ? () => setWizardOpen(true) : undefined}
       />
       {tab === "tests" ? (
         <>
@@ -248,13 +269,26 @@ export function ReportsPage({
           </Card>
         </>
       )}
-      <Pagination summary="Wyświetlanie 1–9 z 25 testów">
+      <Pagination
+        summary={
+          tab === "custom"
+            ? `Wyświetlanie 1–${customRows.length} z ${customRows.length} raportów`
+            : "Wyświetlanie 1–9 z 25 testów"
+        }
+      >
         <PaginationPageButton active>1</PaginationPageButton>
         <PaginationPageButton>2</PaginationPageButton>
         <PaginationPageButton>3</PaginationPageButton>
         <PaginationEllipsis />
         <PaginationPageButton>12</PaginationPageButton>
       </Pagination>
+      {wizardOpen ? (
+        <ReportWizardModal
+          tests={TEST_REPORTS.map((row) => row.name)}
+          onClose={() => setWizardOpen(false)}
+          onGenerate={addCustomReport}
+        />
+      ) : null}
     </>
   );
 }

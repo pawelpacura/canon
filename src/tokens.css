@@ -207,6 +207,7 @@
   --color-component-logo-accent-pink-light: #fec0ee;
   --color-component-logo-accent-sky: #02a0e6;
   --color-component-sideNav-background: var(--color-background-brand);
+  --color-component-sideNav-border: var(--color-stroke-on-dark-subtle);
   --color-component-sideNav-expandStrip-background: var(
     --color-interactive-primary-hover
   );
@@ -704,6 +705,13 @@
   --color-component-sideNav-icon: var(--color-neutral-50);
   --color-component-sideNav-label-foreground: var(--color-neutral-50);
   --color-component-sideNav-item-active-icon: var(--color-neutral-50);
+  --color-component-sideNav-background: var(--color-background-secondary);
+  --color-component-sideNav-border: var(--color-stroke-default);
+  --color-component-sideNav-expandStrip-background: var(
+    --color-background-primary
+  );
+  --color-component-header-background: var(--color-background-secondary);
+  --color-component-header-border: var(--color-stroke-default);
   --color-component-logo-primary: var(--color-neutral-50);
 
   --color-stroke-subtle: var(--color-neutral-800);
@@ -802,6 +810,13 @@
     --color-component-sideNav-icon: var(--color-neutral-50);
     --color-component-sideNav-label-foreground: var(--color-neutral-50);
     --color-component-sideNav-item-active-icon: var(--color-neutral-50);
+    --color-component-sideNav-background: var(--color-background-secondary);
+    --color-component-sideNav-border: var(--color-stroke-default);
+    --color-component-sideNav-expandStrip-background: var(
+      --color-background-primary
+    );
+    --color-component-header-background: var(--color-background-secondary);
+    --color-component-header-border: var(--color-stroke-default);
     --color-component-logo-primary: var(--color-neutral-50);
 
     --color-stroke-subtle: var(--color-neutral-800);
